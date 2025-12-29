@@ -43,7 +43,7 @@ The design system implements a custom **"Iced Mint"** semantic color palette wit
 
 ### Prerequisites
 
-*   Node.js 18+
+*   Node.js 24+
 *   npm, yarn, or pnpm
 
 ### Installation
