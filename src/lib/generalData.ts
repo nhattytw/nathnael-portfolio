@@ -1,3 +1,9 @@
+/**
+ * @copyright 2025 Nathnael Tesfaye Woldekidan
+ * @license All Rights Reserved
+ * This data is proprietary content and may not be used without permission.
+ */
+
 export const generalData = {
   name: "Nathnael Tesfaye Woldekidan",
   title: "Senior Full-Stack Software Engineer",

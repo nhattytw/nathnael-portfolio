@@ -1,3 +1,9 @@
+/**
+ * @copyright 2025 Nathnael Tesfaye Woldekidan
+ * @license All Rights Reserved
+ * This data is proprietary content and may not be used without permission.
+ */
+
 export interface ProjectMedia {
   screenshots: string[];
   demos: string[];
