@@ -59,9 +59,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <Badge variant="outline" className="mb-2">
             {project.type}
           </Badge>
-          {project.status === "Production" || project.status === "Live" ? (
+          {/* Only show 'Production' or 'Live' badge if the live check PASSED */}
+          {project.isLive ? (
             <Badge className="bg-green-500/10 text-green-600 hover:bg-green-500/20 border-green-500/20">
-              {project.status}
+              {project.status === "Production" ? "Production" : "Live"}
             </Badge>
           ) : (
             <Badge variant="secondary">{project.status}</Badge>
@@ -143,7 +144,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
               {/* Video View */}
               {mediaType === "video" && hasDemos && (
-                /* Placeholder for Video - You would replace this with an actual <video> or iframe when data is available */
                 <div className="text-center space-y-2">
                   <div className="w-12 h-12 bg-primary/10 rounded-lg mx-auto flex items-center justify-center">
                     <PlayCircle className="text-primary h-6 w-6" />
@@ -171,7 +171,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 key={i}
                 className="text-sm text-muted-foreground flex items-start gap-2.5"
               >
-                {/* Replaced text character with CSS shape for precise alignment */}
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 <span className="leading-snug">{highlight}</span>
               </li>
@@ -181,7 +180,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </CardContent>
 
       <CardFooter className="flex flex-col gap-4 items-start pt-2 border-t mt-auto">
-        {/* Full Tech Stack Listing (No Truncation) */}
         <div className="flex flex-wrap gap-2 pt-4">
           {project.technologies.map((tech) => (
             <Badge
@@ -196,7 +194,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
         {/* Actions Row */}
         <div className="flex flex-wrap gap-3 w-full mt-2">
-          {/* Live Link Button */}
+          {/* Live Link Button - Only if check PASSED and URL exists */}
           {project.isLive && project.liveUrl ? (
             <Button
               variant="outline"
@@ -213,13 +211,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </a>
             </Button>
           ) : (
-            <div className="flex-1 min-w-[140px] flex items-center justify-center text-xs text-muted-foreground py-2 bg-muted/30 rounded border border-dashed h-9 px-2 text-center">
+            <div className="flex-1 min-w-[140px] flex items-center justify-center text-xs text-muted-foreground py-2 bg-muted/30 rounded border border-dashed h-9 px-2 text-center cursor-not-allowed">
               <Lock className="h-3 w-3 mr-2 shrink-0" />
-              <span>
-                {project.liveUrl
-                  ? "Offline / Failed"
-                  : "Internal / Proprietary"}
-              </span>
+              <span>Internal / Client Proprietary</span>
             </div>
           )}
 
