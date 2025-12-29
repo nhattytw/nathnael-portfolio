@@ -21,7 +21,7 @@ export function Footer() {
           <span>
             The source code is available on{" "}
             <a
-              href={generalData.socials.github}
+              href={generalData.project}
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4 hover:text-primary transition-colors text-foreground"

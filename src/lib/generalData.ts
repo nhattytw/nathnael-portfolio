@@ -52,6 +52,7 @@ export const generalData = {
     linkedin: "https://linkedin.com/in/nathnael-woldekidan/",
     github: "https://github.com/nhattytw",
   },
+  project: "https://github.com/nhattytw/nathnael-portfolio",
   skills: {
     backend: [
       "Node.js",
