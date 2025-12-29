@@ -2,11 +2,12 @@ import { Navigation } from "@/components/navigation";
 import { SectionContainer } from "@/components/section-container";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Linkedin, Github, Copy } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
+import { generalData } from "@/lib/generalData";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
       <SectionContainer className="pt-32">
@@ -22,43 +23,49 @@ export default function ContactPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="p-8 space-y-8">
+            <Card className="p-8 space-y-8 bg-card border-border/50">
               <div>
-                <h3 className="text-2xl font-semibold mb-6">
+                <h3 className="text-2xl font-semibold mb-6 text-primary">
                   Contact Information
                 </h3>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                    <Mail className="h-6 w-6 text-primary mt-1" />
-                    <div className="flex-1 space-y-1">
-                      <p className="font-medium">Email Address</p>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <Mail className="h-6 w-6 text-primary mt-1 shrink-0" />
+                    <div className="flex-1 space-y-1 min-w-0">
+                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                        Email Address
+                      </p>
                       <a
-                        href="mailto:nhattytw@outlook.com"
-                        className="text-lg text-primary hover:underline break-all"
+                        href={`mailto:${generalData.contact.email}`}
+                        className="text-lg font-medium hover:text-primary transition-colors block truncate"
                       >
-                        nhattytw@outlook.com
+                        {generalData.contact.email}
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                    <Phone className="h-6 w-6 text-primary mt-1" />
-                    <div className="space-y-1">
-                      <p className="font-medium">Phone Number</p>
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <Phone className="h-6 w-6 text-primary mt-1 shrink-0" />
+                    <div className="space-y-1 min-w-0">
+                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                        Phone Number
+                      </p>
                       <a
-                        href="tel:+251922351343"
-                        className="text-lg text-muted-foreground hover:text-primary"
+                        href={`tel:${generalData.contact.phone}`}
+                        className="text-lg font-medium hover:text-primary transition-colors block truncate"
                       >
-                        +251 922 351 343
+                        {generalData.contact.phone}
                       </a>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                    <MapPin className="h-6 w-6 text-primary mt-1" />
-                    <div className="space-y-1">
-                      <p className="font-medium">Location</p>
-                      <p className="text-lg text-muted-foreground">
+                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <MapPin className="h-6 w-6 text-primary mt-1 shrink-0" />
+                    <div className="space-y-1 min-w-0">
+                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                        Location
+                      </p>
+                      <p className="text-lg font-medium truncate">
                         Addis Ababa, Ethiopia
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -70,37 +77,40 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold mb-4">
+                <h3 className="text-2xl font-semibold mb-6 text-primary">
                   Professional Networks
                 </h3>
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col gap-4">
                   <Button
                     variant="outline"
                     size="lg"
-                    className="flex-1 justify-start h-12"
+                    className="h-14 w-full justify-start px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
                     asChild
                   >
                     <a
-                      href="https://linkedin.com/in/nathnael-woldekidan/"
+                      href={generalData.socials.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="truncate"
                     >
-                      <Linkedin className="h-5 w-5 mr-3 text-[#0077b5]" />
+                      <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
                       LinkedIn Profile
                     </a>
                   </Button>
+
                   <Button
                     variant="outline"
                     size="lg"
-                    className="flex-1 justify-start h-12"
+                    className="h-14 w-full justify-start px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
                     asChild
                   >
                     <a
-                      href="https://github.com/nhattytw"
+                      href={generalData.socials.github}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="truncate"
                     >
-                      <Github className="h-5 w-5 mr-3" />
+                      <Github className="h-5 w-5 mr-3 shrink-0" />
                       GitHub Profile
                     </a>
                   </Button>
@@ -109,40 +119,46 @@ export default function ContactPage() {
             </Card>
 
             <div className="flex flex-col justify-center space-y-8 p-4">
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold">Why Hire Me?</h3>
-                <ul className="space-y-4">
-                  <li className="flex gap-3">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                      <span className="text-primary font-bold text-sm">1</span>
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-primary">
+                  Why Hire Me?
+                </h3>
+                <ul className="space-y-6">
+                  <li className="flex gap-4 group">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <span className="font-bold text-sm">1</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold">Proven Scalability</h4>
-                      <p className="text-muted-foreground text-sm">
+                      <h4 className="font-semibold text-lg">
+                        Proven Scalability
+                      </h4>
+                      <p className="text-muted-foreground text-base mt-1">
                         Experience deploying systems handling high traffic with
                         99.9% uptime.
                       </p>
                     </div>
                   </li>
-                  <li className="flex gap-3">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                      <span className="text-primary font-bold text-sm">2</span>
+                  <li className="flex gap-4 group">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <span className="font-bold text-sm">2</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold">Full-Cycle Leadership</h4>
-                      <p className="text-muted-foreground text-sm">
+                      <h4 className="font-semibold text-lg">
+                        Full-Cycle Leadership
+                      </h4>
+                      <p className="text-muted-foreground text-base mt-1">
                         From requirement analysis to deployment and team
                         mentorship.
                       </p>
                     </div>
                   </li>
-                  <li className="flex gap-3">
-                    <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
-                      <span className="text-primary font-bold text-sm">3</span>
+                  <li className="flex gap-4 group">
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <span className="font-bold text-sm">3</span>
                     </div>
                     <div>
-                      <h4 className="font-semibold">Security First</h4>
-                      <p className="text-muted-foreground text-sm">
+                      <h4 className="font-semibold text-lg">Security First</h4>
+                      <p className="text-muted-foreground text-base mt-1">
                         Deep understanding of RBAC, JWT, and secure data
                         handling.
                       </p>
