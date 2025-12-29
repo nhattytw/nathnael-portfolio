@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import { Toaster } from "../components/ui/sonner";
 import { Footer } from "../components/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // Primary Font - Inter (Senior, Clean, Professional)
 const fontSans = Inter({
@@ -66,6 +67,8 @@ export default function RootLayout({
           <Footer />
           <Toaster />
         </ThemeProvider>
+
+        <SpeedInsights />
       </body>
     </html>
   );
