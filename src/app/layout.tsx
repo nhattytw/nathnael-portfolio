@@ -24,10 +24,9 @@ const fontMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title:
-    "Nathnael Tesfaye Woldekidan | Senior Backend-focused Full-stack Engineer",
+    "Nathnael Tesfaye Woldekidan | Senior Software Engineer",
   description:
     "Senior Software Engineer with 4+ years of experience specializing in scalable backend systems, microservices architecture, and high-availability infrastructure using Node.js, Python, and Next.js.",
-  generator: "v0.app",
 };
 
 export default function RootLayout({
