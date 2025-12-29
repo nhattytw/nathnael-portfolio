@@ -4,6 +4,8 @@ import { projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
 import { ProjectCard } from "@/components/project-card";
 
+export const revalidate = 1800; // Revalidate every 30 minutes
+
 export default async function ProjectsPage() {
   const projectsWithStatus = await Promise.all(
     projectData.map(async (project) => {
