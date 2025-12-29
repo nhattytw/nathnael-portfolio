@@ -1,76 +1,84 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Fixed dark mode selector to work with next-themes */
+@custom-variant dark (&:is(.dark *));
+
 :root {
-  --background: #fafafa;
-  --foreground: #004643;
-  --card: #fafafa;
-  --card-foreground: #004643;
-  --popover: #fafafa;
-  --popover-foreground: #004643;
-  --primary: #004643;
-  --primary-foreground: #fafafa;
-  --secondary: #f0f0f0;
-  --secondary-foreground: #004643;
-  --muted: #f5f5f5;
-  --muted-foreground: #6b7280;
-  --accent: #004643;
-  --accent-foreground: #fafafa;
+  /* 🎨 PALETTE DEFINITION */
+  --soft-sage: #aac6ad; /* Light Primary */
+  --deep-green: #002e2c; /* Dark Primary */
+  --warm-stone: #e6e8e4; /* Neutral */
+
+  /* === LIGHT MODE === */
+  /* Background: Soft Sage (User Request) */
+  --background: var(--soft-sage);
+  /* Text: Dark Primary */
+  --foreground: var(--deep-green);
+
+  /* Cards/Sections: Warm Stone (Contrast 14.4:1 against Text) */
+  --card: var(--warm-stone);
+  --card-foreground: var(--deep-green);
+
+  --popover: var(--warm-stone);
+  --popover-foreground: var(--deep-green);
+
+  --primary: var(--deep-green);
+  --primary-foreground: var(--warm-stone);
+
+  /* Alternating Sections: Slightly muted stone or transparent to show Sage */
+  --secondary: #d4dcd6;
+  --secondary-foreground: var(--deep-green);
+
+  --muted: #8aab8e; /* Darker Sage for subtle borders/text */
+  --muted-foreground: #002e2c;
+
+  --accent: var(--deep-green);
+  --accent-foreground: var(--warm-stone);
+
   --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: #004643;
-  --chart-1: #004643;
-  --chart-2: #6b7280;
-  --chart-3: #9ca3af;
-  --chart-4: #d1d5db;
-  --chart-5: #f3f4f6;
+  --destructive-foreground: var(--warm-stone);
+
+  --border: var(--deep-green);
+  --input: var(--deep-green);
+  --ring: var(--deep-green);
+
   --radius: 0.625rem;
-  --sidebar: #fafafa;
-  --sidebar-foreground: #004643;
-  --sidebar-primary: #004643;
-  --sidebar-primary-foreground: #fafafa;
-  --sidebar-accent: #f0f0f0;
-  --sidebar-accent-foreground: #004643;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #004643;
 }
 
 .dark {
-  --background: #004643;
-  --foreground: #fafafa;
-  --card: #004643;
-  --card-foreground: #fafafa;
-  --popover: #004643;
-  --popover-foreground: #fafafa;
-  --primary: #fafafa;
-  --primary-foreground: #004643;
-  --secondary: #1a5a56;
-  --secondary-foreground: #fafafa;
-  --muted: #1a5a56;
-  --muted-foreground: #9ca3af;
-  --accent: #fafafa;
-  --accent-foreground: #004643;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #1a5a56;
-  --input: #1a5a56;
-  --ring: #fafafa;
-  --chart-1: #fafafa;
-  --chart-2: #9ca3af;
-  --chart-3: #6b7280;
-  --chart-4: #374151;
-  --chart-5: #1f2937;
-  --sidebar: #004643;
-  --sidebar-foreground: #fafafa;
-  --sidebar-primary: #fafafa;
-  --sidebar-primary-foreground: #004643;
-  --sidebar-accent: #1a5a56;
-  --sidebar-accent-foreground: #fafafa;
-  --sidebar-border: #1a5a56;
-  --sidebar-ring: #fafafa;
+  /* === DARK MODE === */
+  /* Background: Deep Green */
+  --background: var(--deep-green);
+  /* Text: Warm Stone (No Pure White) */
+  --foreground: var(--warm-stone);
+
+  /* Cards: Slightly lighter green or transparent with border */
+  --card: #003b39;
+  --card-foreground: var(--warm-stone);
+
+  --popover: #003b39;
+  --popover-foreground: var(--warm-stone);
+
+  /* Primary Action: Soft Sage */
+  --primary: var(--soft-sage);
+  --primary-foreground: var(--deep-green);
+
+  /* Alternating Sections */
+  --secondary: #002624; /* Slightly darker than bg */
+  --secondary-foreground: var(--soft-sage);
+
+  --muted: #001f1d;
+  --muted-foreground: #8aab8e;
+
+  --accent: var(--soft-sage);
+  --accent-foreground: var(--deep-green);
+
+  --destructive: #7f1d1d;
+  --destructive-foreground: var(--soft-sage);
+
+  --border: #1a4d4a;
+  --input: #1a4d4a;
+  --ring: var(--soft-sage);
 }
 
 @theme inline {
@@ -93,23 +101,11 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
 
 @layer base {
@@ -117,6 +113,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300 leading-relaxed;
   }
 }
