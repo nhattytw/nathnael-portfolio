@@ -15,6 +15,7 @@ export async function isSiteReachable(url: string): Promise<boolean> {
       method: "HEAD",
       signal: controller.signal,
       cache: "no-store",
+      headers: { "User-Agent": "Mozilla/5.0" },
     });
 
     clearTimeout(timeoutId);
@@ -27,7 +28,7 @@ export async function isSiteReachable(url: string): Promise<boolean> {
       const response = await fetch(url, {
         method: "GET",
         signal: controller.signal,
-        headers: { Range: "bytes=0-10" }, // Request tiny chunk
+        headers: { "User-Agent": "Mozilla/5.0", Range: "bytes=0-10" }, // Request tiny chunk
       });
       clearTimeout(timeoutId);
       return response.status >= 200 && response.status < 400;
