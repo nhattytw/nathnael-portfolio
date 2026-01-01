@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { MoonIcon, SunIcon, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState, useRef } from "react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,17 +19,29 @@ const navItems = [
 
 export function Navigation() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const hasToastedRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Close mobile menu on click outside
+  // Initial Toast on Load
+  useEffect(() => {
+    if (mounted && !hasToastedRef.current && resolvedTheme) {
+      setTimeout(() => {
+        toast.message(
+          `Current Theme: ${resolvedTheme === "dark" ? "Dark" : "Light"}`
+        );
+        hasToastedRef.current = true;
+      }, 500);
+    }
+  }, [mounted, resolvedTheme]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -52,7 +65,13 @@ export function Navigation() {
   }, [pathname]);
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const newTheme = theme === "light" ? "dark" : "light";
+
+    setTheme(newTheme);
+
+    toast.success(
+      `Theme switched to ${newTheme === "dark" ? "Dark" : "Light"}`
+    );
   };
 
   if (!mounted)
@@ -68,7 +87,7 @@ export function Navigation() {
               href="/"
               className="font-mono text-2xl font-bold tracking-tighter"
             >
-              NTW
+              NT
             </Link>
           </div>
 
