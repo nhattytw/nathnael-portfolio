@@ -28,6 +28,28 @@ export const experienceData = [
     ],
   },
   {
+    title: "Account Executive (Technical Liaison)",
+    company: "Baro Technologies",
+    location: "Addis Ababa, Ethiopia",
+    period: "11/2023 - 04/2024",
+    type: "Full-time - Hybrid",
+    description:
+      "Bridged the gap between business requirements and engineering execution, performing technical analysis and bug triage prior to transitioning to the core engineering team.",
+    achievements: [
+      "Managed the client onboarding lifecycle, ensuring data integrity and profile compliance through strict profile compliance protocols.",
+      "Served as the technical bridge between external stakeholders and the engineering team, performing root cause analysis on reported bugs before ticket escalation.",
+      "Translated vague business requirements into actionable technical specifications and feature requests for the development team.",
+      "Leveraged deep domain knowledge acquired during this tenure to accelerate architectural contributions upon transitioning to the Software Engineer role.",
+    ],
+    skills: [
+      "Requirement Gathering",
+      "Requirements Analysis",
+      "Technical Liaison",
+      "QA & Bug Reporting",
+      "Product Management",
+    ],
+  },
+  {
     title: "Software Engineer & Technical Officer",
     company: "Ahaz Software and Web Technology Solutions",
     location: "Addis Ababa, Ethiopia",
