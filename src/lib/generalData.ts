@@ -54,7 +54,7 @@ export const generalData = {
   },
   project: "https://github.com/nhattytw/nathnael-portfolio",
   skills: {
-    backend: [
+    "Backend Architecture": [
       "Node.js",
       "Express.js",
       "Python",
@@ -62,16 +62,14 @@ export const generalData = {
       "WebSockets",
       "Microservices",
     ],
-    database: ["PostgreSQL", "MongoDB", "MySQL", "NoSQL", "Query Optimization"],
-    devops: [
-      "Docker",
-      "Nginx",
-      "CI/CD",
-      "Linux",
-      "Reverse Proxy",
-      "Load Balancing",
+    "Database Management": [
+      "PostgreSQL",
+      "MongoDB",
+      "MySQL",
+      "NoSQL",
+      "Query Optimization",
     ],
-    frontend: [
+    "Frontend Engineering": [
       "Next.js",
       "React.js",
       "TypeScript",
@@ -79,7 +77,15 @@ export const generalData = {
       "Vue.js",
       "Vite",
     ],
-    tools: [
+    "DevOps & Infrastructure": [
+      "Docker",
+      "Nginx",
+      "CI/CD",
+      "Linux",
+      "Reverse Proxy",
+      "Load Balancing",
+    ],
+    "Developer Tools": [
       "Git/GitHub",
       "Postman",
       "Unit Testing",
