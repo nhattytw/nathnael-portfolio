@@ -113,7 +113,7 @@ export default function AboutPage() {
                 >
                   <CardContent className="p-6">
                     <h3 className="font-bold mb-4 capitalize text-lg text-primary">
-                      {category.replace(/([A-Z])/g, " $1").trim()}
+                      {category}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {items.map((skill) => (
