@@ -19,29 +19,17 @@ const navItems = [
 
 export function Navigation() {
   const pathname = usePathname();
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const hasToastedRef = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Initial Toast on Load
-  useEffect(() => {
-    if (mounted && !hasToastedRef.current && resolvedTheme) {
-      setTimeout(() => {
-        toast.message(
-          `Current Theme: ${resolvedTheme === "dark" ? "Dark" : "Light"}`
-        );
-        hasToastedRef.current = true;
-      }, 500);
-    }
-  }, [mounted, resolvedTheme]);
-
+  // Close mobile menu on click outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -66,9 +54,8 @@ export function Navigation() {
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
-
     setTheme(newTheme);
-
+    
     toast.success(
       `Theme switched to ${newTheme === "dark" ? "Dark" : "Light"}`
     );
@@ -81,17 +68,15 @@ export function Navigation() {
     <>
       <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-6 h-16 grid grid-cols-2 md:grid-cols-3 items-center">
-          {/* Logo - Left aligned */}
           <div className="flex justify-start">
             <Link
               href="/"
               className="font-mono text-2xl font-bold tracking-tighter"
             >
-              NT
+              NTW
             </Link>
           </div>
 
-          {/* Desktop Links - Centered */}
           <div className="hidden md:flex justify-center items-center gap-8">
             {navItems.map((item) => (
               <Link
@@ -115,13 +100,11 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Right Side - Theme Toggle (Desktop) & Mobile Menu Trigger */}
           <div className="flex justify-end items-center gap-4">
             <div className="hidden md:block">
               <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </div>
 
-            {/* Mobile Hamburger Button */}
             <div className="md:hidden">
               <Button
                 ref={buttonRef}
@@ -141,7 +124,6 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
           ref={mobileMenuRef}
@@ -153,7 +135,7 @@ export function Navigation() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-lg font-medium py-2 transition-colors border-b border-border/50",
+                  "text-lg font-medium py-2 transition-colors border-b border-border/50 last:border-0",
                   pathname === item.href
                     ? "text-primary"
                     : "text-muted-foreground"
