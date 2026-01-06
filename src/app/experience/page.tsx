@@ -1,24 +1,45 @@
+import Link from "next/link";
 import { Navigation } from "@/components/navigation";
 import { SectionContainer } from "@/components/section-container";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { experienceData } from "@/lib/experienceData";
+import { Download } from "lucide-react";
 
 export default function ExperiencePage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
       <SectionContainer className="pt-24 pb-16">
         <div className="space-y-12 max-w-4xl mx-auto">
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Professional Experience
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl">
-              A track record of building resilient systems, optimizing
-              performance, and leading engineering teams.
-            </p>
+          {/* Header with Resume Button */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                Professional Experience
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl">
+                A track record of building resilient systems, optimizing
+                performance, and leading engineering teams.
+              </p>
+            </div>
+
+            <Button
+              asChild
+              size="lg"
+              className="h-12 px-6 shadow-lg shadow-primary/10"
+            >
+              <a
+                href="/file/Software Engineer Nathnael T. Woldekidan.pdf"
+                download="Nathnael_Tesfaye_Software_Engineer.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download className="mr-2 h-5 w-5" /> Download Resume
+              </a>
+            </Button>
           </div>
 
           <div className="relative border-l border-border/50 ml-3 md:ml-6 space-y-12">
