@@ -4,6 +4,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
 import { generalData } from "@/lib/generalData";
+import { ContactForm } from "@/components/contact-form";
+import { Reveal } from "@/components/motion/reveal";
 
 export default function ContactPage() {
   return (
@@ -14,11 +16,11 @@ export default function ContactPage() {
         <div className="max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold">
-              Let's Discuss Architecture
+              Let&apos;s Build Something
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Available for Senior Engineering roles, System Design consulting,
-              and Technical Leadership opportunities.
+              Tell me about the role or the product. I usually reply within a
+              day or two.
             </p>
           </div>
 
@@ -32,7 +34,7 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
                     <Mail className="h-6 w-6 text-primary mt-1 shrink-0" />
                     <div className="flex-1 space-y-1 min-w-0">
-                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Email Address
                       </p>
                       <a
@@ -47,7 +49,7 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
                     <Phone className="h-6 w-6 text-primary mt-1 shrink-0" />
                     <div className="space-y-1 min-w-0">
-                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Phone Number
                       </p>
                       <a
@@ -62,14 +64,14 @@ export default function ContactPage() {
                   <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
                     <MapPin className="h-6 w-6 text-primary mt-1 shrink-0" />
                     <div className="space-y-1 min-w-0">
-                      <p className="font-medium text-sm text-muted-foreground uppercase tracking-wide">
+                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Location
                       </p>
                       <p className="text-lg font-medium truncate">
                         Addis Ababa, Ethiopia
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        (Open to Remote Work)
+                        Open to remote work worldwide
                       </p>
                     </div>
                   </div>
@@ -121,53 +123,56 @@ export default function ContactPage() {
             <div className="flex flex-col justify-center space-y-8 p-4">
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-primary">
-                  Why Hire Me?
+                  Availability
                 </h3>
-                <ul className="space-y-6">
-                  <li className="flex gap-4 group">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                      <span className="font-bold text-sm">1</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg">
-                        Proven Scalability
-                      </h4>
-                      <p className="text-muted-foreground text-base mt-1">
-                        Experience deploying systems handling high traffic with
-                        99.9% uptime.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4 group">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                      <span className="font-bold text-sm">2</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg">
-                        Full-Cycle Leadership
-                      </h4>
-                      <p className="text-muted-foreground text-base mt-1">
-                        From requirement analysis to deployment and team
-                        mentorship.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-4 group">
-                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                      <span className="font-bold text-sm">3</span>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-lg">Security First</h4>
-                      <p className="text-muted-foreground text-base mt-1">
-                        Deep understanding of RBAC, JWT, and secure data
-                        handling.
-                      </p>
-                    </div>
-                  </li>
-                </ul>
+                <p className="text-lg leading-relaxed text-foreground/90">
+                  {generalData.availability.interests}
+                </p>
+                <dl className="space-y-5 font-sans">
+                  <div className="space-y-2">
+                    <dt className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                      Employment
+                    </dt>
+                    <dd className="flex flex-wrap gap-2">
+                      {generalData.availability.roles.map((role) => (
+                        <span
+                          key={role}
+                          className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-sm font-medium"
+                        >
+                          {role}
+                        </span>
+                      ))}
+                    </dd>
+                  </div>
+                  <div className="space-y-2">
+                    <dt className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                      Where
+                    </dt>
+                    {generalData.availability.workplaces.map((place) => (
+                      <dd key={place.label} className="flex items-baseline gap-2">
+                        <span className="font-semibold">{place.label}</span>
+                        <span className="text-muted-foreground">· {place.detail}</span>
+                      </dd>
+                    ))}
+                  </div>
+                </dl>
               </div>
             </div>
           </div>
+
+          <Reveal>
+            <Card className="p-8 space-y-6 bg-card border-border/50">
+              <div className="space-y-2">
+                <h3 className="text-2xl font-semibold text-primary">
+                  Send a Message
+                </h3>
+                <p className="text-muted-foreground">
+                  This opens your email app with the message ready to send.
+                </p>
+              </div>
+              <ContactForm />
+            </Card>
+          </Reveal>
         </div>
       </SectionContainer>
     </div>
