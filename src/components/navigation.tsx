@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MoonIcon, SunIcon, Menu, X } from "lucide-react";
+import { MoonIcon, SunIcon, Menu, X, Command } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { useCommandPalette } from "./command-palette";
+import { Logo } from "./logo";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -24,6 +26,7 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const palette = useCommandPalette();
 
   useEffect(() => {
     setMounted(true);
@@ -71,9 +74,11 @@ export function Navigation() {
           <div className="flex justify-start">
             <Link
               href="/"
-              className="font-mono text-2xl font-bold tracking-tighter"
+              className="flex items-center gap-2.5 font-sans text-lg font-extrabold tracking-tight"
+              aria-label="Nathnael Tesfaye Woldekidan, home"
             >
-              NTW
+              <Logo className="h-9 w-9" />
+              <span className="hidden sm:inline">Nathnael T.</span>
             </Link>
           </div>
 
@@ -100,7 +105,16 @@ export function Navigation() {
             ))}
           </div>
 
-          <div className="flex justify-end items-center gap-4">
+          <div className="flex justify-end items-center gap-2 md:gap-4">
+            <button
+              onClick={palette.open}
+              className="flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+              title="Open command palette (Ctrl/⌘ + K)"
+            >
+              <Command className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline font-mono">K</span>
+              <span className="sr-only">Open command palette</span>
+            </button>
             <div className="hidden md:block">
               <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             </div>
@@ -175,7 +189,7 @@ function ThemeToggle({
       {theme === "dark" ? (
         <SunIcon className="h-5 w-5 transition-all text-yellow-500" />
       ) : (
-        <MoonIcon className="h-5 w-5 transition-all text-slate-700" />
+        <MoonIcon className="h-5 w-5 transition-all text-primary" />
       )}
       <span className="sr-only">Toggle theme</span>
     </Button>

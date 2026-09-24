@@ -1,50 +1,81 @@
 import type React from "react";
-import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Raleway, Lora, Fira_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import { Toaster } from "../components/ui/sonner";
 import { Footer } from "../components/footer";
+import { BackToTop } from "../components/back-to-top";
+import { CertificateProvider } from "../components/protected-certificate";
+import { CommandPaletteProvider } from "../components/command-palette";
+import { MotionProvider } from "../components/motion/motion-provider";
+import { IntroOverlay } from "../components/intro-overlay";
+import { CursorDot } from "../components/cursor-dot";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
-// Primary Font
-const fontSans = Inter({
+// Headings, numbers, and UI
+const fontRaleway = Raleway({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-raleway",
   display: "swap",
 });
 
-// Code/Tech Stack Font
-const fontMono = JetBrains_Mono({
+// Reading text
+const fontLora = Lora({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-lora",
+  display: "swap",
+});
+
+// Terminal and code-style labels
+const fontMono = Fira_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-fira-mono",
   display: "swap",
 });
 
 const BASE_URL = "https://nathnael-portfolio-wine.vercel.app/";
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf0ca" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b1b30" },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Nathnael Tesfaye | Senior Full-Stack Engineer & Architect",
+    default: "Nathnael Tesfaye | Senior Software Engineer",
     template: "%s | Nathnael Tesfaye",
   },
   description:
-    "Senior Software Engineer specializing in high-availability backend systems, microservices, and secure cloud architecture. Expert in Node.js, Python, Next.js, and DevOps orchestration.",
+    "Senior Software Engineer with 5+ years shipping production systems: founding engineer of a multi-module enterprise ERP, builder of a live public-sector platform, and the YeneCart SaaS. Node.js, Express.js, Next.js, PostgreSQL, and MongoDB.",
   keywords: [
     "Senior Software Engineer",
-    "Backend Architect",
+    "Senior Backend Engineer",
+    "Founding Engineer",
     "Full Stack Developer",
     "Node.js",
-    "Python",
     "Next.js",
-    "Microservices",
+    "PostgreSQL",
+    "MongoDB",
+    "Monorepo",
+    "ERP",
+    "Supabase",
     "System Design",
     "Addis Ababa",
     "Ethiopia",
+    "Remote",
     "Software Consultant",
   ],
+  icons: {
+    icon: [{ url: "/logo.svg", type: "image/svg+xml" }],
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
   authors: [{ name: "Nathnael Tesfaye Woldekidan", url: BASE_URL }],
   creator: "Nathnael Tesfaye Woldekidan",
   openGraph: {
@@ -53,7 +84,7 @@ export const metadata: Metadata = {
     url: BASE_URL,
     title: "Nathnael Tesfaye Woldekidan | Senior Software Engineer",
     description:
-      "Architecting scalable digital solutions. Expertise in distributed systems, API design, and full-cycle software development.",
+      "I build software that people rely on day to day: an enterprise ERP, a public-sector platform, and SaaS used by 300+ people daily.",
     siteName: "Nathnael's Portfolio",
   },
   robots: {
@@ -75,36 +106,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <style>{`
-          :root {
-            --font-sans: ${fontSans.style.fontFamily};
-            --font-mono: ${fontMono.style.fontFamily};
-          }
-          body {
-            font-family: var(--font-sans);
-          }
-          h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-sans);
-            letter-spacing: -0.01em; /* Inter looks better tight */
-          }
-          code, pre, .font-mono {
-            font-family: var(--font-mono);
-          }
-        `}</style>
-      </head>
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} antialiased min-h-screen flex flex-col`}
-      >
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fontRaleway.variable} ${fontLora.variable} ${fontMono.variable}`}
+    >
+      <body className="antialiased min-h-screen flex flex-col">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <MotionProvider>
+            <CertificateProvider>
+              <CommandPaletteProvider>
+                <IntroOverlay />
+                <CursorDot />
+                <main className="flex-1">{children}</main>
+                <Footer />
+                <BackToTop />
+              </CommandPaletteProvider>
+            </CertificateProvider>
+          </MotionProvider>
           <Toaster />
         </ThemeProvider>
 

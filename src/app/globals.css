@@ -5,80 +5,85 @@
 
 :root {
   /* 🎨 PALETTE DEFINITION */
-  --soft-sage: #aac6ad; /* Light Primary */
-  --deep-green: #002e2c; /* Dark Primary */
-  --warm-stone: #e6e8e4; /* Neutral */
+  --lemon-chiffon: #faf0ca; /* Light background / dark-mode text */
+  --cream: #fff8df; /* Light cards */
+  --ink: #0f2440; /* Light-mode text */
+  --textile-blue: #2e6cba; /* Light primary */
+  --cobalt-blue: #4878d0; /* Secondary accent */
+  --cornflower-blue: #88b0e0; /* Soft fills / dark primary */
+  --navy: #0b1b30; /* Dark background */
+  --navy-card: #13294a; /* Dark cards */
+  --sage: #aac6ad; /* Lines, borders, dividers */
 
   /* === LIGHT MODE === */
-  /* Background: Soft Sage (User Request) */
-  --background: var(--soft-sage);
-  /* Text: Dark Primary */
-  --foreground: var(--deep-green);
+  --background: var(--lemon-chiffon);
+  --foreground: var(--ink);
 
-  /* Cards/Sections: Warm Stone (Contrast 14.4:1 against Text) */
-  --card: var(--warm-stone);
-  --card-foreground: var(--deep-green);
+  --card: var(--cream);
+  --card-foreground: var(--ink);
 
-  --popover: var(--warm-stone);
-  --popover-foreground: var(--deep-green);
+  --popover: var(--cream);
+  --popover-foreground: var(--ink);
 
-  --primary: var(--deep-green);
-  --primary-foreground: var(--warm-stone);
+  --primary: var(--textile-blue);
+  --primary-foreground: var(--cream);
 
-  /* Alternating Sections: Slightly muted stone or transparent to show Sage */
-  --secondary: #d4dcd6;
-  --secondary-foreground: var(--deep-green);
+  /* Alternating sections */
+  --secondary: #fdf5d6;
+  --secondary-foreground: var(--ink);
 
-  --muted: #8aab8e; /* Darker Sage for subtle borders/text */
-  --muted-foreground: #002e2c;
+  --muted: #f3e7bb;
+  --muted-foreground: #44587a;
 
-  --accent: var(--deep-green);
-  --accent-foreground: var(--warm-stone);
+  --accent: var(--cobalt-blue);
+  --accent-foreground: #ffffff;
 
-  --destructive: #ef4444;
-  --destructive-foreground: var(--warm-stone);
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
 
-  --border: var(--deep-green);
-  --input: var(--deep-green);
-  --ring: var(--deep-green);
+  --border: var(--sage);
+  --input: var(--sage);
+  --ring: var(--textile-blue);
+
+  /* Diagram / wave lines and live status */
+  --line: #7fa886;
+  --live: #2f7a45;
 
   --radius: 0.625rem;
 }
 
 .dark {
   /* === DARK MODE === */
-  /* Background: Deep Green */
-  --background: var(--deep-green);
-  /* Text: Warm Stone (No Pure White) */
-  --foreground: var(--warm-stone);
+  --background: var(--navy);
+  --foreground: var(--lemon-chiffon);
 
-  /* Cards: Slightly lighter green or transparent with border */
-  --card: #003b39;
-  --card-foreground: var(--warm-stone);
+  --card: var(--navy-card);
+  --card-foreground: var(--lemon-chiffon);
 
-  --popover: #003b39;
-  --popover-foreground: var(--warm-stone);
+  --popover: var(--navy-card);
+  --popover-foreground: var(--lemon-chiffon);
 
-  /* Primary Action: Soft Sage */
-  --primary: var(--soft-sage);
-  --primary-foreground: var(--deep-green);
+  --primary: var(--cornflower-blue);
+  --primary-foreground: var(--navy);
 
-  /* Alternating Sections */
-  --secondary: #002624; /* Slightly darker than bg */
-  --secondary-foreground: var(--soft-sage);
+  --secondary: #0f2239;
+  --secondary-foreground: var(--lemon-chiffon);
 
-  --muted: #001f1d;
-  --muted-foreground: #8aab8e;
+  --muted: #102540;
+  --muted-foreground: #a9b6cc;
 
-  --accent: var(--soft-sage);
-  --accent-foreground: var(--deep-green);
+  --accent: var(--cobalt-blue);
+  --accent-foreground: #ffffff;
 
-  --destructive: #7f1d1d;
-  --destructive-foreground: var(--soft-sage);
+  --destructive: #f97066;
+  --destructive-foreground: var(--navy);
 
-  --border: #1a4d4a;
-  --input: #1a4d4a;
-  --ring: var(--soft-sage);
+  --border: rgb(170 198 173 / 0.28);
+  --input: rgb(170 198 173 / 0.35);
+  --ring: var(--cornflower-blue);
+
+  --line: var(--sage);
+  --live: #8fd19e;
 }
 
 @theme inline {
@@ -101,6 +106,13 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-line: var(--line);
+  --color-live: var(--live);
+  --color-sage: var(--sage);
+
+  --font-sans: var(--font-raleway), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), ui-serif, Georgia, serif;
+  --font-mono: var(--font-fira-mono), ui-monospace, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -113,6 +125,146 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-300 leading-relaxed;
+    @apply bg-background text-foreground font-sans transition-colors duration-300 leading-relaxed;
+    /* Raleway's default digits are old-style; keep numbers even. */
+    font-variant-numeric: lining-nums;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sans;
+    letter-spacing: -0.01em;
+  }
+  /* Reading text uses Lora; UI (buttons, badges, nav, chips) stays Raleway. */
+  p,
+  li,
+  blockquote {
+    @apply font-serif;
+  }
+  code,
+  pre,
+  kbd {
+    @apply font-mono;
+  }
+}
+
+/* === MOTION & EFFECTS === */
+:root {
+  --logo-trail: var(--cornflower-blue);
+  --glow: rgb(136 176 224 / 0.35);
+  --grid-dot: rgb(46 108 186 / 0.16);
+}
+
+.dark {
+  --logo-trail: var(--textile-blue);
+  --glow: rgb(136 176 224 / 0.16);
+  --grid-dot: rgb(170 198 173 / 0.14);
+}
+
+@layer utilities {
+  .bg-dot-grid {
+    background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .mask-fade-edges {
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+  }
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.animate-flow {
+  animation: flow-dash 1.2s linear infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret {
+  animation: caret-blink 1s step-end infinite;
+}
+
+/* Section waves drift sideways; each path is drawn twice as wide as the viewport. */
+@keyframes wave-drift {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-wave {
+  animation: wave-drift 18s linear infinite;
+}
+
+.animate-wave-slow {
+  animation: wave-drift 28s linear infinite reverse;
+}
+
+/* Projects reached from an /experience link briefly glow. */
+@keyframes target-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  20%,
+  60% {
+    box-shadow: 0 0 0 3px var(--primary), 0 0 40px 4px var(--glow);
+  }
+}
+
+.project-target {
+  animation: target-glow 2.4s ease-in-out;
+  border-radius: var(--radius-xl);
+}
+
+@keyframes logo-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logo-pop {
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-flow,
+  .animate-caret,
+  .animate-wave,
+  .animate-wave-slow,
+  .project-target {
+    animation: none;
+  }
+  .intro-overlay {
+    display: none;
+  }
+}
+
+/* The protected certificate never prints. */
+@media print {
+  .protected-cert {
+    display: none !important;
   }
 }
