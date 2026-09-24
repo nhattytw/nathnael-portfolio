@@ -25,3 +25,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# certificate originals (only the encrypted preview is committed)
+/private/**/*
+!/private/**/
+!/private/**/*.enc

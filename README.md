@@ -44,29 +44,29 @@ The design system implements a custom **"Iced Mint"** semantic color palette wit
 ### Prerequisites
 
 *   Node.js 24+
-*   npm, yarn, or pnpm
+*   pnpm 11 (`corepack enable` picks up the pinned version from `package.json`)
 
 ### Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/nhattytw/portfolio.git
-    cd portfolio
+    git clone https://github.com/nhattytw/nathnael-portfolio.git
+    cd nathnael-portfolio
     ```
 
 2.  **Install dependencies:**
     ```bash
-    npm install
-    # or
     pnpm install
     ```
 
-3.  **Run the development server:**
+3.  **Set the certificate key:** add `CERT_KEY` (base64, 32 bytes) to `.env.local` and to the Vercel project's environment variables. It decrypts the committed `private/certificates/*.enc` files, which `/api/cert/[id]` serves view-only. To add or replace a certificate, drop the image into `private/certificates/` as `<id>-original.png|jpg` (git-ignored), give the matching certification a `certificateId` in `src/lib/generalData.ts`, and run `pnpm cert:build`.
+
+4.  **Run the development server:**
     ```bash
-    npm run dev
+    pnpm dev
     ```
 
-4.  Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5.  Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
 
 ## 📂 Project Structure
 
