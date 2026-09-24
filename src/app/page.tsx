@@ -1,125 +1,147 @@
+import Link from "next/link";
 import { Navigation } from "@/components/navigation";
-import { SectionContainer } from "@/components/section-container";
-import { Card } from "@/components/ui/card";
 import { HeroSection } from "@/components/hero-section";
-import { Database, Server, Cpu, Layout } from "lucide-react";
+import { ImpactMetrics } from "@/components/home/impact-metrics";
+import { ArchitectureShowcase } from "@/components/home/architecture-showcase";
+import { CareerJourney } from "@/components/home/career-journey";
+import { SkillsMap } from "@/components/home/skills-map";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
+import { Reveal } from "@/components/motion/reveal";
+import { Button } from "@/components/ui/button";
+import { SectionWave } from "@/components/section-wave";
+import { Database, Server, Layout, Handshake, ArrowRight } from "lucide-react";
+
+const competencies = [
+  {
+    icon: Server,
+    title: "Backend Engineering",
+    body: "RESTful APIs and real-time WebSocket systems on Node.js and Express, with JWT, RBAC, and payment gateway integration.",
+  },
+  {
+    icon: Layout,
+    title: "Full-Stack Delivery",
+    body: "Production Next.js and React apps in monorepos, taken from data model to the screen the user sees.",
+  },
+  {
+    icon: Database,
+    title: "Data & Infrastructure",
+    body: "PostgreSQL and MongoDB data models tuned for speed, Supabase, and containerized deployments behind Nginx.",
+  },
+  {
+    icon: Handshake,
+    title: "Client-Facing Engineering",
+    body: "Requirements, proposals, and training, so what gets built is what the client actually needed.",
+  },
+];
+
+function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) {
+  return (
+    <Reveal className="text-center space-y-4 mb-14">
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{eyebrow}</p>
+      <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{title}</h2>
+      <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{subtitle}</p>
+    </Reveal>
+  );
+}
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navigation />
 
-      {/* Hero Section (Client Component for Interactivity) */}
-      <HeroSection />
+      <HeroSection>
+        {/* Transparent top so the hero background shows through the wave */}
+        <SectionWave from="transparent" to="var(--secondary)" className="relative z-10" />
+      </HeroSection>
+      <ImpactMetrics />
 
-      {/* Expertise Grid - Alternating Background (Secondary) */}
-      <section
-        id="expertise-section"
-        className="bg-secondary py-24 scroll-mt-16"
-      >
-        <SectionContainer className="py-0">
-          <div className="space-y-16">
-            <div className="text-center space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
-                Core Competencies
-              </h2>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Delivering enterprise-grade solutions with a focus on
-                performance, security, and maintainability.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="p-8 space-y-4 hover:shadow-xl transition-all duration-300 border-none">
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-2">
-                  <Server className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Backend Architecture</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Designing RESTful APIs and WebSockets systems using Node.js,
-                  Express, and Python. Expertise in JWT authentication, RBAC,
-                  and payment gateway integration.
-                </p>
-              </Card>
-
-              <Card className="p-8 space-y-4 hover:shadow-xl transition-all duration-300 border-none">
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-2">
-                  <Layout className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Frontend Engineering</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Building responsive, pixel-perfect interfaces with React,
-                  Next.js, and Tailwind CSS. Translating high-fidelity Figma
-                  designs into production-ready, accessible code.
-                </p>
-              </Card>
-
-              <Card className="p-8 space-y-4 hover:shadow-xl transition-all duration-300 border-none">
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-2">
-                  <Database className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Data & Infrastructure</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Optimizing complex queries in PostgreSQL and MongoDB.
-                  Deploying high-availability infrastructure with Docker, Nginx,
-                  and CI/CD pipelines.
-                </p>
-              </Card>
-
-              <Card className="p-8 space-y-4 hover:shadow-xl transition-all duration-300 border-none">
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-2">
-                  <Cpu className="h-7 w-7 text-primary" />
-                </div>
-                <h3 className="text-xl font-bold">Technical Leadership</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Leading agile teams, conducting code reviews, and mentoring
-                  junior developers. Translating complex business requirements
-                  into technical roadmaps.
-                </p>
-              </Card>
-            </div>
+      {/* Core Competencies */}
+      <section id="expertise-section" className="bg-gradient-to-b from-secondary via-background to-background py-24 scroll-mt-16">
+        <div className="container max-w-6xl mx-auto px-4">
+          <SectionHeading
+            eyebrow="What I do"
+            title="Core Competencies"
+            subtitle="Delivering enterprise-grade systems with a focus on performance, security, and maintainability."
+          />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {competencies.map(({ icon: Icon, title, body }, i) => (
+              <Reveal key={title} delay={i * 0.08} className="h-full">
+                <SpotlightCard className="h-full p-8 gap-4 border-none">
+                  <div className="relative h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    <Icon className="h-7 w-7 text-primary" />
+                  </div>
+                  <h3 className="relative text-xl font-bold">{title}</h3>
+                  <p className="relative text-muted-foreground leading-relaxed">{body}</p>
+                </SpotlightCard>
+              </Reveal>
+            ))}
           </div>
-        </SectionContainer>
+        </div>
       </section>
 
-      {/* Impact Stats - Base Background */}
-      <section className="bg-background border-t py-24">
-        <SectionContainer className="py-0">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="p-4 space-y-2">
-              <div className="text-4xl md:text-5xl font-extrabold text-primary">
-                4+
-              </div>
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Years Experience
-              </div>
-            </div>
-            <div className="p-4 space-y-2">
-              <div className="text-4xl md:text-5xl font-extrabold text-primary">
-                99.9%
-              </div>
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Uptime Achieved
-              </div>
-            </div>
-            <div className="p-4 space-y-2">
-              <div className="text-4xl md:text-5xl font-extrabold text-primary">
-                5+
-              </div>
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Teams Led
-              </div>
-            </div>
-            <div className="p-4 space-y-2">
-              <div className="text-4xl md:text-5xl font-extrabold text-primary">
-                10+
-              </div>
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                Systems Deployed
-              </div>
-            </div>
+      {/* Architecture Showcase */}
+      <SectionWave from="var(--background)" to="var(--secondary)" flip />
+      <section id="architecture" className="bg-secondary pt-12 pb-24 scroll-mt-16">
+        <div className="container max-w-5xl mx-auto px-4">
+          <SectionHeading
+            eyebrow="Systems I've built"
+            title="Architecture Showcase"
+            subtitle="Three production systems, drawn from the inside. Hover any component to see what it does and what I owned."
+          />
+          <Reveal>
+            <ArchitectureShowcase />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Career Journey */}
+      <section id="journey" className="bg-gradient-to-b from-secondary via-background to-background py-24 scroll-mt-16">
+        <div className="container max-w-6xl mx-auto px-4">
+          <SectionHeading
+            eyebrow="2021 → today"
+            title="Career Journey"
+            subtitle="From junior engineer to founding engineer in five years."
+          />
+          <CareerJourney />
+        </div>
+      </section>
+
+      {/* Skills Map */}
+      <section id="skills" className="bg-gradient-to-b from-background to-secondary py-24 scroll-mt-16">
+        <div className="container max-w-5xl mx-auto px-4">
+          <SectionHeading
+            eyebrow="Stack"
+            title="Skills Map"
+            subtitle="Each skill shows how many companies and projects I've used it in. Hover or tap to see where."
+          />
+          <Reveal>
+            <SkillsMap />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <SectionWave from="var(--secondary)" to="var(--background)" />
+      <section className="pt-12 pb-24">
+        <Reveal className="container max-w-3xl mx-auto px-4 text-center space-y-6">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            Building something ambitious?
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Whether it&apos;s a senior role, a founding team, or a product that
+            needs building properly from scratch, I&apos;d like to hear about it.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button asChild size="lg" className="h-12 px-8 rounded-full">
+              <Link href="/contact">
+                Get in touch <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-12 px-8 rounded-full border-2">
+              <Link href="/projects">See projects</Link>
+            </Button>
           </div>
-        </SectionContainer>
+        </Reveal>
       </section>
     </div>
   );
