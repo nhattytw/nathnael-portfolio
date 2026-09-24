@@ -5,6 +5,38 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const LIVE_STATUS_CODES = [200, 301, 302, 307, 308, 401, 403, 405, 406, 429, 503];
+const HEAD_TIMEOUT_MS = 3000;
+const GET_TIMEOUT_MS = 8000;
+
+// 2xx/3xx, plus codes that mean "up but refusing this request":
+// 401 (login required), 403 (WAF), 405 (no HEAD), 406 (filtered headers),
+// 429 (rate limited), 503 (often a Cloudflare challenge page).
+function isLiveStatus(status: number) {
+  return LIVE_STATUS_CODES.includes(status) || (status >= 200 && status < 400);
+}
+
+async function probe(url: string, init: RequestInit, timeoutMs: number): Promise<boolean> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      ...init,
+      signal: controller.signal,
+      cache: "no-store",
+      redirect: "manual",
+    });
+    return isLiveStatus(response.status);
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+/**
+ * Checks whether a project's site responds. Some hosts answer HEAD slowly or
+ * not at all (e.g. Vercel redirects), so a failed or slow HEAD falls back to a
+ * tiny ranged GET before the site is treated as down.
+ */
 export async function isSiteReachable(url: string): Promise<boolean> {
   if (!url) return false;
 
@@ -13,63 +45,20 @@ export async function isSiteReachable(url: string): Promise<boolean> {
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     Accept:
       "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-    Connection: "close", // Close connection to return faster
   };
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
-
-    const response = await fetch(url, {
-      method: "HEAD",
-      signal: controller.signal,
-      cache: "no-store",
-      headers: headers,
-    });
-
-    clearTimeout(timeoutId);
-
-    // LOGIC:
-    // 200-399: Success (OK, Redirects)
-    // 401: Unauthorized (Live but requires login)
-    // 403: Forbidden (Live but WAF blocked us)
-    // 405: Method Not Allowed (Live but doesn't like HEAD requests)
-    // 406: Not Acceptable (Live but WAF filtered headers)
-    // 429: Too Many Requests (Live but rate limited)
-    // 503: Service Unavailable (Often Cloudflare CAPTCHA page - Site is technically up)
-
-    const liveStatusCodes = [
-      200, 301, 302, 307, 308, 401, 403, 405, 406, 429, 503,
-    ];
-
-    return (
-      liveStatusCodes.includes(response.status) ||
-      (response.status >= 200 && response.status < 400)
+    if (await probe(url, { method: "HEAD", headers }, HEAD_TIMEOUT_MS)) return true;
+  } catch {
+    // Timed out or network error: try GET below.
+  }
+  try {
+    return await probe(
+      url,
+      { method: "GET", headers: { ...headers, Range: "bytes=0-50" } },
+      GET_TIMEOUT_MS
     );
-  } catch (error: any) {
-    if (error.name !== "AbortError") {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-        const response = await fetch(url, {
-          method: "GET",
-          signal: controller.signal,
-          headers: { ...headers, Range: "bytes=0-50" }, // Request just the first 50 bytes
-        });
-        clearTimeout(timeoutId);
-
-        // Apply same lenient logic to GET
-        const liveStatusCodes = [
-          200, 301, 302, 307, 308, 401, 403, 405, 406, 429, 503,
-        ];
-        return (
-          liveStatusCodes.includes(response.status) ||
-          (response.status >= 200 && response.status < 400)
-        );
-      } catch {
-        return false;
-      }
-    }
+  } catch {
     return false;
   }
 }
