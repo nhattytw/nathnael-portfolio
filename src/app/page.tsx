@@ -95,15 +95,9 @@ export default function HomePage() {
       </section>
 
       {/* Career Journey */}
-      <section id="journey" className="bg-gradient-to-b from-secondary via-background to-background py-24 scroll-mt-16">
-        <div className="container max-w-6xl mx-auto px-4">
-          <SectionHeading
-            eyebrow="2021 → today"
-            title="Career Journey"
-            subtitle="From junior engineer to founding engineer in five years."
-          />
-          <CareerJourney />
-        </div>
+      {/* Heading lives inside CareerJourney: a side panel on desktop, centered on mobile */}
+      <section id="journey" className="bg-gradient-to-b from-secondary via-background to-background scroll-mt-16">
+        <CareerJourney />
       </section>
 
       {/* Skills Map */}
