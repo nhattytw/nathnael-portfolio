@@ -366,7 +366,7 @@
   animation: icon-float 8s ease-in-out infinite;
 }
 
-/* Toasts hug short text and wrap long text at 160px, instead of spanning a fixed width
+/* Toasts hug short text and wrap long text at 220px, instead of spanning a fixed width
    (or the full screen on mobile). */
 @media (max-width: 600px) {
   .toaster[data-sonner-toaster] {
@@ -378,7 +378,7 @@
   left: auto;
   right: 0;
   width: fit-content;
-  max-width: min(160px, 100%);
+  max-width: min(220px, 100%);
 }
 
 /* Footer aurora: a gradient line flows along the top edge and a blurred copy bleeds down.
