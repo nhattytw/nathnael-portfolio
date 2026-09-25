@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, useInView, useReducedMotion } from "motion/react";
+import { IN_VIEW_MARGIN } from "@/components/motion/viewport";
 
 interface CountUpProps {
   value: number;
@@ -20,7 +21,7 @@ export function CountUp({
   className,
 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { amount: 0.6 });
+  const inView = useInView(ref, { amount: 0.6, margin: IN_VIEW_MARGIN });
   const reduceMotion = useReducedMotion();
   const [display, setDisplay] = useState(0);
 

@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { ArrowRight, Command } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +48,9 @@ function useTypewriter(words: string[], enabled: boolean) {
  */
 export function HeroSection({ children }: { children?: React.ReactNode }) {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  // The entrance replays whenever the hero comes back into view, not just on load.
+  const heroRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef, { amount: 0.6 });
   const reduceMotion = useReducedMotion();
   const palette = useCommandPalette();
   const role = useTypewriter(generalData.roles, !reduceMotion);
@@ -86,8 +89,9 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease: EASE },
+    animate: heroInView
+      ? { opacity: 1, y: 0, transition: { duration: 0.9, delay, ease: EASE } }
+      : { opacity: 0, y: 24, transition: { duration: 0.6, ease: EASE } },
   });
 
   return (
@@ -117,7 +121,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
         />
       </div>
 
-      <section className="relative flex flex-col justify-center min-h-[calc(100vh-4rem)] pt-10 pb-32">
+      <section ref={heroRef} className="relative flex flex-col justify-center min-h-[calc(100vh-4rem)] pt-10 pb-32">
         <div className="relative flex w-full flex-col items-center text-center space-y-8 max-w-4xl mx-auto z-10 px-4">
           <motion.div {...fadeUp(0)}>
             <Badge
@@ -140,8 +144,11 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
                   key={word}
                   className="inline-block mr-[0.25em]"
                   initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.8, delay: 0.1 + i * 0.12, ease: EASE }}
+                  animate={
+                    heroInView
+                      ? { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1, delay: 0.1 + i * 0.12, ease: EASE } }
+                      : { opacity: 0, y: 40, filter: "blur(8px)", transition: { duration: 0.6, ease: EASE } }
+                  }
                 >
                   {word}
                 </motion.span>
@@ -211,7 +218,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
           </motion.button>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-in fade-in duration-1000 delay-500">
+        <motion.div {...fadeUp(1)} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
           <button
             onClick={handleScroll}
             onMouseEnter={handleMouseEnter}
@@ -226,7 +233,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
               <div className="w-1 h-2 bg-current rounded-full animate-bounce mt-1"></div>
             </div>
           </button>
-        </div>
+        </motion.div>
       </section>
       {children}
     </div>
