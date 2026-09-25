@@ -135,7 +135,7 @@ export const experienceData: Company[] = [
         ],
         metrics: [
           { value: 300, suffix: "+", label: "YeneCart daily users" },
-          { value: 99, suffix: "%", label: "YeneCart uptime" },
+          { value: 99, suffix: "%+", label: "Uptime across deployed systems" },
           { value: 4, label: "Developers led" },
         ],
       },

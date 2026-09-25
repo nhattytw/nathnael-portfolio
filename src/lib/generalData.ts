@@ -147,8 +147,8 @@ export const generalData = {
   },
   impactMetrics: [
     { value: 5, suffix: "+", label: "Years Experience", source: "Since February 2021" },
-    { value: 99, suffix: "%", label: "Uptime Achieved", source: "YeneCart · Docker + Nginx" },
-    { value: 300, suffix: "+", label: "Daily Active Users", source: "YeneCart SaaS" },
+    { value: 99, suffix: "%+", label: "Production Uptime", source: "IIMCS, YeneCart & client sites · Nginx" },
+    { value: 12, suffix: "+", label: "Projects Delivered", source: "Production, client, freelance & academic" },
     { value: 85, suffix: "%", label: "Bid Win Rate", source: "Technical proposals at Baro" },
   ] as ImpactMetric[],
   availability: {

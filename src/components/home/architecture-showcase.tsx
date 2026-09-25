@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { IN_VIEW_MARGIN } from "@/components/motion/viewport";
 import { Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -68,14 +69,14 @@ const DIAGRAMS: Diagram[] = [
     company: "Baro Technologies · In-house product",
     title: "Containerized multi-server SaaS",
     summary:
-      "A multi-tenant e-commerce SaaS serving 300+ daily active users at 99% uptime. Nginx load-balances two Dockerized app containers, with MongoDB and MinIO in their own containers and recurring billing through ArifPay.",
+      "A multi-tenant e-commerce SaaS serving 300+ daily active users at 99.7% uptime. Nginx load-balances two Dockerized app containers; each one reads and writes a managed MongoDB Atlas cluster, stores media in a shared MinIO container, and handles recurring billing through ArifPay.",
     height: 400,
     nodes: [
       { id: "users", x: 16, y: 172, w: 120, label: "Users", sub: "300+ DAUs", info: "Merchants and shoppers across tenants: 300+ daily active users." },
-      { id: "nginx", x: 180, y: 172, w: 150, label: "Nginx", sub: "reverse proxy · LB", info: "Nginx terminates traffic and load-balances across the two app containers, key to 99% uptime." },
+      { id: "nginx", x: 180, y: 172, w: 150, label: "Nginx", sub: "reverse proxy · LB", info: "Nginx terminates traffic and load-balances across the two app containers, key to 99.7% uptime." },
       { id: "app1", x: 376, y: 104, w: 180, label: "App container 1", sub: "Next.js · Docker", tag: "owned", info: "Stateless Next.js/TypeScript app in Docker. Either container can be drained without downtime." },
       { id: "app2", x: 376, y: 240, w: 180, label: "App container 2", sub: "Next.js · Docker", tag: "owned", info: "An identical second container behind Nginx, so traffic keeps flowing during deploys." },
-      { id: "db", x: 612, y: 40, w: 172, label: "MongoDB", sub: "container · multi-tenant", info: "MongoDB in its own container, with a multi-tenant schema and tenant isolation." },
+      { id: "db", x: 612, y: 40, w: 172, label: "MongoDB Atlas", sub: "managed · multi-tenant", info: "Managed MongoDB Atlas cluster, with a multi-tenant schema and tenant isolation." },
       { id: "minio", x: 612, y: 172, w: 172, label: "MinIO", sub: "container · object storage", info: "S3-compatible object storage in its own container, for product media." },
       { id: "pay", x: 612, y: 304, w: 172, label: "ArifPay", sub: "external · subscriptions", info: "External payment gateway: recurring billing, webhooks, and failure handling." },
     ],
@@ -84,29 +85,43 @@ const DIAGRAMS: Diagram[] = [
       ["nginx", "app1"], ["nginx", "app2"],
       ["app1", "db"], ["app2", "db"],
       ["app1", "minio"], ["app2", "minio"],
-      ["app2", "pay"],
+      ["app1", "pay"], ["app2", "pay"],
     ],
   },
   {
-    id: "hr",
-    tab: "Biometric HR",
-    company: "Ahaz · Two client systems",
-    title: "Fingerprint attendance → payroll",
+    id: "gize",
+    tab: "Gize Desktop HR",
+    company: "Ahaz · Client: Bantu ICT Solutions",
+    title: "Biometric attendance → payroll",
     summary:
-      "Two HR systems wired into fingerprint scanners. Gize is a Python/Qt5 desktop app that talks to a ZKTeco device through an adapted, reverse-engineered driver. The Akile system is a MERN web app with live WebSocket attendance feeds.",
-    height: 330,
+      "A Python/Qt5 desktop app that checks employees in by fingerprint or face through a ZKTeco device, then carries the attendance data all the way through payroll. The device talks to the app through an adapted, reverse-engineered driver.",
+    height: 200,
     nodes: [
-      { id: "zk", x: 16, y: 40, w: 150, label: "ZKTeco Scanner", sub: "fingerprint device", info: "The vendor's documentation was thin, so the connection started from a community reverse-engineered driver." },
-      { id: "driver", x: 206, y: 40, w: 160, label: "Adapted Driver", sub: "reverse-engineered", tag: "owned", info: "The driver was adapted to our device model. The first successful ping was the breakthrough." },
-      { id: "gize", x: 406, y: 40, w: 170, label: "Gize Desktop", sub: "Python · Qt5", tag: "owned", info: "A Python/Qt5 desktop app that processes attendance records end to end." },
-      { id: "sqlite", x: 616, y: 40, w: 168, label: "SQLite → Payroll", sub: "automated runs", info: "Local SQLite storage feeding automated payroll processing." },
-      { id: "fp", x: 16, y: 220, w: 150, label: "Fingerprint Scanner", sub: "attendance capture", info: "Fingerprint scans feed the web platform's attendance records." },
-      { id: "api", x: 206, y: 220, w: 160, label: "Express API", sub: "Node.js · MongoDB", tag: "owned", info: "The Node.js/Express backend of the MERN stack stores attendance and HR data in MongoDB." },
-      { id: "ws", x: 406, y: 220, w: 170, label: "WebSocket Feed", sub: "real-time events", tag: "owned", info: "WebSockets push attendance events to connected clients as they happen." },
-      { id: "dash", x: 616, y: 220, w: 168, label: "React Dashboard", sub: "Akile HR · web", info: "HR teams see employees, daily attendance, reports, check-in/out, and payroll in the browser." },
+      { id: "zk", x: 16, y: 72, w: 136, label: "ZKTeco Device", sub: "fingerprint · face", info: "Employees check in by fingerprint or face recognition. Both were implemented, not just supported by the hardware." },
+      { id: "driver", x: 176, y: 72, w: 136, label: "Adapted Driver", sub: "reverse-engineered", tag: "owned", info: "The vendor's documentation was thin, so the connection started from a community reverse-engineered driver, adapted to our device model. The first successful ping was the breakthrough." },
+      { id: "gize", x: 336, y: 72, w: 136, label: "Gize Desktop", sub: "Python · Qt5", tag: "owned", info: "A Python/Qt5 desktop app that pulls attendance records from the device and processes them end to end." },
+      { id: "sqlite", x: 496, y: 72, w: 136, label: "SQLite", sub: "local storage", info: "Attendance and employee records are stored locally in SQLite." },
+      { id: "payroll", x: 656, y: 72, w: 128, label: "Payroll", sub: "automated runs", tag: "owned", info: "Captured attendance feeds straight into automated payroll processing, with no manual re-entry." },
     ],
     edges: [
-      ["zk", "driver"], ["driver", "gize"], ["gize", "sqlite"],
+      ["zk", "driver"], ["driver", "gize"], ["gize", "sqlite"], ["sqlite", "payroll"],
+    ],
+  },
+  {
+    id: "akille",
+    tab: "Akille HR Web",
+    company: "Ahaz · Client: Akille Painting and Finishing",
+    title: "Real-time web attendance",
+    summary:
+      "A MERN web app for HR and attendance. Fingerprint check-ins land in an Express API and are pushed live over WebSockets to a React dashboard.",
+    height: 200,
+    nodes: [
+      { id: "fp", x: 16, y: 72, w: 172, label: "Fingerprint Check-in", sub: "attendance capture", info: "Employees check in by fingerprint, and each scan becomes an attendance record." },
+      { id: "api", x: 228, y: 72, w: 160, label: "Express API", sub: "Node.js · MongoDB", tag: "owned", info: "The Node.js/Express backend of the MERN stack stores attendance and HR data in MongoDB." },
+      { id: "ws", x: 428, y: 72, w: 160, label: "WebSocket Feed", sub: "real-time events", tag: "owned", info: "WebSockets push attendance events to connected clients as they happen." },
+      { id: "dash", x: 628, y: 72, w: 156, label: "React Dashboard", sub: "HR teams · web", info: "HR teams manage employees, daily attendance, reports, check-in/out, assignments, and sites in the browser." },
+    ],
+    edges: [
       ["fp", "api"], ["api", "ws"], ["ws", "dash"],
     ],
   },
@@ -224,7 +239,7 @@ export function ArchitectureShowcase() {
                       strokeWidth={lit ? 2 : 1.5}
                       initial={{ pathLength: 0 }}
                       whileInView={{ pathLength: 1 }}
-                      viewport={{ once: false, amount: 0.2 }}
+                      viewport={{ once: false, amount: 0.2, margin: IN_VIEW_MARGIN }}
                       transition={{ duration: 0.8, delay: 0.3 + i * 0.05, ease: "easeInOut" }}
                     />
                     <motion.path
@@ -237,7 +252,7 @@ export function ArchitectureShowcase() {
                       className="animate-flow"
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: lit ? 1 : 0.55 }}
-                      viewport={{ once: false, amount: 0.2 }}
+                      viewport={{ once: false, amount: 0.2, margin: IN_VIEW_MARGIN }}
                       transition={{ delay: 1 + i * 0.05 }}
                     />
                   </g>
@@ -262,7 +277,7 @@ export function ArchitectureShowcase() {
                     onClick={() => setHovered(node.id)}
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, amount: 0.2 }}
+                    viewport={{ once: false, amount: 0.2, margin: IN_VIEW_MARGIN }}
                     transition={{ duration: 0.4, delay: i * 0.06 }}
                   >
                     <rect

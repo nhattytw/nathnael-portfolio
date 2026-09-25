@@ -86,7 +86,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Systems I've built"
             title="Architecture Showcase"
-            subtitle="Three production systems, drawn from the inside. Hover any component to see what it does and what I owned."
+            subtitle="Four systems I've shipped, drawn from the inside. Hover any component to see what it does and what I owned."
           />
           <Reveal>
             <ArchitectureShowcase />
