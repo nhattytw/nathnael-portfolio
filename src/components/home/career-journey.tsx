@@ -88,7 +88,7 @@ function MilestoneBody({ m }: { m: Milestone }) {
       </div>
       <h3 className="mt-1 text-lg font-bold leading-snug">{m.title}</h3>
       <p className="text-sm font-medium text-foreground/80">{m.org}</p>
-      <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{m.detail}</p>
+      <p className="mt-2 text-sm text-muted-foreground leading-relaxed text-pretty md:text-justify md:hyphens-auto">{m.detail}</p>
       <div className="mt-3 flex flex-wrap gap-1.5">
         {m.skills.map((s) => (
           <span
@@ -196,7 +196,7 @@ function HorizontalJourney() {
               <HeadingIcon />
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{HEADING.eyebrow}</p>
               <h2 className="text-4xl font-bold tracking-tight">{HEADING.title}</h2>
-              <p className="text-muted-foreground text-lg">{HEADING.subtitle}</p>
+              <p className="text-muted-foreground text-lg text-pretty md:text-justify md:hyphens-auto">{HEADING.subtitle}</p>
               <div className="flex items-baseline gap-3 pt-2 font-mono">
                 <span className="text-3xl font-bold text-primary tabular-nums">
                   {String(active + 1).padStart(2, "0")}

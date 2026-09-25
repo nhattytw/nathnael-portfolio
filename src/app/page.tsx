@@ -149,7 +149,7 @@ export default function HomePage() {
                     </AnimatedIcon>
                   </div>
                   <h3 className="relative text-xl font-bold">{title}</h3>
-                  <p className="relative text-muted-foreground leading-relaxed">{body}</p>
+                  <p className="relative text-muted-foreground leading-relaxed text-pretty md:text-justify md:hyphens-auto">{body}</p>
                 </SpotlightCard>
               </Reveal>
             ))}

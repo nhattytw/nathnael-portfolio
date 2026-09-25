@@ -251,7 +251,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         )}
 
-        <p className="text-muted-foreground text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed text-pretty md:text-justify md:hyphens-auto">
           {project.description}
         </p>
 
@@ -266,7 +266,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 className="text-sm text-muted-foreground flex items-start gap-2.5"
               >
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                <span className="leading-snug">{highlight}</span>
+                <span className="min-w-0 flex-1 leading-snug text-pretty md:text-justify md:hyphens-auto">{highlight}</span>
               </li>
             ))}
           </ul>
