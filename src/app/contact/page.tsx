@@ -37,14 +37,14 @@ export default function ContactPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="p-8 space-y-8 bg-card border-border/50">
-              <div>
+            <Card className="h-full p-8 gap-6 bg-card border-border/50">
+              <div className="flex flex-1 flex-col">
                 <h3 className="text-2xl font-semibold mb-6 text-primary">
                   Contact Information
                 </h3>
-                <div className="space-y-4">
-                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="wiggle" className="mt-1 shrink-0">
+                <div className="flex flex-1 flex-col gap-4">
+                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="wiggle" className="shrink-0">
                       <Mail className="h-6 w-6 text-primary" />
                     </AnimatedIcon>
                     <div className="flex-1 space-y-1 min-w-0">
@@ -60,8 +60,8 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="wiggle" className="mt-1 shrink-0">
+                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="wiggle" className="shrink-0">
                       <Phone className="h-6 w-6 text-primary" />
                     </AnimatedIcon>
                     <div className="space-y-1 min-w-0">
@@ -77,8 +77,8 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="bob" className="mt-1 shrink-0">
+                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="bob" className="shrink-0">
                       <MapPin className="h-6 w-6 text-primary" />
                     </AnimatedIcon>
                     <div className="space-y-1 min-w-0">
@@ -95,55 +95,14 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-
-              <div>
-                <h3 className="text-2xl font-semibold mb-6 text-primary">
-                  Professional Networks
-                </h3>
-                <div className="flex flex-col gap-4">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-14 w-full justify-start px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                    asChild
-                  >
-                    <a
-                      href={generalData.socials.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="truncate"
-                    >
-                      <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
-                      LinkedIn Profile
-                    </a>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-14 w-full justify-start px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                    asChild
-                  >
-                    <a
-                      href={generalData.socials.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="truncate"
-                    >
-                      <Github className="h-5 w-5 mr-3 shrink-0" />
-                      GitHub Profile
-                    </a>
-                  </Button>
-                </div>
-              </div>
             </Card>
 
-            <div className="flex flex-col justify-center space-y-8 p-4">
+            <Card className="h-full p-8 gap-8 bg-card border-border/50">
               <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-primary">
+                <h3 className="text-2xl font-semibold text-primary">
                   Availability
                 </h3>
-                <p className="text-lg leading-relaxed text-foreground/90">
+                <p className="text-lg leading-relaxed text-foreground/90 text-pretty md:text-justify md:hyphens-auto">
                   {generalData.availability.interests}
                 </p>
                 <dl className="space-y-5 font-sans">
@@ -175,7 +134,48 @@ export default function ContactPage() {
                   </div>
                 </dl>
               </div>
-            </div>
+
+              <div className="mt-auto">
+                <h3 className="text-2xl font-semibold mb-4 text-primary">
+                  Professional Networks
+                </h3>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="h-12 w-full justify-start px-5 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
+                    asChild
+                  >
+                    <a
+                      href={generalData.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="truncate"
+                    >
+                      <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
+                      LinkedIn Profile
+                    </a>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="h-12 w-full justify-start px-5 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
+                    asChild
+                  >
+                    <a
+                      href={generalData.socials.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="truncate"
+                    >
+                      <Github className="h-5 w-5 mr-3 shrink-0" />
+                      GitHub Profile
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </Card>
           </div>
 
           <Reveal>
