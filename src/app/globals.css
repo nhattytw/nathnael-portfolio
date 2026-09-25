@@ -366,7 +366,65 @@
   animation: icon-float 8s ease-in-out infinite;
 }
 
+/* Footer aurora: a gradient line flows along the top edge and a blurred copy bleeds down.
+   The veil keeps the area behind the text calm so contrast stays high. */
+:root {
+  --aurora-opacity: 0.28;
+}
+
+.dark {
+  --aurora-opacity: 0.44;
+}
+
+@keyframes aurora-flow {
+  to {
+    background-position: 300% 0;
+  }
+}
+
+.footer-aurora::before,
+.footer-aurora::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    var(--textile-blue),
+    var(--cornflower-blue),
+    var(--cobalt-blue),
+    var(--cornflower-blue),
+    var(--textile-blue)
+  );
+  background-size: 300% 100%;
+  animation: aurora-flow 10s linear infinite;
+}
+
+.footer-aurora::before {
+  inset: 0 0 auto;
+  height: 2px;
+}
+
+.footer-aurora::after {
+  top: -60px;
+  left: -10%;
+  right: -10%;
+  height: 140px;
+  filter: blur(40px);
+  opacity: var(--aurora-opacity);
+}
+
+.footer-aurora-veil {
+  background: radial-gradient(
+    55% 70% at 50% 50%,
+    color-mix(in srgb, var(--muted) 75%, transparent),
+    transparent 75%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .footer-aurora::before,
+  .footer-aurora::after,
   .animate-flow,
   .animate-caret,
   .animate-wave,

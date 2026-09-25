@@ -5,8 +5,12 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-muted text-muted-foreground py-12 border-t border-border/50">
-      <div className="container mx-auto flex flex-col items-center justify-center gap-6 text-center px-6">
+    <footer className="footer-aurora relative isolate overflow-hidden bg-muted text-muted-foreground py-12 border-t border-border/50">
+      <div
+        aria-hidden
+        className="footer-aurora-veil pointer-events-none absolute inset-0 z-[1]"
+      />
+      <div className="container relative z-10 mx-auto flex flex-col items-center justify-center gap-6 text-center px-6">
         {/* Line 1: Built by & Source Code */}
         <div className="flex flex-col md:flex-row items-center gap-2 text-sm">
           <span className="flex items-center gap-2">
