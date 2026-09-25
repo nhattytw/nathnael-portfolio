@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { unstable_cache } from "next/cache";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,7 +24,6 @@ async function probe(url: string, init: RequestInit, timeoutMs: number): Promise
     const response = await fetch(url, {
       ...init,
       signal: controller.signal,
-      cache: "no-store",
       redirect: "manual",
     });
     return isLiveStatus(response.status);
@@ -37,7 +37,7 @@ async function probe(url: string, init: RequestInit, timeoutMs: number): Promise
  * not at all (e.g. Vercel redirects), so a failed or slow HEAD falls back to a
  * tiny ranged GET before the site is treated as down.
  */
-export async function isSiteReachable(url: string): Promise<boolean> {
+async function checkSiteReachable(url: string): Promise<boolean> {
   if (!url) return false;
 
   const headers = {
@@ -62,3 +62,8 @@ export async function isSiteReachable(url: string): Promise<boolean> {
     return false;
   }
 }
+
+/** Cached for 30 minutes so a slow or down site doesn't stall every request. */
+export const isSiteReachable = unstable_cache(checkSiteReachable, ["site-reachable"], {
+  revalidate: 1800,
+});

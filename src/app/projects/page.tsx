@@ -11,13 +11,12 @@ export const revalidate = 1800; // Revalidate every 30 minutes
 
 export const metadata: Metadata = { title: "Projects" };
 
-export default async function ProjectsPage() {
-  const projectsWithStatus = await Promise.all(
-    projectData.map(async (project) => ({
-      ...project,
-      isLive: project.liveUrl ? await isSiteReachable(project.liveUrl) : false,
-    }))
-  );
+export default function ProjectsPage() {
+  // Live checks stream in per card, so a slow site never blocks the page.
+  const projectsWithStatus = projectData.map((project) => ({
+    ...project,
+    isLive: project.liveUrl ? isSiteReachable(project.liveUrl) : Promise.resolve(false),
+  }));
 
   return (
     <div className="min-h-screen bg-background">

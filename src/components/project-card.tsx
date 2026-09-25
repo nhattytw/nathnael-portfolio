@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, use, useState } from "react";
 import Image from "next/image";
 import {
   CardContent,
@@ -22,18 +22,23 @@ import {
   PlayCircle,
   Star,
   ShieldCheck,
-  CloudOff,
+  PackageCheck,
   Building2,
+  Handshake,
+  CalendarDays,
 } from "lucide-react";
 import { CATEGORY_LABELS, type Project } from "@/lib/projectData";
 import { cn } from "@/lib/utils";
 
+type ProjectWithStatus = Project & { isLive: Promise<boolean> };
+
 interface ProjectCardProps {
-  project: Project & { isLive: boolean };
+  project: ProjectWithStatus;
 }
 
 /** Status badge: live checks only apply to projects with a public link. */
 function StatusBadge({ project }: ProjectCardProps) {
+  const isLive = use(project.isLive);
   const liveClasses = "gap-1 bg-live/10 text-live border-live/30 hover:bg-live/15";
   if (project.category === "public-sector") {
     return (
@@ -43,17 +48,49 @@ function StatusBadge({ project }: ProjectCardProps) {
     );
   }
   if (project.liveUrl) {
-    return project.isLive ? (
+    return isLive ? (
       <Badge className={liveClasses}>
         <span className="h-1.5 w-1.5 rounded-full bg-live" /> {project.status}
       </Badge>
     ) : (
       <Badge variant="secondary" className="gap-1">
-        <CloudOff className="h-3 w-3" /> Link unavailable
+        <PackageCheck className="h-3 w-3" /> Delivered
       </Badge>
     );
   }
   return <Badge variant="secondary">{project.status}</Badge>;
+}
+
+/** Live button, or a note explaining why there's no link. */
+function LiveLink({ project }: ProjectCardProps) {
+  const isLive = use(project.isLive);
+  const showLiveButton = Boolean(project.liveUrl && isLive);
+  // Explain why there's no link, unless an open-source/GitHub link covers it.
+  const privateNote =
+    project.category === "public-sector"
+      ? "Proprietary · Restricted access"
+      : project.category === "internal"
+        ? "Internal tool · Not public"
+        : !showLiveButton && !project.githubUrl
+          ? "Delivered to client · Not public"
+          : null;
+
+  if (showLiveButton) {
+    return (
+      <Button variant="outline" size="sm" asChild className="flex-1 min-w-[140px]">
+        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+          <Globe className="mr-2 h-4 w-4" /> Live Project
+        </a>
+      </Button>
+    );
+  }
+  if (!privateNote) return null;
+  return (
+    <div className="flex-1 min-w-[140px] flex items-center justify-center text-xs text-muted-foreground py-2 bg-muted/30 rounded border border-dashed h-9 px-2 text-center cursor-not-allowed">
+      <Lock className="h-3 w-3 mr-2 shrink-0" />
+      <span>{privateNote}</span>
+    </div>
+  );
 }
 
 export function ProjectCard({ project }: ProjectCardProps) {
@@ -79,18 +116,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
     );
   };
 
-  const meta = [project.company, project.client, project.period].filter(Boolean);
-  const showLiveButton = Boolean(project.liveUrl && project.isLive);
-  const showUnreachable = Boolean(project.liveUrl && !project.isLive);
-  // Explain why there's no link, unless an open-source/GitHub link covers it.
-  const privateNote =
-    project.category === "public-sector"
-      ? "Proprietary · Restricted access"
-      : project.category === "internal"
-        ? "Internal tool · Not public"
-        : !project.liveUrl && !project.githubUrl
-          ? "Delivered to client · Not public"
-          : null;
+  const meta = [
+    { icon: Building2, label: "Company", value: project.company },
+    { icon: Handshake, label: "Client", value: project.client },
+    { icon: CalendarDays, label: "Period", value: project.period },
+  ].filter((item) => item.value);
 
   return (
     <SpotlightCard
@@ -110,15 +140,24 @@ export function ProjectCard({ project }: ProjectCardProps) {
               </Badge>
             )}
           </div>
-          <StatusBadge project={project} />
+          <Suspense fallback={<Badge variant="secondary" className="animate-pulse">Checking…</Badge>}>
+            <StatusBadge project={project} />
+          </Suspense>
         </div>
         <CardTitle className="text-2xl">{project.title}</CardTitle>
         <p className="text-sm font-medium text-primary">{project.subtitle}</p>
         {meta.length > 0 && (
-          <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Building2 className="h-3.5 w-3.5 shrink-0" />
-            {meta.join(" · ")}
-          </p>
+          <ul className="space-y-1 text-xs text-muted-foreground">
+            {meta.map(({ icon: Icon, label, value }) => (
+              <li key={label} className="flex items-start gap-1.5">
+                <Icon className="mt-px h-3.5 w-3.5 shrink-0" aria-hidden />
+                <span>
+                  {label === "Client" && <span className="font-medium">Client: </span>}
+                  {value}
+                </span>
+              </li>
+            ))}
+          </ul>
         )}
       </CardHeader>
 
@@ -248,27 +287,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         <div className="flex flex-wrap gap-3 w-full mt-2">
-          {showLiveButton && (
-            <Button variant="outline" size="sm" asChild className="flex-1 min-w-[140px]">
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                <Globe className="mr-2 h-4 w-4" /> Live Project
-              </a>
-            </Button>
-          )}
-
-          {showUnreachable && (
-            <div className="flex-1 min-w-[140px] flex items-center justify-center text-xs text-muted-foreground py-2 bg-muted/30 rounded border border-dashed h-9 px-2 text-center">
-              <CloudOff className="h-3 w-3 mr-2 shrink-0" />
-              <span>Site currently unreachable</span>
-            </div>
-          )}
-
-          {privateNote && (
-            <div className="flex-1 min-w-[140px] flex items-center justify-center text-xs text-muted-foreground py-2 bg-muted/30 rounded border border-dashed h-9 px-2 text-center cursor-not-allowed">
-              <Lock className="h-3 w-3 mr-2 shrink-0" />
-              <span>{privateNote}</span>
-            </div>
-          )}
+          <Suspense fallback={<div className="flex-1 min-w-[140px] h-9 rounded border border-dashed bg-muted/30 animate-pulse" />}>
+            <LiveLink project={project} />
+          </Suspense>
 
           {project.certificateId && (
             <ViewCertificateButton
