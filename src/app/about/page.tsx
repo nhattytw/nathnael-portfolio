@@ -14,22 +14,55 @@ import {
   Languages,
   Compass,
   MapPin,
+  Flame,
+  Lightbulb,
+  BookOpen,
+  Globe,
+  Mountain,
+  Fingerprint,
+
+  Handshake,
+  Coffee,
+  Rocket,
+  Users,
+  Sparkles,
+  Target,
+  Trophy,
+  Star,
 } from "lucide-react";
+import { AnimatedIcon } from "@/components/motion/animated-icon";
+import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
+import { AboutStory } from "@/components/about-story";
 import { generalData } from "@/lib/generalData";
 
 export const metadata: Metadata = { title: "About" };
+
+// One icon per story section, shown beside its number on wider screens.
+// Launching IIMCS, the biometric scanner work, and sitting with clients.
+const STORY_ICONS = [Rocket, Fingerprint, Handshake];
 
 export default function AboutPage() {
   const { about } = generalData;
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative isolate min-h-screen bg-background text-foreground">
       <Navigation />
+      <FloatingIcons
+        icons={[Lightbulb, BookOpen, Globe, Compass, Mountain, Rocket, Coffee, Languages]}
+        column="4xl"
+        className="top-16"
+      />
 
-      <SectionContainer className="pt-24 pb-16">
-        <div className="space-y-16 max-w-4xl mx-auto">
+      <SectionContainer className="pt-16 pb-12">
+        <div className="space-y-12 max-w-4xl mx-auto">
           {/* Header */}
-          <Reveal className="space-y-5">
+          <Reveal className="relative space-y-5">
+            <div className="absolute right-0 top-2 hidden lg:block">
+              <DecorIcons icons={[Lightbulb, Globe, BookOpen]} layout="cluster" />
+            </div>
+            <AnimatedIcon loop="pulse" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
+              <Flame className="h-5 w-5" />
+            </AnimatedIcon>
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
               About
             </p>
@@ -38,7 +71,7 @@ export default function AboutPage() {
             </h1>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground font-sans">
               <span className="flex items-center gap-1.5">
-                <MapPin className="h-4 w-4 text-primary" /> Addis Ababa, Ethiopia · Remote worldwide
+                <AnimatedIcon loop="bob"><MapPin className="h-4 w-4 text-primary" /></AnimatedIcon> Addis Ababa, Ethiopia · Remote worldwide
               </span>
               <span className="flex items-center gap-1.5">
                 <Languages className="h-4 w-4 text-primary" /> {generalData.languages.join(" · ")}
@@ -47,30 +80,18 @@ export default function AboutPage() {
           </Reveal>
 
           {/* Story */}
-          <div className="space-y-12">
-            {about.story.map((section, i) => (
-              <Reveal key={section.heading} className="grid md:grid-cols-[180px_1fr] gap-4 md:gap-10">
-                <div className="flex md:flex-col items-baseline md:items-start gap-3">
-                  <span className="font-mono text-sm text-primary">0{i + 1}</span>
-                  <h2 className="text-xl font-bold leading-snug">{section.heading}</h2>
-                </div>
-                <div className="space-y-4">
-                  {section.body.map((paragraph, j) => (
-                    <p key={j} className="text-lg leading-relaxed text-foreground/90">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <AboutStory
+            story={about.story}
+            icons={STORY_ICONS.map((Icon, i) => <Icon key={i} className="h-5 w-5" />)}
+          />
 
           <Separator />
 
           {/* How I work */}
           <Reveal className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <Compass className="h-6 w-6" /> How I work
+              <AnimatedIcon loop="wiggle"><Compass className="h-6 w-6" /></AnimatedIcon> How I work
+              <DecorIcons icons={[Users, Target, Sparkles]} className="ml-auto" />
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {about.principles.map((principle) => (
@@ -89,7 +110,8 @@ export default function AboutPage() {
           {/* Education (full width), then certifications */}
           <Reveal className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <GraduationCap className="h-6 w-6" /> Education
+              <AnimatedIcon loop="bob"><GraduationCap className="h-6 w-6" /></AnimatedIcon> Education
+              <DecorIcons icons={[BookOpen, Star, Lightbulb]} offset={2} className="ml-auto" />
             </h2>
             {about.education.map((edu) => (
               <SpotlightCard key={edu.degree} className="border-border/60 py-0" tilt={1.5}>
@@ -109,7 +131,8 @@ export default function AboutPage() {
 
           <Reveal className="space-y-6">
             <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <Award className="h-6 w-6" /> Certifications & Recognition
+              <AnimatedIcon loop="pulse"><Award className="h-6 w-6" /></AnimatedIcon> Certifications & Recognition
+              <DecorIcons icons={[Trophy, Star, Sparkles]} offset={4} className="ml-auto" />
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
               {about.certifications.map((cert) => (

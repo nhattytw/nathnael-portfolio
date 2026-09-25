@@ -2,19 +2,31 @@ import { Navigation } from "@/components/navigation";
 import { SectionContainer } from "@/components/section-container";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Github, MessageSquare, Send, AtSign, Handshake, Coffee } from "lucide-react";
+import { AnimatedIcon } from "@/components/motion/animated-icon";
+import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
 import { generalData } from "@/lib/generalData";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/motion/reveal";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative isolate min-h-screen bg-background text-foreground">
       <Navigation />
+      <FloatingIcons icons={[Mail, MessageSquare, AtSign, Handshake, Phone, Coffee]} column="4xl" className="top-16" />
 
-      <SectionContainer className="pt-32">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <div className="text-center space-y-6">
+      <SectionContainer className="pt-20 pb-12">
+        <div className="max-w-5xl mx-auto space-y-10">
+          <div className="relative text-center space-y-6">
+            <div className="absolute left-0 top-1/2 hidden -translate-y-1/2 lg:block">
+              <DecorIcons icons={[Mail, MessageSquare, AtSign]} layout="cluster" className="h-28 w-28" />
+            </div>
+            <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block">
+              <DecorIcons icons={[Phone, Handshake, Coffee]} layout="cluster" offset={2} className="h-28 w-28" />
+            </div>
+            <AnimatedIcon loop="wiggle" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
+              <Send className="h-5 w-5" />
+            </AnimatedIcon>
             <h1 className="text-4xl md:text-5xl font-bold">
               Let&apos;s Build Something
             </h1>
@@ -31,8 +43,10 @@ export default function ContactPage() {
                   Contact Information
                 </h3>
                 <div className="space-y-4">
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <Mail className="h-6 w-6 text-primary mt-1 shrink-0" />
+                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="wiggle" className="mt-1 shrink-0">
+                      <Mail className="h-6 w-6 text-primary" />
+                    </AnimatedIcon>
                     <div className="flex-1 space-y-1 min-w-0">
                       <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Email Address
@@ -46,8 +60,10 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <Phone className="h-6 w-6 text-primary mt-1 shrink-0" />
+                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="wiggle" className="mt-1 shrink-0">
+                      <Phone className="h-6 w-6 text-primary" />
+                    </AnimatedIcon>
                     <div className="space-y-1 min-w-0">
                       <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Phone Number
@@ -61,8 +77,10 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <MapPin className="h-6 w-6 text-primary mt-1 shrink-0" />
+                  <div className="group flex items-start gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
+                    <AnimatedIcon loop="bob" className="mt-1 shrink-0">
+                      <MapPin className="h-6 w-6 text-primary" />
+                    </AnimatedIcon>
                     <div className="space-y-1 min-w-0">
                       <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
                         Location

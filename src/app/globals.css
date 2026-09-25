@@ -249,12 +249,138 @@
   }
 }
 
+/* Living icons: slow, small loops. Kept subtle so they add life without pulling focus. */
+@keyframes icon-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes icon-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes icon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes icon-wiggle {
+  0%,
+  80%,
+  100% {
+    transform: rotate(0);
+  }
+  85% {
+    transform: rotate(-10deg);
+  }
+  90% {
+    transform: rotate(8deg);
+  }
+  95% {
+    transform: rotate(-4deg);
+  }
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-14px) rotate(6deg);
+  }
+}
+
+@keyframes icon-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(16px, -8px);
+  }
+  66% {
+    transform: translate(-10px, 6px);
+  }
+}
+
+@keyframes icon-sway {
+  0%,
+  100% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes icon-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.icon-spin {
+  animation: icon-spin 10s linear infinite;
+}
+.icon-spin-slow {
+  animation: icon-spin 36s linear infinite;
+}
+.icon-drift {
+  animation: icon-drift 14s ease-in-out infinite;
+}
+.icon-sway {
+  animation: icon-sway 7s ease-in-out infinite;
+}
+.icon-breathe {
+  animation: icon-breathe 6s ease-in-out infinite;
+}
+.icon-bob {
+  animation: icon-bob 3s ease-in-out infinite;
+}
+.icon-pulse {
+  animation: icon-pulse 2.8s ease-in-out infinite;
+}
+.icon-wiggle {
+  animation: icon-wiggle 4.5s ease-in-out infinite;
+}
+.icon-float {
+  animation: icon-float 8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-flow,
   .animate-caret,
   .animate-wave,
   .animate-wave-slow,
-  .project-target {
+  .project-target,
+  .icon-spin,
+  .icon-bob,
+  .icon-pulse,
+  .icon-wiggle,
+  .icon-float,
+  .icon-spin-slow,
+  .icon-drift,
+  .icon-sway,
+  .icon-breathe {
     animation: none;
   }
   .intro-overlay {

@@ -34,7 +34,7 @@ export function SectionWave({
   return (
     <div
       aria-hidden="true"
-      className={cn("relative h-16 md:h-24 overflow-hidden", flip && "-scale-x-100", className)}
+      className={cn("relative h-12 md:h-16 overflow-hidden", flip && "-scale-x-100", className)}
       style={{ background: from }}
     >
       <svg

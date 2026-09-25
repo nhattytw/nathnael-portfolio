@@ -17,20 +17,51 @@ import {
   Briefcase,
   ExternalLink,
   ArrowUpRight,
+  Building2,
+  TrendingUp,
+  Users,
+  Award,
+  Target,
+  GitMerge,
+  Handshake,
+  Presentation,
+  Calendar,
+  Rocket,
+  Sparkles,
+  Lightbulb,
+  type LucideIcon,
 } from "lucide-react";
+import { AnimatedIcon } from "@/components/motion/animated-icon";
+import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
 
 export const metadata: Metadata = { title: "Experience" };
 
+// Fill the empty end of each metrics row; sets rotate so neighbouring rows differ.
+const ROW_ICONS: LucideIcon[][] = [
+  [TrendingUp, Target, Sparkles],
+  [Award, Rocket, Users],
+  [Presentation, Lightbulb, GitMerge],
+  [Handshake, Calendar, Building2],
+];
+
 export default function ExperiencePage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative isolate min-h-screen bg-background text-foreground">
       <Navigation />
+      <FloatingIcons
+        icons={[Building2, TrendingUp, Users, Award, Target, GitMerge, Handshake, Presentation, Calendar, Rocket]}
+        column="4xl"
+        className="top-16"
+      />
 
-      <SectionContainer className="pt-24 pb-16">
-        <div className="space-y-12 max-w-4xl mx-auto">
+      <SectionContainer className="pt-16 pb-12">
+        <div className="space-y-10 max-w-4xl mx-auto">
           {/* Header with Resume Button */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div className="space-y-4">
+              <AnimatedIcon loop="wiggle" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
+                <Briefcase className="h-5 w-5" />
+              </AnimatedIcon>
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
                 Professional Experience
               </h1>
@@ -56,7 +87,7 @@ export default function ExperiencePage() {
           </div>
 
           <TimelineProgress>
-            {experienceData.map((company) => (
+            {experienceData.map((company, ci) => (
               <Reveal key={company.company} className="relative pl-8 md:pl-12">
                 <div className="absolute -left-[7px] top-2 h-3.5 w-3.5 rounded-full bg-primary ring-4 ring-background" />
 
@@ -87,7 +118,7 @@ export default function ExperiencePage() {
 
                 {/* Roles, newest first */}
                 <ol className="space-y-8 border-l border-dashed border-line/70 pl-5">
-                  {company.roles.map((role) => (
+                  {company.roles.map((role, ri) => (
                     <li key={`${role.title}-${role.period}`} className="relative space-y-4 font-sans">
                       <span className="absolute -left-[25px] top-2 h-2 w-2 rounded-full bg-line" />
                       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
@@ -116,6 +147,11 @@ export default function ExperiencePage() {
                               </span>
                             </div>
                           ))}
+                          <DecorIcons
+                            icons={ROW_ICONS[(ci + ri) % ROW_ICONS.length]}
+                            offset={ci + ri}
+                            className="ml-auto self-center pr-4"
+                          />
                         </div>
                       )}
 
@@ -150,7 +186,7 @@ export default function ExperiencePage() {
                 {company.projects && (
                   <div className="mt-6 space-y-2">
                     <p className="flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      <FolderGit2 className="h-4 w-4 text-primary" /> Projects delivered
+                      <AnimatedIcon loop="bob"><FolderGit2 className="h-4 w-4 text-primary" /></AnimatedIcon> Projects delivered
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {company.projects.map((id) => {

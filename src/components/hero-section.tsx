@@ -3,7 +3,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { ArrowRight, Command } from "lucide-react";
+import { ArrowRight, Command, Code2, Database, GitBranch, Terminal, Braces, Cpu } from "lucide-react";
+import { FloatingIcons } from "@/components/motion/floating-icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { generalData } from "@/lib/generalData";
@@ -107,6 +108,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
         }}
       >
         <div className="absolute inset-0 bg-dot-grid mask-fade-edges" />
+        <FloatingIcons icons={[Code2, Database, Terminal, GitBranch, Braces, Cpu]} column="4xl" className="top-16 bottom-24" />
         <motion.div
           className="absolute -top-32 -left-24 h-[28rem] w-[28rem] rounded-full blur-3xl"
           style={{ background: "var(--glow)" }}

@@ -11,7 +11,7 @@ export function TimelineProgress({ children }: { children: React.ReactNode }) {
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
   return (
-    <div ref={ref} className="relative ml-3 md:ml-6 space-y-12">
+    <div ref={ref} className="relative ml-3 md:ml-6 space-y-10">
       <div aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-px bg-border/50" />
       <motion.div
         aria-hidden="true"

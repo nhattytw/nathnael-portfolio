@@ -4,7 +4,9 @@ import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, useMotionValueEvent, useScroll, useSpring, useTransform } from "motion/react";
 import { IN_VIEW_MARGIN } from "@/components/motion/viewport";
-import { ArrowRight, Award, Code2, Rocket, Server, Trophy, Users, type LucideIcon } from "lucide-react";
+import { ArrowRight, Award, Code2, GitBranch, Rocket, Route, Server, Trophy, Users, type LucideIcon } from "lucide-react";
+import { AnimatedIcon } from "@/components/motion/animated-icon";
+import { DecorIcons } from "@/components/motion/floating-icons";
 import { cn } from "@/lib/utils";
 
 interface Milestone {
@@ -118,6 +120,15 @@ function MilestoneIcon({ m, isNow, size }: { m: Milestone; isNow: boolean; size:
 
 const NAV_H = 64;
 
+const HeadingIcon = () => (
+  <AnimatedIcon
+    loop="bob"
+    className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary"
+  >
+    <Route className="h-5 w-5" />
+  </AnimatedIcon>
+);
+
 const TimelineLink = () => (
   <Link
     href="/experience"
@@ -182,6 +193,7 @@ function HorizontalJourney() {
         <div ref={stickyRef} className="sticky flex items-center overflow-hidden" style={{ top: stickyTop }}>
           <div className="flex w-full items-center pl-[max(1rem,calc((100vw-72rem)/2+1rem))]">
             <div className="w-72 shrink-0 space-y-5 pr-8">
+              <HeadingIcon />
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{HEADING.eyebrow}</p>
               <h2 className="text-4xl font-bold tracking-tight">{HEADING.title}</h2>
               <p className="text-muted-foreground text-lg">{HEADING.subtitle}</p>
@@ -195,6 +207,7 @@ function HorizontalJourney() {
                 </motion.span>
               </div>
               <TimelineLink />
+              <DecorIcons icons={[Code2, GitBranch, Rocket]} offset={1} className="pt-6" />
             </div>
 
             {/* Runs off the right edge; the left edge fades so milestones slide out under the panel */}
@@ -243,6 +256,7 @@ function VerticalJourney() {
   return (
     <div className="container max-w-6xl mx-auto px-4 py-12 space-y-10">
       <div className="text-center space-y-4">
+        <HeadingIcon />
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">{HEADING.eyebrow}</p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight">{HEADING.title}</h2>
         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{HEADING.subtitle}</p>
