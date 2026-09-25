@@ -134,48 +134,47 @@ export default function ContactPage() {
                   </div>
                 </dl>
               </div>
-
-              <div className="mt-auto">
-                <h3 className="text-2xl font-semibold mb-4 text-primary">
-                  Professional Networks
-                </h3>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-12 w-full justify-start px-5 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                    asChild
-                  >
-                    <a
-                      href={generalData.socials.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="truncate"
-                    >
-                      <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
-                      LinkedIn Profile
-                    </a>
-                  </Button>
-
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="h-12 w-full justify-start px-5 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                    asChild
-                  >
-                    <a
-                      href={generalData.socials.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="truncate"
-                    >
-                      <Github className="h-5 w-5 mr-3 shrink-0" />
-                      GitHub Profile
-                    </a>
-                  </Button>
-                </div>
-              </div>
             </Card>
+          </div>
+
+          {/* Professional networks */}
+          <div className="space-y-4">
+            <h3 className="text-2xl font-semibold text-primary">Professional Networks</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-14 w-full justify-center px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
+                asChild
+              >
+                <a
+                  href={generalData.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate"
+                >
+                  <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
+                  LinkedIn Profile
+                </a>
+              </Button>
+
+              <Button
+                variant="outline"
+                size="lg"
+                className="h-14 w-full justify-center px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
+                asChild
+              >
+                <a
+                  href={generalData.socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="truncate"
+                >
+                  <Github className="h-5 w-5 mr-3 shrink-0" />
+                  GitHub Profile
+                </a>
+              </Button>
+            </div>
           </div>
 
           <Reveal>
