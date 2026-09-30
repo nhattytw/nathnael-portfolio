@@ -209,6 +209,17 @@
   animation: wave-drift 28s linear infinite reverse;
 }
 
+/* Hero stack ticker; the list is rendered twice, so -50% loops seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 34s linear infinite;
+}
+
 /* Projects reached from an /experience link briefly glow. */
 @keyframes target-glow {
   0%,
@@ -235,6 +246,35 @@
 @keyframes logo-pop {
   to {
     transform: scale(1);
+  }
+}
+
+/* Slow navigations: the bar creeps toward 90%, then fills and fades when the page arrives. */
+.nav-progress {
+  transform-origin: left;
+  animation: nav-progress-creep 8s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+}
+
+.nav-progress-done {
+  animation: nav-progress-finish 0.25s ease-out forwards;
+}
+
+@keyframes nav-progress-creep {
+  from {
+    transform: scaleX(0.05);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+@keyframes nav-progress-finish {
+  from {
+    transform: scaleX(0.9);
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0;
   }
 }
 
@@ -444,6 +484,7 @@
   .animate-caret,
   .animate-wave,
   .animate-wave-slow,
+  .animate-marquee,
   .project-target,
   .icon-spin,
   .icon-bob,

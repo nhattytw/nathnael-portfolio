@@ -11,8 +11,7 @@ import { CommandPaletteProvider } from "../components/command-palette";
 import { MotionProvider } from "../components/motion/motion-provider";
 import { IntroOverlay } from "../components/intro-overlay";
 import { CursorDot } from "../components/cursor-dot";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+import { NavProgress } from "../components/nav-progress";
 
 // Headings, numbers, and UI
 const fontRaleway = Raleway({
@@ -122,6 +121,7 @@ export default function RootLayout({
             <CertificateProvider>
               <CommandPaletteProvider>
                 <IntroOverlay />
+                <NavProgress />
                 <CursorDot />
                 <main className="flex-1">{children}</main>
                 <Footer />
@@ -131,9 +131,6 @@ export default function RootLayout({
           </MotionProvider>
           <Toaster />
         </ThemeProvider>
-
-        <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   );

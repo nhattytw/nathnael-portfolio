@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
  * corner into a packet on the bottom-right corner.
  * Colors come from theme tokens, so it adapts to light and dark mode.
  * With `animated`, the window, N, and trail draw in (used by the page intro).
+ * `pace` scales that animation's timing: 0.5 plays it twice as fast.
  */
 export const TRAIL = [
   { cx: 22, cy: 27, r: 0.6 },
@@ -18,10 +19,12 @@ export const PACKET = { cx: 42, cy: 50, r: 2.7, ring: 1.2 };
 export function Logo({
   className,
   animated = false,
+  pace = 1,
   title = "Nathnael Tesfaye Woldekidan",
 }: {
   className?: string;
   animated?: boolean;
+  pace?: number;
   title?: string;
 }) {
   const draw = (len: number, delay: number) =>
@@ -29,7 +32,7 @@ export function Logo({
       ? {
           strokeDasharray: len,
           strokeDashoffset: len,
-          animation: `logo-draw 0.7s cubic-bezier(.65,0,.35,1) ${delay}s forwards`,
+          animation: `logo-draw ${0.7 * pace}s cubic-bezier(.65,0,.35,1) ${delay * pace}s forwards`,
         }
       : undefined;
   const pop = (delay: number) =>
@@ -38,7 +41,7 @@ export function Logo({
           transformBox: "fill-box" as const,
           transformOrigin: "center",
           transform: "scale(0)",
-          animation: `logo-pop 0.35s cubic-bezier(.34,1.56,.64,1) ${delay}s forwards`,
+          animation: `logo-pop ${0.35 * pace}s cubic-bezier(.34,1.56,.64,1) ${delay * pace}s forwards`,
         }
       : undefined;
 

@@ -31,6 +31,33 @@ export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   assessment: "Technical Assessment",
 };
 
+/**
+ * Long-form write-up shown at /projects/[id]. Optional fields stay hidden
+ * until they're written, so the page never shows placeholder text.
+ */
+export interface CaseStudy {
+  /** Short facts for the header. */
+  role: string;
+  scope: string;
+  /** One sentence each for the featured row on /projects. */
+  summary: { role: string; outcome: string };
+  /** What the client needed. */
+  problem: string;
+  /** What made it hard (constraints, team, timeline). */
+  problemDetail?: string;
+  /** Caption under the architecture visual. */
+  visualCaption: { title: string; body: string };
+  decisions: {
+    title: string;
+    body: string;
+    /** Why it was done this way. */
+    detail?: string;
+  }[];
+  metrics: { value: string; label: string }[];
+  /** What I'd do differently next time. */
+  lessons?: string;
+}
+
 export interface Project {
   /** Anchor on /projects (e.g. /projects#yenecart). */
   id: string;
@@ -57,6 +84,8 @@ export interface Project {
   featured?: boolean;
   /** Certificate (generalData certificateId) shown via the protected viewer. */
   certificateId?: string;
+  /** Featured projects with a write-up get their own page at /projects/[id]. */
+  caseStudy?: CaseStudy;
 }
 
 export const projectData: Project[] = [
@@ -88,6 +117,35 @@ export const projectData: Project[] = [
     status: "Live",
     liveUrl: "https://ceo-web-project-v1-app.vercel.app/",
     featured: true,
+    caseStudy: {
+      role: "Founding engineer",
+      scope: "CRM, Inventory, International Trade",
+      summary: {
+        role: "Founding engineer. I own CRM, Inventory and International Trade end to end, from data model to UI.",
+        outcome: "Live for a US-based startup, with cross-module data flows and shared API structures.",
+      },
+      problem:
+        "A US-based startup needed one platform for CRM, international trade, fleet, inventory, accounting and finance, HRM and document signing, with modules that share the same data.",
+      visualCaption: {
+        title: "Seven modules, one platform",
+        body: "I own three of them from data model to UI, and designed the shared API structures that let modules exchange data.",
+      },
+      decisions: [
+        {
+          title: "A monorepo for many modules",
+          body: "All modules live in one monorepo on Next.js, Supabase and PostgreSQL.",
+        },
+        {
+          title: "Shared API structures",
+          body: "I designed cross-module data flows and shared API structures so modules stay interoperable.",
+        },
+      ],
+      metrics: [
+        { value: "3", label: "modules owned end to end" },
+        { value: "7", label: "modules in the platform" },
+        { value: "Live", label: "deployed on Vercel" },
+      ],
+    },
   },
   {
     id: "iimcs",
@@ -113,6 +171,34 @@ export const projectData: Project[] = [
     status: "Live · Restricted access",
     featured: true,
     certificateId: "iimcs",
+    caseStudy: {
+      role: "Engineer, from proposal to deployment",
+      scope: "Requirements, proposal, build, deployment",
+      summary: {
+        role: "Involved from requirements gathering and the proposal through to deployment.",
+        outcome: "Live for a regional public-sector organization, sign-in only with role-based permissions. Certificate of Recognition, May 2026.",
+      },
+      problem:
+        "A regional public-sector organization in South West Ethiopia needed a secure platform to manage its members and communicate with them.",
+      visualCaption: {
+        title: "Simplified view",
+        body: "Access is restricted to authorized users, so there are no public screenshots or links.",
+      },
+      decisions: [
+        {
+          title: "Sign-in only, with role-based permissions",
+          body: "There is no public access. Every user signs in and sees only what their role allows.",
+        },
+        {
+          title: "From proposal to production",
+          body: "I was involved from requirements gathering and the proposal through to deployment.",
+        },
+      ],
+      metrics: [
+        { value: "Live", label: "restricted to authorized users" },
+        { value: "May 2026", label: "Certificate of Recognition" },
+      ],
+    },
   },
   {
     id: "yenecart",
@@ -147,6 +233,38 @@ export const projectData: Project[] = [
     status: "Production",
     liveUrl: "https://yenecart.com",
     featured: true,
+    caseStudy: {
+      role: "Full ownership, concept to launch",
+      scope: "Architecture, build, infrastructure, payments",
+      summary: {
+        role: "Full ownership from concept to launch, across the product lifecycle.",
+        outcome: "300+ daily active users, 99.7% uptime, recurring billing through ArifPay.",
+      },
+      problem: "Baro Technologies wanted its own multi-tenant e-commerce SaaS, taken from concept to launch.",
+      visualCaption: {
+        title: "Hover or tap a component",
+        body: "See what each part of the production setup does.",
+      },
+      decisions: [
+        {
+          title: "Tenant isolation in MongoDB",
+          body: "A multi-tenant schema keeps each store's data isolated.",
+        },
+        {
+          title: "Two app containers behind Nginx",
+          body: "Nginx load-balances two Docker app containers, with MongoDB and MinIO in their own containers.",
+        },
+        {
+          title: "Payments that fail safely",
+          body: "ArifPay handles recurring billing, with webhooks and failure handling.",
+        },
+      ],
+      metrics: [
+        { value: "300+", label: "daily active users" },
+        { value: "99.7%", label: "uptime" },
+        { value: "2", label: "load-balanced app containers" },
+      ],
+    },
   },
   {
     id: "shibeshi-law-firm",

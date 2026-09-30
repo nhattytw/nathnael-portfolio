@@ -184,7 +184,7 @@ export default function ContactPage() {
                   Send a Message
                 </h3>
                 <p className="text-muted-foreground">
-                  This opens your email app with the message ready to send.
+                  Goes straight to my inbox. The panel shows the request as you type.
                 </p>
               </div>
               <ContactForm />

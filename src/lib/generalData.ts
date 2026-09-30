@@ -33,6 +33,21 @@ export const generalData = {
   title: "Senior Software Engineer",
   /** Typed out under the name in the hero, after the title badge. */
   roles: ["Senior Backend Engineer", "Founding Engineer", "Consultant & Trainer"],
+  /** Scrolls under the name in the hero. */
+  heroStack: [
+    "Node.js",
+    "PostgreSQL",
+    "Next.js",
+    "TypeScript",
+    "MongoDB",
+    "Docker",
+    "Nginx",
+    "Supabase",
+    "WebSockets",
+    "Express.js",
+    "React.js",
+    "Python",
+  ],
   /** One-line positioning used in the hero and terminal. */
   tagline: "I build software that people rely on day to day.",
   bio: "5+ years taking systems from idea to production: from HR platforms wired into biometric hardware, to a live public-sector platform, to a multi-module enterprise ERP where I'm a founding engineer.",

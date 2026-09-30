@@ -3,12 +3,11 @@
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useInView, useReducedMotion } from "motion/react";
-import { ArrowRight, Command, Code2, Database, GitBranch, Terminal, Braces, Cpu } from "lucide-react";
-import { FloatingIcons } from "@/components/motion/floating-icons";
+import { ArrowRight, Download } from "lucide-react";
+import { NetworkBackground } from "@/components/motion/network-background";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { generalData } from "@/lib/generalData";
-import { useCommandPalette } from "@/components/command-palette";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -52,8 +51,8 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
   // The entrance replays whenever the hero comes back into view, not just on load.
   const heroRef = useRef<HTMLElement>(null);
   const heroInView = useInView(heroRef, { amount: 0.6 });
+  const contentRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-  const palette = useCommandPalette();
   const role = useTypewriter(generalData.roles, !reduceMotion);
 
   useEffect(() => {
@@ -97,7 +96,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
 
   return (
     <div className="relative overflow-x-clip">
-      {/* Background: dot grid and soft aurora blobs. It spans
+      {/* Background: a quiet network that fades behind the text. It spans
           the hero and the wave below it, fading out under the wave. */}
       <div
         aria-hidden="true"
@@ -107,24 +106,11 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
           WebkitMaskImage: "linear-gradient(to bottom, black 0, black calc(100% - 8rem), transparent 100%)",
         }}
       >
-        <div className="absolute inset-0 bg-dot-grid mask-fade-edges" />
-        <FloatingIcons icons={[Code2, Database, Terminal, GitBranch, Braces, Cpu]} column="4xl" className="top-16 bottom-24" />
-        <motion.div
-          className="absolute -top-32 -left-24 h-[28rem] w-[28rem] rounded-full blur-3xl"
-          style={{ background: "var(--glow)" }}
-          animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -right-24 h-[32rem] w-[32rem] rounded-full blur-3xl"
-          style={{ background: "var(--glow)" }}
-          animate={{ x: [0, -50, 0], y: [0, -30, 0] }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <NetworkBackground contentRef={contentRef} className="absolute inset-0 h-full w-full mask-fade-edges" />
       </div>
 
       <section ref={heroRef} className="relative flex flex-col justify-center min-h-[calc(100vh-4rem)] pt-10 pb-32">
-        <div className="relative flex w-full flex-col items-center text-center space-y-8 max-w-4xl mx-auto z-10 px-4">
+        <div ref={contentRef} className="relative flex w-full flex-col items-center text-center space-y-7 max-w-4xl mx-auto z-10 px-4">
           <motion.div {...fadeUp(0)}>
             <Badge
               variant="outline"
@@ -139,7 +125,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
             </Badge>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-foreground">
+          <h1 className="text-4xl sm:text-5xl md:text-[3.25rem] font-bold tracking-tight text-foreground">
             <span className="block">
               {firstName.split(" ").map((word, i) => (
                 <motion.span
@@ -173,19 +159,17 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
             </span>
           </motion.div>
 
-          <motion.div {...fadeUp(0.6)} className="space-y-3 max-w-2xl mx-auto">
-            <p className="text-xl md:text-2xl text-foreground leading-relaxed">
-              {generalData.tagline}
-            </p>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              Based in Addis Ababa, working with teams worldwide on Node.js,
-              Next.js, PostgreSQL, and MongoDB.
-            </p>
+          <motion.p {...fadeUp(0.6)} className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground leading-relaxed">
+            Based in Addis Ababa, working with teams worldwide.
+          </motion.p>
+
+          <motion.div {...fadeUp(0.7)} className="w-full max-w-2xl">
+            <StackTicker items={generalData.heroStack} />
           </motion.div>
 
           <motion.div
-            {...fadeUp(0.75)}
-            className="flex flex-col sm:flex-row gap-4 pt-4"
+            {...fadeUp(0.8)}
+            className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4 pt-2"
           >
             <Button
               asChild
@@ -193,8 +177,7 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
               className="h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full shadow-lg shadow-primary/20 transition-transform hover:scale-105"
             >
               <Link href="/projects">
-                View Architecture & Projects{" "}
-                <ArrowRight className="ml-2 h-5 w-5" />
+                View My Work <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button
@@ -203,21 +186,16 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
               className="h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full border-2 hover:bg-secondary/50"
               asChild
             >
-              <Link href="/contact">Schedule a Discussion</Link>
+              <Link href="/contact">Get In Touch</Link>
             </Button>
+            <a
+              href={generalData.resume.href}
+              download={generalData.resume.downloadName}
+              className="inline-flex items-center gap-2 px-2 py-3 text-base font-semibold text-primary underline underline-offset-4 decoration-primary/40 transition-colors hover:decoration-primary"
+            >
+              <Download className="h-4 w-4" /> Résumé
+            </a>
           </motion.div>
-
-          <motion.button
-            {...fadeUp(0.9)}
-            onClick={palette.open}
-            className="hidden sm:inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-          >
-            Press
-            <kbd className="inline-flex items-center gap-1 rounded-md border border-border/60 bg-background/60 px-2 py-0.5 font-mono text-xs">
-              <Command className="h-3 w-3" />K
-            </kbd>
-            to explore, or open the terminal
-          </motion.button>
         </div>
 
         <motion.div {...fadeUp(1)} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
@@ -238,6 +216,35 @@ export function HeroSection({ children }: { children?: React.ReactNode }) {
         </motion.div>
       </section>
       {children}
+    </div>
+  );
+}
+
+/** The stack, scrolling slowly under the name. Pauses on hover. */
+function StackTicker({ items }: { items: string[] }) {
+  const chips = (hidden?: boolean) =>
+    items.map((item) => (
+      <li
+        key={item}
+        aria-hidden={hidden || undefined}
+        className="shrink-0 rounded-full border border-border bg-card/80 px-3 py-1 font-mono text-xs sm:text-sm text-foreground"
+      >
+        {item}
+      </li>
+    ));
+
+  return (
+    <div
+      className="group overflow-hidden"
+      style={{
+        maskImage: "linear-gradient(90deg, transparent, black 12%, black 88%, transparent)",
+        WebkitMaskImage: "linear-gradient(90deg, transparent, black 12%, black 88%, transparent)",
+      }}
+    >
+      <ul aria-label="Stack" className="flex w-max gap-2.5 animate-marquee group-hover:[animation-play-state:paused]">
+        {chips()}
+        {chips(true)}
+      </ul>
     </div>
   );
 }

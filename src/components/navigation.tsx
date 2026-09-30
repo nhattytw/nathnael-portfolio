@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { useCommandPalette } from "./command-palette";
 import { Logo } from "./logo";
+import { useModKey } from "@/hooks/use-mod-key";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -27,6 +28,9 @@ export function Navigation() {
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const palette = useCommandPalette();
+  const modKey = useModKey();
+  // Case study pages (/projects/yenecart) keep "Projects" highlighted.
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
     setMounted(true);
@@ -89,7 +93,7 @@ export function Navigation() {
                 href={item.href}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary relative group",
-                  pathname === item.href
+                  isActive(item.href)
                     ? "text-primary"
                     : "text-muted-foreground"
                 )}
@@ -98,7 +102,7 @@ export function Navigation() {
                 <span
                   className={cn(
                     "absolute -bottom-1 left-0 w-full h-0.5 bg-primary origin-left transition-transform duration-300 scale-x-0 group-hover:scale-x-100",
-                    pathname === item.href && "scale-x-100"
+                    isActive(item.href) && "scale-x-100"
                   )}
                 />
               </Link>
@@ -109,10 +113,10 @@ export function Navigation() {
             <button
               onClick={palette.open}
               className="flex items-center gap-1.5 rounded-full border border-border/60 px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-              title="Open command palette (Ctrl/⌘ + K)"
+              title={`Open command palette (${modKey} + K)`}
             >
-              <Command className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline font-mono">K</span>
+              <Command className="h-3.5 w-3.5 sm:hidden" />
+              <kbd className="hidden sm:inline font-mono">{modKey} K</kbd>
               <span className="sr-only">Open command palette</span>
             </button>
             <div className="hidden md:block">
@@ -150,7 +154,7 @@ export function Navigation() {
                 href={item.href}
                 className={cn(
                   "text-lg font-medium py-2 transition-colors border-b border-border/50 last:border-0",
-                  pathname === item.href
+                  isActive(item.href)
                     ? "text-primary"
                     : "text-muted-foreground"
                 )}

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Command } from "cmdk";
 import { toast } from "sonner";
+import { startNavProgress } from "@/components/nav-progress";
 import {
   Award,
   Briefcase,
@@ -66,11 +67,16 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
     action();
   };
 
+  const navigate = (href: string) => {
+    startNavProgress(href);
+    router.push(href);
+  };
+
   const goToSection = (id: string) => {
     if (window.location.pathname === "/") {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     } else {
-      router.push(`/#${id}`);
+      navigate(`/#${id}`);
     }
   };
 
@@ -125,11 +131,11 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
                 </Command.Empty>
 
                 <Command.Group heading="Navigate">
-                  <Item icon={Home} onSelect={() => run(() => router.push("/"))}>Home</Item>
-                  <Item icon={User} onSelect={() => run(() => router.push("/about"))}>About</Item>
-                  <Item icon={Briefcase} onSelect={() => run(() => router.push("/experience"))}>Experience</Item>
-                  <Item icon={FolderGit2} onSelect={() => run(() => router.push("/projects"))}>Projects</Item>
-                  <Item icon={Mail} onSelect={() => run(() => router.push("/contact"))}>Contact</Item>
+                  <Item icon={Home} onSelect={() => run(() => navigate("/"))}>Home</Item>
+                  <Item icon={User} onSelect={() => run(() => navigate("/about"))}>About</Item>
+                  <Item icon={Briefcase} onSelect={() => run(() => navigate("/experience"))}>Experience</Item>
+                  <Item icon={FolderGit2} onSelect={() => run(() => navigate("/projects"))}>Projects</Item>
+                  <Item icon={Mail} onSelect={() => run(() => navigate("/contact"))}>Contact</Item>
                 </Command.Group>
 
                 <Command.Group heading="Jump to">

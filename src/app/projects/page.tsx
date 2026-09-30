@@ -1,91 +1,50 @@
 import type { Metadata } from "next";
 import { Navigation } from "@/components/navigation";
-import { SectionContainer } from "@/components/section-container";
 import { projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
-import { ProjectCard } from "@/components/project-card";
 import { ProjectHashFocus } from "@/components/project-hash-focus";
 import { Reveal } from "@/components/motion/reveal";
-import { AnimatedIcon } from "@/components/motion/animated-icon";
-import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
-import {
-  Boxes,
-  Code2,
-  Coffee,
-  Database,
-  Fingerprint,
-  FolderGit2,
-  Globe,
-  LayoutDashboard,
-  Layers,
-  Package,
-  Rocket,
-  Scale,
-  ShoppingCart,
-  Sparkles,
-  Terminal,
-  GitBranch,
-} from "lucide-react";
+import { FeaturedProjects } from "@/components/projects/featured-projects";
+import { ProjectIndex } from "@/components/projects/project-index";
 
 export const revalidate = 1800; // Revalidate every 30 minutes
 
 export const metadata: Metadata = { title: "Projects" };
 
 export default function ProjectsPage() {
-  // Live checks stream in per card, so a slow site never blocks the page.
-  const projectsWithStatus = projectData.map((project) => ({
-    ...project,
-    isLive: project.liveUrl ? isSiteReachable(project.liveUrl) : Promise.resolve(false),
-  }));
+  // Live checks stream in per project, so a slow site never blocks the page.
+  const liveChecks = Object.fromEntries(
+    projectData.map((p) => [p.id, p.liveUrl ? isSiteReachable(p.liveUrl) : Promise.resolve(false)])
+  );
+  const featured = projectData.filter((p) => p.featured);
+  const others = projectData.filter((p) => !p.featured);
 
   return (
     <div className="relative isolate min-h-screen bg-background">
       <Navigation />
       <ProjectHashFocus />
-      <FloatingIcons
-        icons={[Rocket, Globe, Layers, Boxes, ShoppingCart, Scale, Coffee, Fingerprint, Database, LayoutDashboard, Package, Code2]}
-        column="6xl"
-        className="top-16"
-      />
 
-      <SectionContainer className="pt-16 pb-12 [&>div]:max-w-6xl">
-        <div className="space-y-10">
-          <div className="relative">
-            <div className="absolute left-0 top-1/2 hidden -translate-y-1/2 lg:block">
-              <DecorIcons icons={[Rocket, Code2, Sparkles]} layout="cluster" className="h-32 w-40" />
-            </div>
-            <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block">
-              <DecorIcons icons={[Terminal, GitBranch, Globe]} layout="cluster" offset={2} className="h-32 w-40" />
-            </div>
-            <div className="text-center space-y-4 max-w-3xl mx-auto">
-              <AnimatedIcon loop="bob" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
-                <FolderGit2 className="h-5 w-5" />
-              </AnimatedIcon>
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Projects
-              </h1>
-              <p className="text-xl text-muted-foreground">
-                Production systems, client work, and the tools and experiments
-                in between.
+      <div className="container mx-auto max-w-6xl space-y-14 px-4 pb-16 pt-14 md:pt-20">
+        <Reveal>
+          <header className="grid items-end gap-4 md:grid-cols-[1fr_minmax(0,24rem)]">
+            <div className="space-y-2">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
+                Work · {projectData.length} projects since 2021
               </p>
+              <h1 className="text-4xl font-bold tracking-tight md:text-6xl">Selected work</h1>
             </div>
-          </div>
+            <p className="text-lg text-muted-foreground">
+              Three systems in depth, then everything else in one index you can filter.
+            </p>
+          </header>
+        </Reveal>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {projectsWithStatus.map((project, index) => (
-              <div
-                key={project.id}
-                id={project.id}
-                className={`scroll-mt-24 ${project.featured ? "md:col-span-2" : ""}`}
-              >
-                <Reveal delay={(index % 2) * 0.08} className="h-full">
-                  <ProjectCard project={project} />
-                </Reveal>
-              </div>
-            ))}
-          </div>
-        </div>
-      </SectionContainer>
+        <FeaturedProjects projects={featured} liveChecks={liveChecks} />
+
+        <Reveal>
+          <ProjectIndex projects={others} liveChecks={liveChecks} />
+        </Reveal>
+      </div>
     </div>
   );
 }
