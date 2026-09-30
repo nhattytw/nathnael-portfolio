@@ -69,15 +69,15 @@ function Counter({ value, max, always }: { value: string; max: number; always?: 
 /** The request as it will be sent, rebuilt on every keystroke. */
 function RequestPreview({ values, reply }: { values: ContactValues; reply: ServerReply | null }) {
   const str = (v: string, fallback = "…") => <span className="text-[#f2d98a]">&quot;{v || fallback}&quot;</span>;
-  const key = (k: string) => <span className="text-[#88b0e0]">&quot;{k}&quot;</span>;
+  const key = (k: string) => <span className="text-[#ffa270]">&quot;{k}&quot;</span>;
   const message = values.message.trim();
   return (
     <pre
       aria-label="Preview of the request this form sends"
-      className="m-0 min-h-60 overflow-x-auto whitespace-pre-wrap break-words rounded-2xl border border-[#1f3a5f] bg-[#0a1626] p-5 font-mono text-[13px] leading-relaxed text-[#dfe8f5]"
+      className="m-0 overflow-x-auto whitespace-pre-wrap break-words rounded-xl border border-[#2b2b27] bg-[#141412] p-5 font-mono text-[13px] leading-relaxed text-[#e8e6df]"
     >
       <span className="text-[#8fd19e]">POST</span> /api/contact{"\n"}
-      <span className="text-[#8ea3c0]">Content-Type: application/json</span>
+      <span className="text-[#9d9b92]">Content-Type: application/json</span>
       {"\n\n{\n  "}
       {key("name")}: {str(values.name.trim())},{"\n  "}
       {key("email")}: {str(values.email.trim())},{"\n  "}
@@ -235,7 +235,7 @@ export function ContactForm() {
         onChange={(e) => update(name, e.target.value)}
         aria-invalid={Boolean(errors[name])}
         aria-describedby={errors[name] ? `contact-${name}-error` : undefined}
-        className="bg-muted/50 border-border"
+        className="h-11 bg-background border-border"
         disabled={sending}
       />
       {errors[name] && (
@@ -247,14 +247,14 @@ export function ContactForm() {
   );
 
   return (
-    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+    <div className="grid items-start gap-6">
       {TURNSTILE_SITE_KEY && (
         <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" onReady={renderCaptcha} />
       )}
 
       {sent ? (
-        <div className="space-y-3 rounded-2xl border-[1.5px] border-dashed border-primary bg-muted/30 p-6">
-          <h4 className="text-xl font-bold">Thanks, your message is on its way.</h4>
+        <div className="space-y-3 rounded-xl border border-live/40 bg-background p-6">
+          <h4 className="font-display text-3xl">Thanks, your message is on its way.</h4>
           <p className="text-muted-foreground">I&apos;ll reply to the email address you gave.</p>
           <button type="button" onClick={reset} className="font-semibold text-primary underline underline-offset-4">
             Send Another Message
@@ -305,7 +305,7 @@ export function ContactForm() {
               onChange={(e) => update("message", e.target.value)}
               aria-invalid={Boolean(errors.message)}
               aria-describedby={errors.message ? "contact-message-error" : undefined}
-              className="bg-muted/50 border-border resize-y min-h-32"
+              className="bg-background border-border resize-y min-h-36"
               disabled={sending}
             />
             {errors.message && (

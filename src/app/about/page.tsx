@@ -1,178 +1,121 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Navigation } from "@/components/navigation";
-import { SectionContainer } from "@/components/section-container";
-import { CardContent } from "@/components/ui/card";
-import { SpotlightCard } from "@/components/motion/spotlight-card";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { ContactBand, Container, PageHeader, SectionHeading } from "@/components/site/primitives";
 import { ViewCertificateButton } from "@/components/view-certificate-button";
-import { Separator } from "@/components/ui/separator";
-import {
-  GraduationCap,
-  Award,
-  ExternalLink,
-  Languages,
-  Compass,
-  MapPin,
-  Flame,
-  Lightbulb,
-  BookOpen,
-  Globe,
-  Mountain,
-  Fingerprint,
-
-  Handshake,
-  Coffee,
-  Rocket,
-  Users,
-  Sparkles,
-  Target,
-  Trophy,
-  Star,
-} from "lucide-react";
-import { AnimatedIcon } from "@/components/motion/animated-icon";
-import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
-import { AboutStory } from "@/components/about-story";
 import { generalData } from "@/lib/generalData";
 
 export const metadata: Metadata = { title: "About" };
-
-// One icon per story section, shown beside its number on wider screens.
-// Launching IIMCS, the biometric scanner work, and sitting with clients.
-const STORY_ICONS = [Rocket, Fingerprint, Handshake];
 
 export default function AboutPage() {
   const { about } = generalData;
 
   return (
-    <div className="relative isolate min-h-screen bg-background text-foreground">
-      <Navigation />
-      <FloatingIcons
-        icons={[Lightbulb, BookOpen, Globe, Compass, Mountain, Rocket, Coffee, Languages]}
-        column="4xl"
-        className="top-16"
+    <Container>
+      <PageHeader
+        eyebrow={`About · Addis Ababa, Ethiopia · ${generalData.languages.join(" & ")}`}
+        title={
+          <>
+            What <em className="text-primary">drives</em> me
+          </>
+        }
+        lead={generalData.bio}
       />
 
-      <SectionContainer className="pt-16 pb-12">
-        <div className="space-y-12 max-w-4xl mx-auto">
-          {/* Header */}
-          <Reveal className="relative space-y-5">
-            <div className="absolute right-0 top-2 hidden lg:block">
-              <DecorIcons icons={[Lightbulb, Globe, BookOpen]} layout="cluster" />
-            </div>
-            <AnimatedIcon loop="pulse" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
-              <Flame className="h-5 w-5" />
-            </AnimatedIcon>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
-              About
-            </p>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              What drives me
-            </h1>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground font-sans">
-              <span className="flex items-center gap-1.5">
-                <AnimatedIcon loop="bob"><MapPin className="h-4 w-4 text-primary" /></AnimatedIcon> Addis Ababa, Ethiopia · Remote worldwide
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Languages className="h-4 w-4 text-primary" /> {generalData.languages.join(" · ")}
-              </span>
-            </div>
+      {/* Story: three chapters, each with a big number and a heading in the margin */}
+      <div className="pt-10">
+        {about.story.map((chapter, i) => (
+          <Reveal key={chapter.heading}>
+            <section className="grid gap-4 border-t border-border py-10 md:grid-cols-[4rem_16rem_minmax(0,1fr)] md:gap-8">
+              <span className="font-display text-5xl leading-none text-primary">{i + 1}</span>
+              <h2 className="font-display text-3xl leading-tight tracking-tight">{chapter.heading}</h2>
+              <div className="max-w-[65ch] space-y-4 text-[17px] leading-relaxed">
+                {chapter.body.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+              </div>
+            </section>
           </Reveal>
+        ))}
+      </div>
 
-          {/* Story */}
-          <AboutStory
-            story={about.story}
-            icons={STORY_ICONS.map((Icon, i) => <Icon key={i} className="h-5 w-5" />)}
-          />
+      {/* Principles */}
+      <div className="pt-16">
+        <SectionHeading index="How I work" title="Four habits I keep" />
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
+          {about.principles.map((p, i) => (
+            <Reveal key={p.title} delay={(i % 2) * 0.08} className="h-full">
+              <div className="h-full space-y-2 bg-card p-7">
+                <p className="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="text-xl font-semibold">{p.title}</h3>
+                <p className="text-muted-foreground">{p.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
 
-          <Separator />
+      {/* Education and certifications */}
+      <div className="grid gap-16 pt-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+        <div>
+          <SectionHeading index="Education" title="Studied" />
+          {about.education.map((edu) => (
+            <Reveal key={edu.degree}>
+              <div className="space-y-1 py-6">
+                <p className="font-mono text-xs text-muted-foreground">{edu.year}</p>
+                <h3 className="text-lg font-semibold">{edu.degree}</h3>
+                <p className="text-muted-foreground">{edu.institution}</p>
+                <p className="text-sm text-muted-foreground">{edu.location}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
 
-          {/* How I work */}
-          <Reveal className="space-y-6">
-            <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <AnimatedIcon loop="wiggle"><Compass className="h-6 w-6" /></AnimatedIcon> How I work
-              <DecorIcons icons={[Users, Target, Sparkles]} className="ml-auto" />
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {about.principles.map((principle) => (
-                <SpotlightCard key={principle.title} className="border-border/60 py-0">
-                  <CardContent className="p-6 space-y-2">
-                    <h3 className="font-bold text-lg">{principle.title}</h3>
-                    <p className="text-muted-foreground leading-relaxed">{principle.body}</p>
-                  </CardContent>
-                </SpotlightCard>
-              ))}
-            </div>
-          </Reveal>
-
-          <Separator />
-
-          {/* Education (full width), then certifications */}
-          <Reveal className="space-y-6">
-            <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <AnimatedIcon loop="bob"><GraduationCap className="h-6 w-6" /></AnimatedIcon> Education
-              <DecorIcons icons={[BookOpen, Star, Lightbulb]} offset={2} className="ml-auto" />
-            </h2>
-            {about.education.map((edu) => (
-              <SpotlightCard key={edu.degree} className="border-border/60 py-0" tilt={1.5}>
-                <CardContent className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="space-y-1">
-                    <h3 className="font-bold text-lg">{edu.degree}</h3>
-                    <p className="text-primary font-sans font-medium">{edu.institution}</p>
-                  </div>
-                  <div className="text-sm text-muted-foreground sm:text-right font-sans">
-                    <div>{edu.location}</div>
-                    {edu.year && <div className="font-mono">{edu.year}</div>}
-                  </div>
-                </CardContent>
-              </SpotlightCard>
-            ))}
-          </Reveal>
-
-          <Reveal className="space-y-6">
-            <h2 className="text-2xl font-bold flex items-center gap-2 text-primary">
-              <AnimatedIcon loop="pulse"><Award className="h-6 w-6" /></AnimatedIcon> Certifications & Recognition
-              <DecorIcons icons={[Trophy, Star, Sparkles]} offset={4} className="ml-auto" />
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {about.certifications.map((cert) => (
-                <SpotlightCard
-                  key={cert.name}
-                  className={`py-0 ${cert.recognition ? "border-primary/50 sm:col-span-2" : "border-border/60"}`}
-                  tilt={cert.recognition ? 1 : 3}
-                >
-                  <CardContent className="p-5 space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="font-bold leading-snug">{cert.name}</h3>
+        <div>
+          <SectionHeading index="Certifications & recognition" title="Recognised" />
+          <ul className="divide-y divide-border">
+            {about.certifications.map((cert) => (
+              <li key={cert.name}>
+                <Reveal y={16}>
+                  <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 py-5">
+                    <div className="min-w-0 max-w-xl space-y-1">
                       {cert.recognition && (
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
-                          Verified recognition
+                        <span className="inline-block rounded-full bg-primary px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-primary-foreground">
+                          Recognition
                         </span>
                       )}
+                      <h3 className="font-medium leading-snug">{cert.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {cert.issuer}
+                        {cert.date && ` · ${cert.date}`}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {cert.issuer}
-                      {cert.date && ` · ${cert.date}`}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      {cert.certificateId && <ViewCertificateButton certificateId={cert.certificateId} />}
+                    <div className="flex flex-wrap gap-2">
+                      {cert.certificateId && (
+                        <ViewCertificateButton certificateId={cert.certificateId} label="View" className="h-8 rounded-full px-3 text-sm" />
+                      )}
                       {cert.link && (
-                        <Link
+                        <a
                           href={cert.link}
                           target="_blank"
-                          className="inline-flex items-center text-xs font-medium text-primary border border-primary/40 px-2 py-0.5 rounded-md hover:bg-primary/10 transition-colors"
+                          rel="noopener noreferrer"
+                          className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-3 text-sm hover:border-foreground/40"
                         >
-                          Verify <ExternalLink className="ml-1 h-3 w-3" />
-                        </Link>
+                          Verify <ArrowUpRight className="h-3.5 w-3.5" />
+                        </a>
                       )}
                     </div>
-                  </CardContent>
-                </SpotlightCard>
-              ))}
-            </div>
-          </Reveal>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
-      </SectionContainer>
-    </div>
+      </div>
+
+      <div className="pt-20">
+        <ContactBand title="Sound like a fit for your team?" />
+      </div>
+    </Container>
   );
 }

@@ -12,7 +12,7 @@ interface StatusPillProps {
   className?: string;
 }
 
-const base = "inline-flex items-center gap-1.5 font-mono text-xs whitespace-nowrap";
+const base = "inline-flex items-center gap-2 font-mono text-xs whitespace-nowrap";
 
 function Status({ project, isLive, className }: StatusPillProps) {
   const live = use(isLive);
@@ -27,7 +27,7 @@ function Status({ project, isLive, className }: StatusPillProps) {
     // A site that doesn't answer is shown as delivered rather than live.
     return live ? (
       <span className={cn(base, "text-live", className)}>
-        <span className="h-1.5 w-1.5 rounded-full bg-live" /> {project.status}
+        <span className="live-dot" /> {project.status}
       </span>
     ) : (
       <span className={cn(base, "text-muted-foreground", className)}>

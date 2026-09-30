@@ -1,46 +1,44 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import { Raleway, Lora, Fira_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "../components/theme-provider";
-import { Toaster } from "../components/ui/sonner";
-import { Footer } from "../components/footer";
-import { BackToTop } from "../components/back-to-top";
-import { CertificateProvider } from "../components/protected-certificate";
-import { CommandPaletteProvider } from "../components/command-palette";
-import { MotionProvider } from "../components/motion/motion-provider";
-import { IntroOverlay } from "../components/intro-overlay";
-import { CursorDot } from "../components/cursor-dot";
-import { NavProgress } from "../components/nav-progress";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { CertificateProvider } from "@/components/protected-certificate";
+import { MotionProvider } from "@/components/motion/motion-provider";
+import { NavProgress } from "@/components/nav-progress";
+import { SiteHeader } from "@/components/site/header";
+import { SiteFooter } from "@/components/site/footer";
 
-// Headings, numbers, and UI
-const fontRaleway = Raleway({
+// Interface and reading text
+const fontSans = Geist({
   subsets: ["latin"],
-  variable: "--font-raleway",
+  variable: "--font-geist",
   display: "swap",
 });
 
-// Reading text
-const fontLora = Lora({
+// Display headings
+const fontDisplay = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-lora",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
 
-// Terminal and code-style labels
-const fontMono = Fira_Mono({
+// Labels, data and status lines
+const fontMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  variable: "--font-fira-mono",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
-const BASE_URL = "https://nathnael-portfolio-wine.vercel.app/";
+const BASE_URL = "https://nathnaeltw.pro.et/";
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#faf0ca" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1b30" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f2ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f0e" },
   ],
 };
 
@@ -84,49 +82,29 @@ export const metadata: Metadata = {
     title: "Nathnael Tesfaye Woldekidan | Senior Software Engineer",
     description:
       "I build software that people rely on day to day: an enterprise ERP, a public-sector platform, and SaaS used by 300+ people daily.",
-    siteName: "Nathnael's Portfolio",
+    siteName: "Nathnael Tesfaye",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fontRaleway.variable} ${fontLora.variable} ${fontMono.variable}`}
+      className={`${fontSans.variable} ${fontDisplay.variable} ${fontMono.variable}`}
     >
-      <body className="antialiased min-h-screen flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className="flex min-h-screen flex-col antialiased">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <MotionProvider>
             <CertificateProvider>
-              <CommandPaletteProvider>
-                <IntroOverlay />
-                <NavProgress />
-                <CursorDot />
-                <main className="flex-1">{children}</main>
-                <Footer />
-                <BackToTop />
-              </CommandPaletteProvider>
+              <NavProgress />
+              <SiteHeader />
+              <main className="flex-1">{children}</main>
+              <SiteFooter />
             </CertificateProvider>
           </MotionProvider>
           <Toaster />

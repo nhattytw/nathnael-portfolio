@@ -1,197 +1,90 @@
-import { Navigation } from "@/components/navigation";
-import { SectionContainer } from "@/components/section-container";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Linkedin, Github, MessageSquare, Send, AtSign, Handshake, Coffee } from "lucide-react";
-import { AnimatedIcon } from "@/components/motion/animated-icon";
-import { DecorIcons, FloatingIcons } from "@/components/motion/floating-icons";
-import { generalData } from "@/lib/generalData";
+import type { Metadata } from "next";
+import { ArrowUpRight } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/motion/reveal";
+import { Container, PageHeader, ResumeButton } from "@/components/site/primitives";
+import { generalData } from "@/lib/generalData";
+
+export const metadata: Metadata = { title: "Contact" };
 
 export default function ContactPage() {
+  const { contact, socials, availability } = generalData;
+  const channels = [
+    { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
+    { label: "Phone", value: contact.phone, href: `tel:${contact.phone}` },
+    { label: "LinkedIn", value: "in/nathnael-woldekidan", href: socials.linkedin },
+    { label: "GitHub", value: "github.com/nhattytw", href: socials.github },
+  ];
+
   return (
-    <div className="relative isolate min-h-screen bg-background text-foreground">
-      <Navigation />
-      <FloatingIcons icons={[Mail, MessageSquare, AtSign, Handshake, Phone, Coffee]} column="4xl" className="top-16" />
+    <Container>
+      <PageHeader
+        eyebrow="Contact"
+        title={
+          <>
+            Let&apos;s build <em className="text-primary">something</em>
+          </>
+        }
+        lead="Tell me about the role or the product. I usually reply within a day or two."
+      />
 
-      <SectionContainer className="pt-20 pb-12">
-        <div className="max-w-5xl mx-auto space-y-10">
-          <div className="relative text-center space-y-6">
-            <div className="absolute left-0 top-1/2 hidden -translate-y-1/2 lg:block">
-              <DecorIcons icons={[Mail, MessageSquare, AtSign]} layout="cluster" className="h-28 w-28" />
+      <div className="grid gap-12 pt-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+        <Reveal>
+          <section aria-labelledby="form-heading" className="space-y-6 rounded-2xl border border-border bg-card p-6 md:p-8">
+            <div className="space-y-1">
+              <h2 id="form-heading" className="font-display text-3xl tracking-tight">
+                Send a message
+              </h2>
+              <p className="text-sm text-muted-foreground">
+                Goes straight to my inbox. The panel shows the request as you type.
+              </p>
             </div>
-            <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block">
-              <DecorIcons icons={[Phone, Handshake, Coffee]} layout="cluster" offset={2} className="h-28 w-28" />
+            <ContactForm />
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <aside className="space-y-10">
+            <div className="space-y-3">
+              <p className="inline-flex items-center gap-2 font-mono text-xs text-foreground">
+                <span className="live-dot" /> Available now
+              </p>
+              <p className="text-muted-foreground">{availability.interests}</p>
+              <ul className="space-y-1 text-sm">
+                <li>{availability.roles.join(" · ")}</li>
+                {availability.workplaces.map((w) => (
+                  <li key={w.label} className="text-muted-foreground">
+                    {w.label}, {w.detail}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <AnimatedIcon loop="wiggle" className="h-11 w-11 items-center justify-center rounded-full border-2 border-primary text-primary">
-              <Send className="h-5 w-5" />
-            </AnimatedIcon>
-            <h1 className="text-4xl md:text-5xl font-bold">
-              Let&apos;s Build Something
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Tell me about the role or the product. I usually reply within a
-              day or two.
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="h-full p-8 gap-6 bg-card border-border/50">
-              <div className="flex flex-1 flex-col">
-                <h3 className="text-2xl font-semibold mb-6 text-primary">
-                  Contact Information
-                </h3>
-                <div className="flex flex-1 flex-col gap-4">
-                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="wiggle" className="shrink-0">
-                      <Mail className="h-6 w-6 text-primary" />
-                    </AnimatedIcon>
-                    <div className="flex-1 space-y-1 min-w-0">
-                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
-                        Email Address
-                      </p>
-                      <a
-                        href={`mailto:${generalData.contact.email}`}
-                        className="text-lg font-medium hover:text-primary transition-colors block truncate"
-                      >
-                        {generalData.contact.email}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="wiggle" className="shrink-0">
-                      <Phone className="h-6 w-6 text-primary" />
-                    </AnimatedIcon>
-                    <div className="space-y-1 min-w-0">
-                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
-                        Phone Number
-                      </p>
-                      <a
-                        href={`tel:${generalData.contact.phone}`}
-                        className="text-lg font-medium hover:text-primary transition-colors block truncate"
-                      >
-                        {generalData.contact.phone}
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="group flex flex-1 items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors border border-transparent hover:border-primary/10">
-                    <AnimatedIcon loop="bob" className="shrink-0">
-                      <MapPin className="h-6 w-6 text-primary" />
-                    </AnimatedIcon>
-                    <div className="space-y-1 min-w-0">
-                      <p className="font-sans font-medium text-sm text-muted-foreground uppercase tracking-wide">
-                        Location
-                      </p>
-                      <p className="text-lg font-medium truncate">
-                        Addis Ababa, Ethiopia
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Open to remote work worldwide
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="h-full p-8 gap-8 bg-card border-border/50">
-              <div className="space-y-6">
-                <h3 className="text-2xl font-semibold text-primary">
-                  Availability
-                </h3>
-                <p className="text-lg leading-relaxed text-foreground/90 text-pretty md:text-justify md:hyphens-auto">
-                  {generalData.availability.interests}
-                </p>
-                <dl className="space-y-5 font-sans">
-                  <div className="space-y-2">
-                    <dt className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                      Employment
-                    </dt>
-                    <dd className="flex flex-wrap gap-2">
-                      {generalData.availability.roles.map((role) => (
-                        <span
-                          key={role}
-                          className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-sm font-medium"
-                        >
-                          {role}
-                        </span>
-                      ))}
-                    </dd>
-                  </div>
-                  <div className="space-y-2">
-                    <dt className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                      Where
-                    </dt>
-                    {generalData.availability.workplaces.map((place) => (
-                      <dd key={place.label} className="flex items-baseline gap-2">
-                        <span className="font-semibold">{place.label}</span>
-                        <span className="text-muted-foreground">· {place.detail}</span>
-                      </dd>
-                    ))}
-                  </div>
-                </dl>
-              </div>
-            </Card>
-          </div>
-
-          {/* Professional networks */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-semibold text-primary">Professional Networks</h3>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-14 w-full justify-center px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                asChild
-              >
-                <a
-                  href={generalData.socials.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="truncate"
-                >
-                  <Linkedin className="h-5 w-5 mr-3 text-[#0077b5] shrink-0" />
-                  LinkedIn Profile
-                </a>
-              </Button>
-
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-14 w-full justify-center px-6 text-base font-medium border-primary/20 bg-secondary/10 hover:bg-secondary/30 hover:text-primary hover:border-primary/50 transition-all shadow-sm"
-                asChild
-              >
-                <a
-                  href={generalData.socials.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="truncate"
-                >
-                  <Github className="h-5 w-5 mr-3 shrink-0" />
-                  GitHub Profile
-                </a>
-              </Button>
+            <div>
+              <p className="label mb-2">Or reach me directly</p>
+              <ul className="divide-y divide-border border-y border-border">
+                {channels.map((c) => (
+                  <li key={c.label}>
+                    <a
+                      href={c.href}
+                      {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className="group flex items-center justify-between gap-3 py-3"
+                    >
+                      <span className="min-w-0">
+                        <span className="block text-xs text-muted-foreground">{c.label}</span>
+                        <span className="block truncate text-[15px] group-hover:text-primary">{c.value}</span>
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
 
-          <Reveal>
-            <Card className="p-8 space-y-6 bg-card border-border/50">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-semibold text-primary">
-                  Send a Message
-                </h3>
-                <p className="text-muted-foreground">
-                  Goes straight to my inbox. The panel shows the request as you type.
-                </p>
-              </div>
-              <ContactForm />
-            </Card>
-          </Reveal>
-        </div>
-      </SectionContainer>
-    </div>
+            <ResumeButton className="w-full" />
+          </aside>
+        </Reveal>
+      </div>
+    </Container>
   );
 }
