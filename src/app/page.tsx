@@ -137,7 +137,7 @@ export default function HomePage() {
       </Container>
 
       <Container className="pt-24">
-        <ContactBand />
+        <ContactBand title="Building something ambitious?" />
       </Container>
     </>
   );

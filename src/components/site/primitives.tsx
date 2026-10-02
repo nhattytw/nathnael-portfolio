@@ -87,14 +87,15 @@ export function ContactBand({ title = "Have a role or a project in mind?" }: { t
   return (
     <Reveal>
       <section className="overflow-hidden rounded-2xl bg-foreground text-background">
-        <div className="grid gap-8 p-8 md:grid-cols-[1.5fr_1fr] md:items-end md:p-12">
-          <div className="space-y-4">
+        <div className="grid gap-x-8 gap-y-6 p-8 md:grid-cols-[1.5fr_1fr] md:items-end md:p-12">
+          {/* The title spans both columns so it has room to sit on one line. */}
+          <div className="space-y-4 md:col-span-2">
             <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] opacity-70">
               <span className="live-dot" /> Open to {availability.roles.join(", ").toLowerCase()} work
             </p>
-            <h2 className="font-display text-4xl leading-[1.05] tracking-tight md:text-6xl">{title}</h2>
-            <p className="max-w-lg opacity-75">{availability.interests}</p>
+            <h2 className="font-display text-4xl leading-[1.05] tracking-tight md:text-5xl lg:text-6xl">{title}</h2>
           </div>
+          <p className="max-w-lg opacity-75">{availability.interests}</p>
           <div className="flex flex-col gap-3 md:items-end">
             <PrimaryButton href="/contact" className="md:w-64">
               Send a message
