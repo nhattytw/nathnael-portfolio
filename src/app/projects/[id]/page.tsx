@@ -11,7 +11,7 @@ import { ViewCertificateButton } from "@/components/view-certificate-button";
 import { CATEGORY_LABELS, projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
 
-export const revalidate = 1800;
+export const revalidate = 900;
 export const dynamicParams = false;
 
 const caseStudies = projectData.filter((p) => p.caseStudy);
@@ -146,50 +146,48 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
           </span>
         </div>
 
-        <Reveal>
-          <header className="space-y-6">
-            <p className="label">
-              {[CATEGORY_LABELS[project.category], project.company, project.period].filter(Boolean).join(" · ")}
-            </p>
-            <h1 className="font-display text-6xl leading-[0.95] tracking-tight md:text-8xl">{project.title}</h1>
-            <p className="max-w-2xl text-xl text-muted-foreground">{project.subtitle}</p>
-            <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-y border-border py-5 md:grid-cols-4">
-              {facts.map((f) => (
-                <div key={f.label}>
-                  <dt className="label">{f.label}</dt>
-                  <dd className="mt-1.5 text-[15px]">{f.value}</dd>
-                </div>
-              ))}
-              <div>
-                <dt className="label">Status</dt>
-                <dd className="mt-1.5">
-                  <StatusPill project={project} isLive={isLive} />
-                </dd>
+        <header className="space-y-6">
+          <p className="label">
+            {[CATEGORY_LABELS[project.category], project.company, project.period].filter(Boolean).join(" · ")}
+          </p>
+          <h1 className="font-display text-6xl leading-[0.95] tracking-tight md:text-8xl">{project.title}</h1>
+          <p className="max-w-2xl text-xl text-muted-foreground">{project.subtitle}</p>
+          <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-y border-border py-5 md:grid-cols-4">
+            {facts.map((f) => (
+              <div key={f.label}>
+                <dt className="label">{f.label}</dt>
+                <dd className="mt-1.5 text-[15px]">{f.value}</dd>
               </div>
-            </dl>
-            {(project.liveUrl || project.certificateId) && (
-              <div className="flex flex-wrap items-center gap-3">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
-                  >
-                    <Globe className="h-4 w-4" /> {host(project.liveUrl)}
-                  </a>
-                )}
-                {project.certificateId && (
-                  <ViewCertificateButton
-                    certificateId={project.certificateId}
-                    label="View certificate"
-                    className="h-9 rounded-full px-4 text-sm"
-                  />
-                )}
-              </div>
-            )}
-          </header>
-        </Reveal>
+            ))}
+            <div>
+              <dt className="label">Status</dt>
+              <dd className="mt-1.5">
+                <StatusPill project={project} isLive={isLive} />
+              </dd>
+            </div>
+          </dl>
+          {(project.liveUrl || project.certificateId) && (
+            <div className="flex flex-wrap items-center gap-3">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
+                >
+                  <Globe className="h-4 w-4" /> {host(project.liveUrl)}
+                </a>
+              )}
+              {project.certificateId && (
+                <ViewCertificateButton
+                  certificateId={project.certificateId}
+                  label="View certificate"
+                  className="h-9 rounded-full px-4 text-sm"
+                />
+              )}
+            </div>
+          )}
+        </header>
 
         <Reveal>
           <CaseStudyVisual id={project.id} caption={study.visualCaption} />

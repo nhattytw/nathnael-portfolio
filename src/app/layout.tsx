@@ -9,6 +9,7 @@ import { MotionProvider } from "@/components/motion/motion-provider";
 import { NavProgress } from "@/components/nav-progress";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
+import { SITE_URL } from "@/lib/site";
 
 // Interface and reading text
 const fontSans = Geist({
@@ -33,7 +34,7 @@ const fontMono = Geist_Mono({
   display: "swap",
 });
 
-const BASE_URL = "https://nathnaeltw.pro.et/";
+const BASE_URL = `${SITE_URL}/`;
 
 export const viewport: Viewport = {
   themeColor: [

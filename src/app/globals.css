@@ -4,7 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * "Status page" design: warm paper and ink, one signal-orange accent, and green
+ * "Status page" design: warm paper and ink, one textile-blue accent, and green
  * kept for things that are actually live in production.
  */
 :root {
@@ -17,8 +17,8 @@
   --popover: #fbfaf6;
   --popover-foreground: #151513;
 
-  --primary: #c2410c;
-  --primary-foreground: #fffaf5;
+  --primary: #2e6cba;
+  --primary-foreground: #fbfaf6;
 
   --secondary: #ebe8df;
   --secondary-foreground: #151513;
@@ -34,7 +34,7 @@
 
   --border: #dcd8cc;
   --input: #d2cec1;
-  --ring: #c2410c;
+  --ring: #2e6cba;
 
   /* Diagram lines and live status */
   --line: #b9b4a5;
@@ -53,8 +53,8 @@
   --popover: #1b1b19;
   --popover-foreground: #edebe4;
 
-  --primary: #ff7a3d;
-  --primary-foreground: #1a0d05;
+  --primary: #88b0e0;
+  --primary-foreground: #0f0f0e;
 
   --secondary: #1d1d1b;
   --secondary-foreground: #edebe4;
@@ -66,11 +66,11 @@
   --accent-foreground: #edebe4;
 
   --destructive: #f97066;
-  --destructive-foreground: #1a0d05;
+  --destructive-foreground: #0f0f0e;
 
   --border: #2b2b27;
   --input: #34342f;
-  --ring: #ff7a3d;
+  --ring: #88b0e0;
 
   --line: #4a4943;
   --live: #4ade80;
@@ -133,7 +133,7 @@
 @layer utilities {
   /* Small uppercase label for section eyebrows and table headers. */
   .label {
-    @apply font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground;
+    @apply font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground;
   }
 }
 
@@ -238,6 +238,62 @@
   max-width: min(220px, 100%);
 }
 
+/* 404: the zero's ring draws in, its centre blinks, the missing page flickers. */
+@keyframes nf-ring-draw {
+  from {
+    stroke-dashoffset: 88;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.nf-ring {
+  animation: nf-ring-draw 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes nf-blink {
+  0%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+  70%,
+  90% {
+    opacity: 0.15;
+  }
+}
+
+.nf-blink {
+  animation: nf-blink 2.4s ease-in-out infinite;
+}
+
+@keyframes nf-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+  53% {
+    opacity: 0.9;
+  }
+  55% {
+    opacity: 0.4;
+  }
+  58% {
+    opacity: 1;
+  }
+}
+
+.nf-flicker {
+  animation: nf-flicker 3.2s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -245,7 +301,10 @@
   .live-dot::after,
   .animate-flow,
   .nav-progress,
-  .project-target {
+  .project-target,
+  .nf-ring,
+  .nf-blink,
+  .nf-flicker {
     animation: none;
   }
 }

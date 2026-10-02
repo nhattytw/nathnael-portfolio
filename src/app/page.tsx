@@ -14,7 +14,7 @@ import { generalData } from "@/lib/generalData";
 import { projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
 
-export const revalidate = 1800;
+export const revalidate = 900;
 
 export default function HomePage() {
   const featured = projectData.filter((p) => p.featured);
@@ -26,9 +26,9 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero */}
+      {/* Hero: rendered without scroll reveals so it shows before JavaScript loads. */}
       <Container className="grid items-center gap-12 pb-20 pt-12 md:pt-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
-        <Reveal className="space-y-7">
+        <div className="space-y-7">
           <p className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
             <span className="live-dot" />
             <span className="text-foreground">Available for new roles</span>
@@ -62,11 +62,11 @@ export default function HomePage() {
               GitHub ↗
             </a>
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal delay={0.15}>
+        <div>
           <StatusBoard projects={featured} liveChecks={liveChecks} />
-        </Reveal>
+        </div>
       </Container>
 
       {/* Numbers */}

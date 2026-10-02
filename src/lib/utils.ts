@@ -63,7 +63,7 @@ async function checkSiteReachable(url: string): Promise<boolean> {
   }
 }
 
-/** Cached for 30 minutes so a slow or down site doesn't stall every request. */
+/** Cached for 15 minutes so a slow or down site doesn't stall every request. */
 export const isSiteReachable = unstable_cache(checkSiteReachable, ["site-reachable"], {
-  revalidate: 1800,
+  revalidate: 900,
 });

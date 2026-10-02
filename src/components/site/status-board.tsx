@@ -3,13 +3,6 @@ import { ArrowUpRight } from "lucide-react";
 import { StatusPill } from "@/components/projects/status-pill";
 import type { Project } from "@/lib/projectData";
 
-/** The headline number shown for each system on the board. */
-const HEADLINE: Record<string, string> = {
-  "enterprise-erp": "3 of 7 modules owned",
-  iimcs: "Certificate of Recognition",
-  yenecart: "300+ daily users · 99.7% uptime",
-};
-
 /**
  * The home page's signature: the systems I've shipped, laid out like a status
  * page. Live states come from a real reachability check on the server.
@@ -25,7 +18,7 @@ export function StatusBoard({
     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_1px_0_var(--border),0_24px_48px_-32px_rgb(0_0_0/0.35)]">
       <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
         <span className="label">Systems in production</span>
-        <span className="font-mono text-[11px] text-muted-foreground">checked every 30 min</span>
+        <span className="font-mono text-xs text-muted-foreground">checked every 15 min</span>
       </div>
 
       <ul className="divide-y divide-border">
@@ -47,7 +40,7 @@ export function StatusBoard({
                   {p.kind}
                   {p.company && ` · ${p.company}`}
                 </span>
-                {HEADLINE[p.id] && <span className="font-mono text-xs text-foreground/80">{HEADLINE[p.id]}</span>}
+                {p.headline && <span className="font-mono text-xs text-foreground/80">{p.headline}</span>}
               </div>
             </Link>
           </li>

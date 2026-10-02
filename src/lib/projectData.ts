@@ -82,6 +82,8 @@ export interface Project {
   reference?: { label: string; href: string };
   image?: { src: string; alt: string };
   media?: ProjectMedia;
+  /** One-line proof point shown beside a featured project on the home status board. */
+  headline?: string;
   /** Shown first and wider on the projects page. */
   featured?: boolean;
   /** Certificate (generalData certificateId) shown via the protected viewer. */
@@ -119,6 +121,7 @@ export const projectData: Project[] = [
     period: "2026 – Present",
     status: "Live",
     liveUrl: "https://ceo-web-project-v1-app.vercel.app/",
+    headline: "3 of 7 modules owned",
     featured: true,
     caseStudy: {
       role: "Founding engineer",
@@ -193,6 +196,7 @@ export const projectData: Project[] = [
     company: "Baro Technologies",
     period: "Dec 2025 – May 2026",
     status: "Live · Restricted access",
+    headline: "Certificate of Recognition",
     featured: true,
     certificateId: "iimcs",
     caseStudy: {
@@ -274,6 +278,7 @@ export const projectData: Project[] = [
     company: "Baro Technologies",
     status: "Production",
     liveUrl: "https://yenecart.com",
+    headline: "300+ daily users · 99.7% uptime",
     featured: true,
     caseStudy: {
       role: "Full ownership, concept to launch",

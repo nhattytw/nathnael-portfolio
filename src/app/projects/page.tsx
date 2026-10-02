@@ -5,7 +5,7 @@ import { ProjectList } from "@/components/site/project-list";
 import { projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
 
-export const revalidate = 1800; // Revalidate every 30 minutes
+export const revalidate = 900; // Revalidate every 15 minutes
 
 export const metadata: Metadata = { title: "Work" };
 
@@ -26,7 +26,7 @@ export default function ProjectsPage() {
             Things I&apos;ve <em className="text-primary">shipped</em>
           </>
         }
-        lead="Three systems written up in depth, then everything else in one index. Status dots are real: each public site is checked every 30 minutes."
+        lead="Three systems written up in depth, then everything else in one index. Status dots are real: each public site is checked every 15 minutes."
       />
 
       <div className="pt-10">

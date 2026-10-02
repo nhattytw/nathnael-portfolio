@@ -33,16 +33,14 @@ export function SectionHeading({
   );
 }
 
-/** Page title block used at the top of inner pages. */
+/** Page title block used at the top of inner pages. No scroll reveal, so it shows before JavaScript loads. */
 export function PageHeader({ eyebrow, title, lead }: { eyebrow: string; title: React.ReactNode; lead?: React.ReactNode }) {
   return (
-    <Reveal>
-      <header className="max-w-4xl space-y-5 pb-4 pt-12 md:pt-20">
-        <p className="label">{eyebrow}</p>
-        <h1 className="font-display text-5xl leading-[0.98] tracking-tight md:text-7xl">{title}</h1>
-        {lead && <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">{lead}</p>}
-      </header>
-    </Reveal>
+    <header className="max-w-4xl space-y-5 pb-4 pt-12 md:pt-20">
+      <p className="label">{eyebrow}</p>
+      <h1 className="font-display text-5xl leading-[0.98] tracking-tight md:text-7xl">{title}</h1>
+      {lead && <p className="max-w-2xl text-lg text-muted-foreground md:text-xl">{lead}</p>}
+    </header>
   );
 }
 
@@ -97,7 +95,8 @@ export function ContactBand({ title = "Have a role or a project in mind?" }: { t
           </div>
           <p className="max-w-lg opacity-75">{availability.interests}</p>
           <div className="flex flex-col gap-3 md:items-end">
-            <PrimaryButton href="/contact" className="md:w-64">
+            {/* The band is inverted, so the button inverts too: the accent has too little contrast on it. */}
+            <PrimaryButton href="/contact" className="bg-background text-foreground hover:brightness-95 md:w-64">
               Send a message
             </PrimaryButton>
             <a

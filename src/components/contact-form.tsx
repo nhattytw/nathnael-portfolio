@@ -56,7 +56,7 @@ function Counter({ value, max, always }: { value: string; max: number; always?: 
   return (
     <span
       className={cn(
-        "font-mono text-[11px] tabular-nums text-muted-foreground",
+        "font-mono text-xs tabular-nums text-muted-foreground",
         n > max * 0.9 && "text-amber-600 dark:text-amber-400",
         n >= max && "font-bold text-destructive"
       )}
