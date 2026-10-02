@@ -1,13 +1,17 @@
 import type React from "react";
 import Link from "next/link";
-import { ArrowRight, Download } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Download } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { generalData } from "@/lib/generalData";
 import { cn } from "@/lib/utils";
 
 /** Page-width container used by every section. */
-export function Container({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn("mx-auto max-w-6xl px-4 md:px-6", className)}>{children}</div>;
+export function Container({ id, className, children }: { id?: string; className?: string; children: React.ReactNode }) {
+  return (
+    <div id={id} className={cn("mx-auto max-w-6xl px-4 md:px-6", className)}>
+      {children}
+    </div>
+  );
 }
 
 /** Section heading: a mono index, a display title and an optional aside. */
@@ -58,11 +62,31 @@ export function TextLink({ href, children, className }: { href: string; children
 
 export const pillClass = "inline-flex h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-medium transition-all";
 
-export function PrimaryButton({ href, children, className }: { href: string; children: React.ReactNode; className?: string }) {
+export function PrimaryButton({
+  href,
+  children,
+  className,
+  arrow = "right",
+  pulse = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  /** "up-right" swaps the sliding arrow for one that zooms in on hover. */
+  arrow?: "right" | "up-right";
+  /** Pulses the arrow until the button is hovered. */
+  pulse?: boolean;
+}) {
   return (
     <Link href={href} className={cn(pillClass, "group bg-primary text-primary-foreground hover:brightness-110", className)}>
       {children}
-      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      {arrow === "up-right" ? (
+        <span className={cn("inline-flex", pulse && "arrow-pulse")}>
+          <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:scale-125" />
+        </span>
+      ) : (
+        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      )}
     </Link>
   );
 }

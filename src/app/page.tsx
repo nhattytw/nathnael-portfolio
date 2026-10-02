@@ -1,6 +1,8 @@
 import { Reveal } from "@/components/motion/reveal";
 import { ExperienceLedger } from "@/components/site/experience-ledger";
 import { FeaturedWork } from "@/components/site/featured-work";
+import { HeroGrid } from "@/components/site/hero-grid";
+import { HeroRole } from "@/components/site/hero-role";
 import {
   ContactBand,
   Container,
@@ -9,7 +11,7 @@ import {
   SectionHeading,
   TextLink,
 } from "@/components/site/primitives";
-import { StatusBoard } from "@/components/site/status-board";
+import { StackMarquee } from "@/components/site/stack-marquee";
 import { generalData } from "@/lib/generalData";
 import { projectData } from "@/lib/projectData";
 import { isSiteReachable } from "@/lib/utils";
@@ -22,55 +24,55 @@ export default function HomePage() {
   const liveChecks = Object.fromEntries(
     featured.map((p) => [p.id, p.liveUrl ? isSiteReachable(p.liveUrl) : Promise.resolve(false)])
   );
-  const { availability, contact, socials } = generalData;
+  const { availability } = generalData;
 
   return (
     <>
       {/* Hero: rendered without scroll reveals so it shows before JavaScript loads. */}
-      <Container className="grid items-center gap-12 pb-20 pt-12 md:pt-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-16">
-        <div className="space-y-7">
-          <p className="inline-flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-xs text-muted-foreground">
-            <span className="live-dot" />
-            <span className="text-foreground">Available for new roles</span>
-            <span aria-hidden>·</span>
-            <span>Addis Ababa, GMT+3</span>
-            <span aria-hidden>·</span>
-            <span>Remote worldwide</span>
-          </p>
-          <h1 className="font-display text-[3.4rem] leading-[0.95] tracking-tight sm:text-7xl lg:text-[5.5rem]">
-            I build software people rely on <em className="text-primary">day to day.</em>
-          </h1>
-          <div className="max-w-xl space-y-3 text-lg text-muted-foreground">
-            <p>
-              I&apos;m <span className="font-medium text-foreground">{generalData.name}</span>, a{" "}
-              {generalData.title.toLowerCase()} who takes backend-heavy systems from idea to production.
-            </p>
-            <p className="text-base">{generalData.bio}</p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <PrimaryButton href="/contact">Send a message</PrimaryButton>
-            <ResumeButton />
-          </div>
-          <p className="flex flex-wrap gap-x-5 gap-y-1 font-mono text-xs text-muted-foreground">
-            <a href={`mailto:${contact.email}`} className="hover:text-foreground">
-              {contact.email}
-            </a>
-            <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-              LinkedIn ↗
-            </a>
-            <a href={socials.github} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-              GitHub ↗
-            </a>
-          </p>
-        </div>
+      <section className="relative flex min-h-[calc(100svh-4rem)] flex-col">
+        <HeroGrid />
 
-        <div>
-          <StatusBoard projects={featured} liveChecks={liveChecks} />
-        </div>
-      </Container>
+        <Container className="relative flex w-full flex-1 flex-col pt-10 md:pt-16">
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-border pb-4 font-mono text-xs text-muted-foreground">
+            <span>{generalData.title}</span>
+            <span className="inline-flex items-center gap-2 text-foreground">
+              <span className="live-dot" /> Available for new roles
+            </span>
+          </div>
+
+          <div className="my-auto max-w-2xl space-y-6 py-16">
+            <HeroRole />
+            <h1 className="text-balance font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">
+              I build software people rely on <em className="text-primary">day&nbsp;to&nbsp;day.</em>
+            </h1>
+            <p className="max-w-lg text-lg text-muted-foreground">
+              I&apos;m Nathnael. For 5+ years I&apos;ve been taking backend-heavy systems from idea to production.
+            </p>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <PrimaryButton href="#work" arrow="up-right" pulse>
+                See My Work
+              </PrimaryButton>
+              <ResumeButton />
+            </div>
+          </div>
+
+          <a
+            href="#glance"
+            aria-label="Scroll to content"
+            className="group mb-8 inline-flex items-center gap-3 self-start font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span className="relative h-8 w-px overflow-hidden bg-border">
+              <span className="scroll-tick absolute inset-x-0 top-0 h-1/3 bg-primary" />
+            </span>
+            Scroll
+          </a>
+        </Container>
+
+        <StackMarquee />
+      </section>
 
       {/* Numbers */}
-      <section aria-label="At a glance" className="border-y border-border bg-card">
+      <section id="glance" aria-label="At a glance" className="scroll-mt-16 border-y border-border bg-card">
         <Container>
           <dl className="grid grid-cols-2 divide-border md:grid-cols-4 md:divide-x">
             {generalData.impactMetrics.map((m, i) => (
@@ -89,7 +91,7 @@ export default function HomePage() {
       </section>
 
       {/* Work */}
-      <Container className="pt-24">
+      <Container id="work" className="scroll-mt-20 pt-24">
         <SectionHeading index="01 / Selected work" title="Three systems, in depth" aside={<TextLink href="/projects">All projects</TextLink>} />
         <FeaturedWork projects={featured} liveChecks={liveChecks} />
       </Container>

@@ -15,8 +15,8 @@ export function StatusBoard({
   liveChecks: Record<string, Promise<boolean>>;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_1px_0_var(--border),0_24px_48px_-32px_rgb(0_0_0/0.35)]">
-      <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3.5">
+    <div className="border-t border-foreground">
+      <div className="flex items-center justify-between gap-3 border-b border-border py-3">
         <span className="label">Systems in production</span>
         <span className="font-mono text-xs text-muted-foreground">checked every 15 min</span>
       </div>
@@ -26,10 +26,10 @@ export function StatusBoard({
           <li key={p.id}>
             <Link
               href={p.caseStudy ? `/projects/${p.id}` : `/projects#${p.id}`}
-              className="group grid gap-1.5 px-5 py-4 transition-colors hover:bg-muted/60"
+              className="group -mx-3 grid gap-1.5 rounded-lg px-3 py-4 transition-colors hover:bg-muted/60"
             >
               <div className="flex items-center justify-between gap-3">
-                <span className="inline-flex items-center gap-1.5 font-medium">
+                <span className="inline-flex items-center gap-1.5 text-lg font-medium">
                   {p.title}
                   <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
                 </span>
@@ -47,7 +47,7 @@ export function StatusBoard({
         ))}
       </ul>
 
-      <div className="flex items-center justify-between gap-3 border-t border-border bg-muted/40 px-5 py-3 text-sm">
+      <div className="flex items-center justify-between gap-3 border-t border-border py-3 text-sm">
         <span className="text-muted-foreground">+ client sites, internal tools and more</span>
         <Link href="/projects" className="font-medium hover:text-primary">
           All work →

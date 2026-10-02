@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/site/theme-toggle";
 import { Wordmark } from "@/components/site/wordmark";
@@ -60,9 +60,10 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/contact"
-            className="hidden h-9 items-center rounded-full bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 sm:inline-flex"
+            className="group hidden h-9 items-center gap-1.5 rounded-full bg-foreground px-4 text-sm font-medium text-background transition-opacity hover:opacity-85 sm:inline-flex"
           >
-            Get in touch
+            Get In Touch
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:scale-125" />
           </Link>
           <button
             type="button"

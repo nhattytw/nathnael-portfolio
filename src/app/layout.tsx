@@ -9,6 +9,7 @@ import { MotionProvider } from "@/components/motion/motion-provider";
 import { NavProgress } from "@/components/nav-progress";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
+import { CustomCursor } from "@/components/site/custom-cursor";
 import { SITE_URL } from "@/lib/site";
 
 // Interface and reading text
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <MotionProvider>
             <CertificateProvider>
               <NavProgress />
+              <CustomCursor />
               <SiteHeader />
               <main className="flex-1">{children}</main>
               <SiteFooter />

@@ -224,6 +224,75 @@
   animation: target-glow 2.4s ease-in-out 2;
 }
 
+/* The custom cursor replaces the system one, except in text fields. */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+html.custom-cursor :is(input, textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+/* Blinking caret on the typed role. */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-caret {
+  animation: caret-blink 1s step-end infinite;
+}
+
+/* The stack strip loops by sliding one copy's width. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.marquee {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+/* The hero call to action's arrow pulses, and holds still while hovered. */
+@keyframes arrow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+}
+
+.arrow-pulse {
+  animation: arrow-pulse 1.4s ease-in-out infinite;
+}
+
+.group:hover .arrow-pulse {
+  animation-play-state: paused;
+}
+
+/* A short tick runs down the scroll cue's line. */
+@keyframes scroll-tick {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+.scroll-tick {
+  animation: scroll-tick 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
 /* Toasts hug short text and wrap long text at 220px. */
 @media (max-width: 600px) {
   .toaster[data-sonner-toaster] {
@@ -300,6 +369,10 @@
   }
   .live-dot::after,
   .animate-flow,
+  .animate-caret,
+  .animate-marquee,
+  .scroll-tick,
+  .arrow-pulse,
   .nav-progress,
   .project-target,
   .nf-ring,
