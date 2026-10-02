@@ -78,6 +78,8 @@ export interface Project {
   githubUrl?: string;
   /** Label for the GitHub button, e.g. when the repo is an open-source version. */
   githubLabel?: string;
+  /** Write-up hosted elsewhere, e.g. on the delivering company's site. */
+  reference?: { label: string; href: string };
   image?: { src: string; alt: string };
   media?: ProjectMedia;
   /** Shown first and wider on the projects page. */
@@ -427,11 +429,16 @@ export const projectData: Project[] = [
     client: "Akille Painting and Finishing",
     period: "Mar 2021 – Nov 2021",
     status: "Delivered",
+    reference: {
+      label: "Case study on Ahaz's website",
+      href: "https://ahaz.io/projects/project-07",
+    },
   },
   {
     id: "gize",
     title: "Gize",
-    subtitle: "Desktop HR & Attendance System with Fingerprint & Face Recognition",
+    subtitle:
+      "Desktop HR & Attendance System with Fingerprint & Face Recognition",
     kind: "Desktop HR app",
     description:
       "A desktop HR management and attendance system designed to streamline HR tasks and improve attendance monitoring. By integrating a ZKTeco device with both fingerprint and face recognition check-in, it tracks employee attendance precisely and automates the workflow from attendance capture through payroll processing.",
@@ -455,6 +462,10 @@ export const projectData: Project[] = [
     client: "Bantu ICT Solutions",
     period: "Aug 2021 – Feb 2022",
     status: "Delivered",
+    reference: {
+      label: "Case study on Ahaz's website",
+      href: "https://ahaz.io/projects/project-08",
+    },
   },
   {
     id: "user-management-platform",

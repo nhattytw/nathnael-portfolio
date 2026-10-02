@@ -3,7 +3,7 @@
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Github, Globe, Plus } from "lucide-react";
+import { ArrowUpRight, Github, Globe, Plus } from "lucide-react";
 import { StatusPill } from "@/components/projects/status-pill";
 import { ViewCertificateButton } from "@/components/view-certificate-button";
 import { CATEGORY_LABELS, type Project, type ProjectCategory } from "@/lib/projectData";
@@ -192,6 +192,16 @@ export function ProjectList({
                                 className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
                               >
                                 <Github className="h-4 w-4" /> {p.githubLabel ?? "GitHub"}
+                              </a>
+                            )}
+                            {p.reference && (
+                              <a
+                                href={p.reference.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
+                              >
+                                {p.reference.label} <ArrowUpRight className="h-4 w-4" />
                               </a>
                             )}
                             {p.certificateId && (

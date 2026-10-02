@@ -295,7 +295,7 @@ export const experienceData: Company[] = [
     projects: ["akile-hr", "gize"],
     reference: {
       label: "Team profile on Ahaz's website",
-      href: "https://ahazwebsite-ten.vercel.app/team/team-3",
+      href: "https://ahaz.io/team/team-3",
     },
   },
 ];
