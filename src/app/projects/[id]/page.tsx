@@ -79,6 +79,19 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
         </ul>
       ),
     },
+    {
+      id: "stack",
+      title: "Built with",
+      body: (
+        <ul className="flex flex-wrap gap-2">
+          {project.technologies.map((t) => (
+            <li key={t} className="rounded-md border border-border bg-card px-2.5 py-1 font-mono text-sm">
+              {t}
+            </li>
+          ))}
+        </ul>
+      ),
+    },
   ];
   if (study.decisions.length > 0) {
     sections.push({

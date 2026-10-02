@@ -16,7 +16,7 @@ function Tile({ children, tag, className }: { children: React.ReactNode; tag?: "
   return (
     <span
       className={cn(
-        "rounded-lg border px-2 py-3 text-center font-mono text-[11px] leading-tight",
+        "flex min-w-0 items-center justify-center rounded-lg border px-2 py-3 text-center font-mono text-[11px] leading-tight",
         tag === "owned" && "border-primary bg-primary font-bold text-primary-foreground",
         tag === "partner" && "border-dashed border-primary text-primary",
         !tag && "border-border bg-background text-muted-foreground",
@@ -44,7 +44,7 @@ function Legend() {
 function ErpVisual({ large }: { large?: boolean }) {
   if (!large) {
     return (
-      <div className="grid w-full max-w-[340px] grid-cols-4 gap-2">
+      <div className="grid w-full max-w-[300px] grid-cols-3 gap-2">
         {ERP_MODULES.map((m) => (
           <Tile key={m.label} tag={m.tag === "owned" ? "owned" : undefined}>
             {m.label}
@@ -75,6 +75,21 @@ function ErpVisual({ large }: { large?: boolean }) {
   );
 }
 
+const IIMCS_LEVELS = ["Region", "Zone", "Woreda / City", "Kebele"];
+
+const IIMCS_MODULES = [
+  "Members",
+  "Reports",
+  "Tasks",
+  "Finance",
+  "Approvals",
+  "Users & roles",
+  "Dashboard",
+  "Search",
+  "Notifications",
+  "Audit log",
+];
+
 function IimcsVisual({ large }: { large?: boolean }) {
   if (!large) {
     return (
@@ -90,19 +105,46 @@ function IimcsVisual({ large }: { large?: boolean }) {
       </div>
     );
   }
-  const box = "rounded-lg border border-line bg-background px-3 py-2.5";
   return (
-    <div className="flex max-w-3xl flex-wrap items-center justify-center gap-2.5 font-mono text-xs">
-      <span className={box}>Authorized users</span>
-      <span className="text-muted-foreground" aria-hidden>→</span>
-      <span className={box}>Sign-in</span>
-      <span className="text-muted-foreground" aria-hidden>→</span>
-      <span className="rounded-lg border border-primary bg-primary px-3 py-2.5 text-primary-foreground">Role-based permissions</span>
-      <span className="text-muted-foreground" aria-hidden>→</span>
-      <span className="grid gap-2">
-        <span className={box}>Member management</span>
-        <span className={box}>Communication</span>
-      </span>
+    <div className="grid w-full max-w-3xl gap-4 font-mono text-xs sm:grid-cols-[auto_1fr]">
+      <div className="relative grid content-center gap-1.5 rounded-2xl border-[1.5px] border-dashed border-border p-4 pt-5">
+        <span className="absolute -top-2.5 left-4 bg-card px-1.5 text-[11px] text-muted-foreground">jurisdiction</span>
+        {IIMCS_LEVELS.map((level, i) => (
+          <span key={level} className="grid justify-items-center gap-1.5">
+            {i > 0 && (
+              <span className="text-muted-foreground" aria-hidden>
+                ↑
+              </span>
+            )}
+            <span className="w-full rounded-lg border border-line bg-background px-3 py-2 text-center">{level}</span>
+          </span>
+        ))}
+        <span className="mt-1 text-center text-[11px] text-primary">approvals escalate upward</span>
+      </div>
+      <div className="grid content-start gap-2.5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-lg border border-line bg-background px-3 py-2.5">Sign-in · session</span>
+          <span className="text-muted-foreground" aria-hidden>
+            →
+          </span>
+          <span className="flex-1 rounded-lg border border-primary bg-primary px-3 py-2.5 text-center text-primary-foreground">
+            role · location · department · workflow
+          </span>
+        </div>
+        <div className="relative grid grid-cols-[repeat(auto-fit,minmax(104px,1fr))] gap-2 rounded-2xl border-[1.5px] border-dashed border-border p-3 pt-4">
+          <span className="absolute -top-2.5 left-4 bg-card px-1.5 text-[11px] text-muted-foreground">modules</span>
+          {IIMCS_MODULES.map((m) => (
+            <Tile key={m} className="text-xs">
+              {m}
+            </Tile>
+          ))}
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <span className="rounded-lg border border-line bg-background p-2.5 text-center">Express API · Zod validation</span>
+          <span className="rounded-lg border border-line bg-background p-2.5 text-center">node-cron · escalation, expiry</span>
+        </div>
+        <div className="rounded-lg border border-line bg-muted p-2.5 text-center">PostgreSQL · Prisma · encrypted fields</div>
+      </div>
     </div>
   );
 }
