@@ -13,7 +13,7 @@ const GET_TIMEOUT_MS = 8000;
 // 2xx/3xx, plus codes that mean "up but refusing this request":
 // 401 (login required), 403 (WAF), 405 (no HEAD), 406 (filtered headers),
 // 429 (rate limited), 503 (often a Cloudflare challenge page).
-function isLiveStatus(status: number) {
+export function isLiveStatus(status: number) {
   return LIVE_STATUS_CODES.includes(status) || (status >= 200 && status < 400);
 }
 
@@ -37,7 +37,7 @@ async function probe(url: string, init: RequestInit, timeoutMs: number): Promise
  * not at all (e.g. Vercel redirects), so a failed or slow HEAD falls back to a
  * tiny ranged GET before the site is treated as down.
  */
-async function checkSiteReachable(url: string): Promise<boolean> {
+export async function checkSiteReachable(url: string): Promise<boolean> {
   if (!url) return false;
 
   const headers = {
