@@ -1,3 +1,25 @@
+# License
+
+This repository contains two kinds of material under different terms.
+
+**Source code** (everything not listed below) is released under the MIT
+License, reproduced in full at the end of this file.
+
+**Personal content** is not covered by the MIT License. All rights reserved.
+This means:
+
+- `src/lib/generalData.ts`, `src/lib/experienceData.ts` and
+  `src/lib/projectData.ts`: biography, work history, project write-ups and
+  other text about me and my work
+- `public/file/`: my résumé
+- `public/logo.svg`: my personal mark
+- `private/certificates/`: certificate images
+
+You're welcome to fork the code for your own site. Swap in your own content
+before you publish it.
+
+---
+
 MIT License
 
 Copyright (c) 2025 Nathnael Tesfaye Woldekidan

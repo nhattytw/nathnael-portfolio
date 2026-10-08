@@ -1,7 +1,6 @@
 /**
  * @copyright 2025 Nathnael Tesfaye Woldekidan
- * @license All Rights Reserved
- * This data is proprietary content and may not be used without permission.
+ * Content, not code: excluded from the MIT license. See LICENSE.md.
  */
 
 export interface ExperienceMetric {
