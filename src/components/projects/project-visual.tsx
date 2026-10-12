@@ -169,6 +169,30 @@ function YeneCartVisual() {
   );
 }
 
+/** A left-to-right pipeline; the highlighted step is the part I built. */
+function Flow({ steps, mine, note }: { steps: string[]; mine: number[]; note: string }) {
+  return (
+    <div className="grid w-full max-w-3xl justify-items-center gap-4 font-mono text-xs">
+      <ol className="flex w-full flex-col items-stretch gap-2 sm:flex-row sm:items-center">
+        {steps.map((step, i) => (
+          <li key={step} className="flex flex-1 flex-col items-center gap-2 sm:flex-row">
+            {i > 0 && (
+              <span className="text-muted-foreground" aria-hidden>
+                <span className="sm:hidden">↓</span>
+                <span className="hidden sm:inline">→</span>
+              </span>
+            )}
+            <Tile tag={mine.includes(i) ? "owned" : undefined} className="w-full flex-1 px-3 py-3.5 text-xs">
+              {step}
+            </Tile>
+          </li>
+        ))}
+      </ol>
+      <span className="text-[11px] text-muted-foreground">{note}</span>
+    </div>
+  );
+}
+
 const TAGS: Record<string, string> = {
   "enterprise-erp": "modules · filled = mine",
   iimcs: "restricted access · no public link",
@@ -197,6 +221,20 @@ export function CaseStudyVisual({ id, caption }: { id: string; caption: { title:
       <div className="grid min-h-60 place-items-center px-4 py-7">
         {id === "enterprise-erp" && <ErpVisual large />}
         {id === "iimcs" && <IimcsVisual large />}
+        {id === "akile-hr" && (
+          <Flow
+            steps={["Mobile check-in", "Location vs. site", "Express API · MongoDB", "WebSockets", "HR dashboard"]}
+            mine={[1, 2, 3]}
+            note="filled = my main backend work"
+          />
+        )}
+        {id === "gize" && (
+          <Flow
+            steps={["ZKTeco device", "Adapted driver", "SQLite", "Attendance", "Payroll · Pandas"]}
+            mine={[1, 3, 4]}
+            note="fingerprint or face check-in · filled = built by me"
+          />
+        )}
       </div>
       <figcaption className="border-t border-dashed border-border px-5 py-3.5 text-[15px]">
         <b className="block font-sans text-sm text-primary">{caption.title}</b>

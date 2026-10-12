@@ -3,7 +3,7 @@ import { FeaturedWork } from "@/components/site/featured-work";
 import { ContactBand, Container, PageHeader, SectionHeading } from "@/components/site/primitives";
 import { ProjectList } from "@/components/site/project-list";
 import { projectData } from "@/lib/projectData";
-import { isSiteReachable } from "@/lib/utils";
+import { isReferenceLive, isSiteReachable } from "@/lib/utils";
 
 export const revalidate = 900; // Revalidate every 15 minutes
 
@@ -13,6 +13,10 @@ export default function ProjectsPage() {
   // Live checks stream in per project, so a slow site never blocks the page.
   const liveChecks = Object.fromEntries(
     projectData.map((p) => [p.id, p.liveUrl ? isSiteReachable(p.liveUrl) : Promise.resolve(false)])
+  );
+  // External write-ups show only while they still exist and match the project.
+  const referenceChecks = Object.fromEntries(
+    projectData.flatMap((p) => (p.reference ? [[p.id, isReferenceLive(p.reference.href, p.reference.match)]] : []))
   );
   const featured = projectData.filter((p) => p.featured);
   const others = projectData.filter((p) => !p.featured);
@@ -26,7 +30,7 @@ export default function ProjectsPage() {
             Things I&apos;ve <em className="text-primary">shipped</em>
           </>
         }
-        lead="Three systems written up in depth, then everything else in one index. Status dots are real: each public site is checked every 15 minutes."
+        lead="Three systems written up in depth, then everything else in one index, some with write-ups of their own. Status dots are real: each public site is checked every 15 minutes."
       />
 
       <div className="pt-10">
@@ -36,7 +40,7 @@ export default function ProjectsPage() {
 
       <div className="space-y-8 pt-16">
         <SectionHeading index="Index" title="Everything else" />
-        <ProjectList projects={others} liveChecks={liveChecks} />
+        <ProjectList projects={others} liveChecks={liveChecks} referenceChecks={referenceChecks} />
       </div>
 
       <div className="pt-24">

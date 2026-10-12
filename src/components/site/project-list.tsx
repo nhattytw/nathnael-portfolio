@@ -3,7 +3,9 @@
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, Github, Globe, Plus } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Github, Globe, Plus } from "lucide-react";
+import { ReferenceLink } from "@/components/projects/reference-link";
 import { StatusPill } from "@/components/projects/status-pill";
 import { ViewCertificateButton } from "@/components/view-certificate-button";
 import { CATEGORY_LABELS, type Project, type ProjectCategory } from "@/lib/projectData";
@@ -33,9 +35,11 @@ function Filter({ active, onClick, children }: { active: boolean; onClick: () =>
 export function ProjectList({
   projects,
   liveChecks,
+  referenceChecks,
 }: {
   projects: Project[];
   liveChecks: Record<string, Promise<boolean>>;
+  referenceChecks: Record<string, Promise<boolean>>;
 }) {
   const [category, setCategory] = useState<ProjectCategory | typeof ALL>(ALL);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -174,6 +178,15 @@ export function ProjectList({
                             </ul>
                           </div>
                           <div className="flex flex-wrap gap-2">
+                            {p.caseStudy && (
+                              <Link
+                                href={`/projects/${p.id}`}
+                                className="group inline-flex h-9 items-center gap-1.5 rounded-full border border-primary bg-primary px-4 text-sm text-primary-foreground"
+                              >
+                                Read the case study
+                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                              </Link>
+                            )}
                             {p.liveUrl && (
                               <a
                                 href={p.liveUrl}
@@ -195,14 +208,12 @@ export function ProjectList({
                               </a>
                             )}
                             {p.reference && (
-                              <a
-                                href={p.reference.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                              <ReferenceLink
+                                reference={p.reference}
+                                isLive={referenceChecks[p.id] ?? NO_CHECK}
                                 className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
-                              >
-                                {p.reference.label} <ArrowUpRight className="h-4 w-4" />
-                              </a>
+                                iconClassName="h-4 w-4"
+                              />
                             )}
                             {p.certificateId && (
                               <ViewCertificateButton certificateId={p.certificateId} className="h-9 rounded-full px-4 text-sm" />

@@ -2,9 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { ReferenceLink } from "@/components/projects/reference-link";
 import { ContactBand, Container, PageHeader, ResumeButton } from "@/components/site/primitives";
 import { experienceData } from "@/lib/experienceData";
 import { projectsById } from "@/lib/projectData";
+import { isReferenceLive } from "@/lib/utils";
+
+export const revalidate = 900;
 
 export const metadata: Metadata = { title: "Experience" };
 
@@ -38,14 +42,12 @@ export default function ExperiencePage() {
                 <p className="text-sm text-muted-foreground">{company.location}</p>
                 <p className="text-sm text-muted-foreground">{company.workType}</p>
                 {company.reference && (
-                  <a
-                    href={company.reference.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <ReferenceLink
+                    reference={company.reference}
+                    isLive={isReferenceLive(company.reference.href, company.reference.match)}
                     className="inline-flex items-center gap-1 pt-1 text-sm underline-offset-4 hover:text-primary hover:underline"
-                  >
-                    {company.reference.label} <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
+                    iconClassName="h-3.5 w-3.5"
+                  />
                 )}
               </div>
             </Reveal>

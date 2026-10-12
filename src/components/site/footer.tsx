@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { generalData } from "@/lib/generalData";
+import { copyrightYears } from "@/lib/site";
 
 const SITE = [
   { href: "/projects", label: "Work" },
@@ -57,7 +58,7 @@ export function SiteFooter() {
       </div>
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-5 font-mono text-xs text-muted-foreground md:px-6">
         <span>
-          © {new Date().getFullYear()} {generalData.name}
+          © {copyrightYears(new Date().getFullYear())} {generalData.name}
         </span>
         <a href={generalData.project} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
           Source on GitHub ↗

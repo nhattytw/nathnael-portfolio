@@ -5,11 +5,12 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Globe } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { CaseStudyVisual } from "@/components/projects/project-visual";
+import { ReferenceLink } from "@/components/projects/reference-link";
 import { StatusPill } from "@/components/projects/status-pill";
 import { ContactBand, Container } from "@/components/site/primitives";
 import { ViewCertificateButton } from "@/components/view-certificate-button";
 import { CATEGORY_LABELS, projectData } from "@/lib/projectData";
-import { isSiteReachable } from "@/lib/utils";
+import { isReferenceLive, isSiteReachable } from "@/lib/utils";
 
 export const revalidate = 900;
 export const dynamicParams = false;
@@ -51,6 +52,9 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
 
   const next = caseStudies[(index + 1) % caseStudies.length];
   const isLive = project.liveUrl ? isSiteReachable(project.liveUrl) : Promise.resolve(false);
+  const referenceLive = project.reference
+    ? isReferenceLive(project.reference.href, project.reference.match)
+    : Promise.resolve(false);
 
   // Only sections with written content appear, numbered in order.
   const sections: { id: string; title: string; body: React.ReactNode }[] = [
@@ -166,7 +170,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
               </dd>
             </div>
           </dl>
-          {(project.liveUrl || project.certificateId) && (
+          {(project.liveUrl || project.certificateId || project.reference) && (
             <div className="flex flex-wrap items-center gap-3">
               {project.liveUrl && (
                 <a
@@ -177,6 +181,14 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
                 >
                   <Globe className="h-4 w-4" /> {host(project.liveUrl)}
                 </a>
+              )}
+              {project.reference && (
+                <ReferenceLink
+                  reference={project.reference}
+                  isLive={referenceLive}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full border border-border px-4 text-sm hover:border-foreground/40"
+                  iconClassName="h-4 w-4"
+                />
               )}
               {project.certificateId && (
                 <ViewCertificateButton

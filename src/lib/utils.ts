@@ -67,3 +67,45 @@ export async function checkSiteReachable(url: string): Promise<boolean> {
 export const isSiteReachable = unstable_cache(checkSiteReachable, ["site-reachable"], {
   revalidate: 900,
 });
+
+const ENTITIES: Record<string, string> = { amp: "&", quot: '"', apos: "'", "#39": "'", "#x27": "'", nbsp: " " };
+
+/** Lowercased, entities decoded and whitespace collapsed, so titles compare loosely. */
+function normalizeText(text: string) {
+  return text
+    .replace(/&(#?\w+);/g, (m, name: string) => ENTITIES[name.toLowerCase()] ?? m)
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * Checks that a write-up hosted elsewhere still exists and is still about the
+ * same project. A reused URL can answer 200 with someone else's page, so the
+ * page's <title> must contain `match`. Redirects are followed, so a page that
+ * moved with a redirect still counts. Any failure hides the link.
+ */
+export async function checkReference(url: string, match: string): Promise<boolean> {
+  if (!url || !match) return false;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), GET_TIMEOUT_MS);
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      redirect: "follow",
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; portfolio-link-check)", Accept: "text/html" },
+    });
+    if (!response.ok) return false;
+    const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(await response.text())?.[1];
+    return title !== undefined && normalizeText(title).includes(normalizeText(match));
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+/** Cached like isSiteReachable; a hidden link reappears within 15 minutes of the page coming back. */
+export const isReferenceLive = unstable_cache(checkReference, ["reference-live"], {
+  revalidate: 900,
+});

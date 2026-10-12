@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { checkSiteReachable, isLiveStatus } from "./utils";
+import { checkReference, checkSiteReachable, isLiveStatus } from "./utils";
 
 describe("isLiveStatus", () => {
   it.each([200, 204, 301, 302, 304, 307, 308])("treats %i as live", (status) => {
@@ -120,5 +120,65 @@ describe("checkSiteReachable", () => {
 
     await checkSiteReachable(URL);
     expect(vi.getTimerCount()).toBe(0);
+  });
+});
+
+describe("checkReference", () => {
+  const URL = "https://example.com/projects/1";
+  const MATCH = "Desktop HR Management & Attendance";
+  const fetchMock = vi.fn<typeof fetch>();
+  const page = (title: string, status = 200) =>
+    Promise.resolve(new Response(`<html><head><title>${title}</title></head><body></body></html>`, { status }));
+
+  beforeEach(() => {
+    fetchMock.mockReset();
+    vi.stubGlobal("fetch", fetchMock);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("shows the link when the page title still names the project", async () => {
+    fetchMock.mockImplementationOnce(() => page("Ahaz Solutions - Desktop HR Management &amp; Attendance System"));
+
+    expect(await checkReference(URL, MATCH)).toBe(true);
+    expect(fetchMock.mock.calls[0][1]?.redirect).toBe("follow");
+  });
+
+  it("ignores case and spacing differences in the title", async () => {
+    fetchMock.mockImplementationOnce(() => page("  desktop hr   management &amp; ATTENDANCE\n"));
+
+    expect(await checkReference(URL, MATCH)).toBe(true);
+  });
+
+  it("hides the link when the URL now shows a different page", async () => {
+    fetchMock.mockImplementationOnce(() => page("Someone Else | Ahaz"));
+
+    expect(await checkReference(URL, MATCH)).toBe(false);
+  });
+
+  it("hides the link when the page is gone", async () => {
+    fetchMock.mockImplementationOnce(() => page("Not found", 404));
+
+    expect(await checkReference(URL, MATCH)).toBe(false);
+  });
+
+  it("hides the link on a network error", async () => {
+    fetchMock.mockImplementationOnce(() => Promise.reject(new TypeError("fetch failed")));
+
+    expect(await checkReference(URL, MATCH)).toBe(false);
+  });
+
+  it("hides the link when the page has no title", async () => {
+    fetchMock.mockImplementationOnce(() => Promise.resolve(new Response("<html></html>")));
+
+    expect(await checkReference(URL, MATCH)).toBe(false);
+  });
+
+  it("returns false without a URL or match, without touching the network", async () => {
+    expect(await checkReference("", MATCH)).toBe(false);
+    expect(await checkReference(URL, "")).toBe(false);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

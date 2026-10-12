@@ -57,6 +57,14 @@ export interface CaseStudy {
   lessons?: string;
 }
 
+/** Write-up hosted elsewhere, shown only while it's still there and still about this work. */
+export interface ExternalReference {
+  label: string;
+  href: string;
+  /** Text the page's <title> must contain; if it changes or the page goes, the link hides. */
+  match: string;
+}
+
 export interface Project {
   /** Anchor on /projects (e.g. /projects#yenecart). */
   id: string;
@@ -78,7 +86,7 @@ export interface Project {
   /** Label for the GitHub button, e.g. when the repo is an open-source version. */
   githubLabel?: string;
   /** Write-up hosted elsewhere, e.g. on the delivering company's site. */
-  reference?: { label: string; href: string };
+  reference?: ExternalReference;
   image?: { src: string; alt: string };
   media?: ProjectMedia;
   /** One-line proof point shown beside a featured project on the home status board. */
@@ -486,10 +494,10 @@ export const projectData: Project[] = [
   {
     id: "akile-hr",
     title: "Akille HR System",
-    subtitle: "Web-Based HR & Attendance System",
+    subtitle: "Web-Based HR & Attendance System with Location-Based Mobile Check-In",
     kind: "Web HR system",
     description:
-      "A web-based HR management and attendance system designed to streamline workforce administration. It integrates fingerprint technology for accurate attendance tracking and offers a comprehensive suite of HR features, including employees, attendance reports, check-in/out, payroll, assignments, and sites.",
+      "A web-based HR management and attendance system designed to streamline workforce administration. Employees check in and out from their mobile phones, with their location confirming they're at the work site, and the system covers employees, attendance reports, check-in/out, payroll, assignments, and sites.",
     technologies: [
       "MongoDB",
       "Mongoose",
@@ -497,11 +505,11 @@ export const projectData: Project[] = [
       "React.js",
       "Node.js",
       "WebSockets",
-      "Fingerprint Integration",
+      "Geolocation",
     ],
     highlights: [
+      "Location-based check-in and check-out from employees' mobile phones",
       "Real-time attendance tracking over WebSockets",
-      "Fingerprint integration improved attendance accuracy",
       "Streamlined administrative processes for HR teams",
     ],
     category: "client",
@@ -512,6 +520,43 @@ export const projectData: Project[] = [
     reference: {
       label: "Case study on Ahaz's website",
       href: "https://ahaz.io/projects/project-07",
+      match: "Web-Based HR Management and Attendance System with Fingerprint Integration",
+    },
+    caseStudy: {
+      role: "Backend developer, also on API integration and frontend",
+      scope: "Backend, location check-in, live attendance",
+      summary: {
+        role: "Mainly backend, building the API and the live attendance feed, and also worked on API integration and the frontend.",
+        outcome:
+          "Delivered to Akille Painting and Finishing, with location-checked mobile check-ins feeding live attendance, reports and payroll.",
+      },
+      problem:
+        "Akille Painting and Finishing needed one place to manage employees, sites and assignments, with attendance they could trust and payroll worked out from it.",
+      problemDetail:
+        "Its people work across different sites, so check-in had to happen on their own phones, and the system had to confirm they were actually at the site.",
+      visualCaption: {
+        title: "From phone to dashboard",
+        body: "A check-in from a phone carries its location to the Express API, which checks it against the assigned site, stores it, and pushes it over WebSockets to every open dashboard.",
+      },
+      decisions: [
+        {
+          title: "Location-based check-in",
+          body: "Employees check in and out from their mobile phones, and the backend checks the phone's location against the site they're assigned to before recording it.",
+        },
+        {
+          title: "Live attendance over WebSockets",
+          body: "New check-ins are pushed to open dashboards the moment they arrive, instead of waiting for someone to refresh.",
+        },
+        {
+          title: "Attendance feeds the rest of HR",
+          body: "Check-in and check-out records drive the attendance reports and payroll, alongside employees, assignments and sites.",
+        },
+      ],
+      metrics: [
+        { value: "6", label: "HR modules, from employees to payroll" },
+        { value: "Live", label: "check-ins pushed over WebSockets" },
+        { value: "2021", label: "delivered, March to November" },
+      ],
     },
   },
   {
@@ -545,6 +590,45 @@ export const projectData: Project[] = [
     reference: {
       label: "Case study on Ahaz's website",
       href: "https://ahaz.io/projects/project-08",
+      match: "Desktop HR Management and Attendance System with Fingerprint Integration",
+    },
+    caseStudy: {
+      role: "Device integration and desktop app",
+      scope: "ZKTeco driver, fingerprint and face check-in, payroll",
+      summary: {
+        role: "Got the ZKTeco device talking to our software, then built the Python desktop app around it.",
+        outcome:
+          "Delivered to Bantu ICT Solutions, carrying attendance from a fingerprint or face check-in all the way to payroll.",
+      },
+      problem:
+        "Bantu ICT Solutions needed a desktop HR and attendance system built around a ZKTeco device, with fingerprint and face recognition check-in, and payroll worked out from the attendance it captured.",
+      problemDetail:
+        "The vendor's documentation was thin, and until our software could reach the device, nothing else could be built.",
+      visualCaption: {
+        title: "Device to payroll",
+        body: "Check-ins come off the ZKTeco device through the adapted driver, are stored in SQLite, and flow through attendance into payroll inside the PyQt5 app.",
+      },
+      decisions: [
+        {
+          title: "Adapting a reverse-engineered driver",
+          body: "We tracked down a community reverse-engineered driver on GitHub and adapted it to the device we had.",
+          detail:
+            "The first successful ping was the breakthrough. From there we worked out the records the device produced.",
+        },
+        {
+          title: "Two ways to check in",
+          body: "Staff can check in with a fingerprint or with face recognition, and both land in the same attendance records.",
+        },
+        {
+          title: "One workflow, check-in to payroll",
+          body: "Pandas turns captured attendance into payroll inside the same app, with no manual steps in between.",
+        },
+      ],
+      metrics: [
+        { value: "2", label: "check-in methods, fingerprint and face" },
+        { value: "End to end", label: "from check-in to payroll" },
+        { value: "Desktop", label: "Python and PyQt5, on SQLite" },
+      ],
     },
   },
   {

@@ -3,6 +3,8 @@
  * Content, not code: excluded from the MIT license. See LICENSE.md.
  */
 
+import type { ExternalReference } from "./projectData";
+
 export interface ExperienceMetric {
   value: number;
   prefix?: string;
@@ -33,7 +35,7 @@ export interface Company {
   /** Project ids from projectData delivered here. */
   projects?: string[];
   /** Third-party page that confirms the role. */
-  reference?: { label: string; href: string };
+  reference?: ExternalReference;
 }
 
 export const experienceData: Company[] = [
@@ -293,9 +295,5 @@ export const experienceData: Company[] = [
       },
     ],
     projects: ["akile-hr", "gize"],
-    reference: {
-      label: "Team profile on Ahaz's website",
-      href: "https://ahaz.io/team/team-3",
-    },
   },
 ];
