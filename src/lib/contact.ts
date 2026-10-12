@@ -1,12 +1,9 @@
 /**
- * Contact form rules, shared by the form. public/api/contact.php enforces the
- * same limits on the server, which is the check that actually counts.
+ * Contact form rules, shared by the form and src/app/api/contact/route.ts.
+ * The route re-checks everything before it sends anything.
  */
 
-export const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ?? "/api/contact.php";
-
-/** Cloudflare Turnstile site key; the check is skipped when it isn't set. */
-export const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+export const CONTACT_ENDPOINT = "/api/contact";
 
 export const CONTACT_LIMITS = {
   name: { min: 2, max: 80 },
@@ -17,6 +14,12 @@ export const CONTACT_LIMITS = {
 
 export const CONTACT_TYPES = ["full-time", "contract", "consulting", "other"] as const;
 export type ContactType = (typeof CONTACT_TYPES)[number];
+export const CONTACT_TYPE_LABELS: Record<ContactType, string> = {
+  "full-time": "Full-time",
+  contract: "Contract",
+  consulting: "Consulting",
+  other: "Other",
+};
 
 export type ContactField = keyof typeof CONTACT_LIMITS;
 export type ContactValues = Record<ContactField, string> & { type: ContactType };

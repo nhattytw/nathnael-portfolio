@@ -21,11 +21,14 @@ Live at **[nathnaeltw.pro.et](https://nathnaeltw.pro.et)**.
   only for an id on the allowlist, and only for a same-origin `fetch()`, which
   it checks with Fetch Metadata and falls back to `Referer` on older browsers.
   Opening the URL directly or embedding it as an `<img>` is refused.
-- **Contact form** (`src/components/contact-form.tsx`, `src/lib/contact.ts`).
-  Fields are validated on the client, then posted as JSON to
-  [FormSubmit](https://formsubmit.co)'s AJAX endpoint, which emails them on. A
-  honeypot field drops bot submissions. Beside the form, a live preview shows
-  the exact request being sent and, once it's sent, the response.
+- **Contact form** (`src/components/contact-form.tsx`,
+  `src/app/api/contact/route.ts`). The form and the route share the field
+  limits in `src/lib/contact.ts`; the route is the check that counts. It takes
+  same-origin posts only, drops honeypot hits, strips control characters,
+  rate-limits per IP, and sends a plain-text email through Gmail SMTP
+  (Nodemailer) with the visitor's address only in `Reply-To`.
+  Beside the form, a live preview shows the exact request being sent and, once
+  it's sent, the response.
 
 ## Stack
 
@@ -57,14 +60,15 @@ request.
 
 ### Environment
 
-| Variable                       | Needed for                                                       |
-| ------------------------------ | ---------------------------------------------------------------- |
-| `CERT_KEY`                     | Decrypting certificate previews. Base64, 32 bytes.               |
-| `NEXT_PUBLIC_CONTACT_ENDPOINT` | `https://formsubmit.co/ajax/<form id>`. Defaults to the address in `generalData.ts`. |
+| Variable         | Needed for                                                            |
+| ---------------- | --------------------------------------------------------------------- |
+| `CERT_KEY`       | Decrypting certificate previews. Base64, 32 bytes.                    |
+| `GMAIL_USER`     | Gmail account the contact form sends from.                            |
+| `GMAIL_APP_PASSWORD` | A Google app password for that account (needs 2-Step Verification). |
+| `CONTACT_TO`     | Where contact form messages go. Defaults to `GMAIL_USER`.             |
 
-Put them in `.env.local` for development. FormSubmit emails a one-time
-activation link on the first submission to a new address; after that, use the
-random form id it gives you so the address stays out of the page source.
+Put them in `.env.local` for development and in the host's environment for
+production.
 
 ### Certificates
 
@@ -83,6 +87,7 @@ To add or replace a certificate:
 src/
   app/                 routes: /, /about, /experience, /projects, /projects/[id], /contact
     api/cert/[id]/     encrypted certificate preview route
+    api/contact/       contact form route (Gmail SMTP)
   components/
     site/              header, footer, status board, project list, hero, ledger
     motion/            scroll reveal and motion provider

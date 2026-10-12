@@ -1,8 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import Script from "next/script";
+import { useRef, useState } from "react";
 import { Send } from "lucide-react";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
@@ -12,43 +11,17 @@ import { generalData } from "@/lib/generalData";
 import {
   CONTACT_ENDPOINT,
   CONTACT_LIMITS,
+  CONTACT_TYPE_LABELS,
   CONTACT_TYPES,
-  TURNSTILE_SITE_KEY,
   validateContact,
   type ContactField,
   type ContactValues,
 } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
-type Turnstile = {
-  render: (el: HTMLElement, options: Record<string, unknown>) => string;
-  reset: (id?: string) => void;
-};
-declare global {
-  interface Window {
-    turnstile?: Turnstile;
-  }
-}
-
 const EMPTY: ContactValues = { name: "", email: "", company: "", type: "full-time", message: "" };
-const TYPE_LABELS: Record<ContactValues["type"], string> = {
-  "full-time": "Full-time",
-  contract: "Contract",
-  consulting: "Consulting",
-  other: "Other",
-};
 
 type ServerReply = { code: number; text: string; body: Record<string, unknown> };
-
-async function fetchToken(): Promise<string | null> {
-  try {
-    const res = await fetch(`${CONTACT_ENDPOINT}?token=1`, { cache: "no-store" });
-    const data = await res.json();
-    return typeof data.token === "string" ? data.token : null;
-  } catch {
-    return null;
-  }
-}
 
 function Counter({ value, max, always }: { value: string; max: number; always?: boolean }) {
   const n = value.length;
@@ -76,7 +49,7 @@ function RequestPreview({ values, reply }: { values: ContactValues; reply: Serve
       aria-label="Preview of the request this form sends"
       className="m-0 overflow-x-auto whitespace-pre-wrap break-words rounded-xl border border-[#2b2b27] bg-[#141412] p-5 font-mono text-[13px] leading-relaxed text-[#e8e6df]"
     >
-      <span className="text-[#8fd19e]">POST</span> /api/contact{"\n"}
+      <span className="text-[#8fd19e]">POST</span> {CONTACT_ENDPOINT}{"\n"}
       <span className="text-[#9d9b92]">Content-Type: application/json</span>
       {"\n\n{\n  "}
       {key("name")}: {str(values.name.trim())},{"\n  "}
@@ -106,33 +79,7 @@ export function ContactForm() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [reply, setReply] = useState<ServerReply | null>(null);
-  const tokenRef = useRef<string | null>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
-  const captchaRef = useRef<HTMLDivElement>(null);
-  const captchaIdRef = useRef<string | undefined>(undefined);
-  const captchaTokenRef = useRef("");
-
-  // A signed timestamp from the server: it proves the form was loaded here and
-  // lets the server reject submissions that come in faster than a person types.
-  const refreshToken = useCallback(async () => {
-    tokenRef.current = await fetchToken();
-  }, []);
-
-  useEffect(() => {
-    refreshToken();
-  }, [refreshToken]);
-
-  const renderCaptcha = useCallback(() => {
-    if (!TURNSTILE_SITE_KEY || !window.turnstile || !captchaRef.current || captchaIdRef.current) return;
-    captchaIdRef.current = window.turnstile.render(captchaRef.current, {
-      sitekey: TURNSTILE_SITE_KEY,
-      appearance: "interaction-only",
-      callback: (token: string) => (captchaTokenRef.current = token),
-      "expired-callback": () => (captchaTokenRef.current = ""),
-    });
-  }, []);
-
-  useEffect(renderCaptcha, [renderCaptcha, sent]);
 
   const update = (field: keyof ContactValues, value: string) => {
     const nextValues = { ...values, [field]: value } as ContactValues;
@@ -153,7 +100,6 @@ export function ContactForm() {
     }
 
     setSending(true);
-    if (!tokenRef.current) await refreshToken();
     try {
       const res = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
@@ -165,8 +111,6 @@ export function ContactForm() {
           type: values.type,
           message: values.message.trim(),
           website: honeypotRef.current?.value ?? "",
-          token: tokenRef.current,
-          turnstileToken: captchaTokenRef.current,
         }),
       });
       const body = (await res.json().catch(() => ({}))) as Record<string, unknown>;
@@ -175,26 +119,14 @@ export function ContactForm() {
       if (res.ok) {
         setSent(true);
         toast.success("Message sent", { description: "Thanks. I'll reply by email." });
-        return;
-      }
-      // Tokens are single-use in spirit; get a fresh one for the next attempt.
-      refreshToken();
-      if (captchaIdRef.current) window.turnstile?.reset(captchaIdRef.current);
-
-      if (res.status === 422 && body.error === "too_fast") {
-        toast.error("That was quick", { description: "Please wait a few seconds and send again." });
       } else if (res.status === 422 && Array.isArray(body.fields)) {
         const serverErrors: Partial<Record<ContactField, string>> = {};
         (body.fields as string[]).forEach((f) => {
           if (f in CONTACT_LIMITS) serverErrors[f as ContactField] = "Please check this field.";
         });
         setErrors(serverErrors);
-      } else if (res.status === 422) {
-        toast.error("Please send it again", { description: "The form expired. It's been refreshed." });
       } else if (res.status === 429) {
         toast.error("Too many messages", { description: "Please try again a little later." });
-      } else if (res.status === 403) {
-        toast.error("Couldn't verify the message", { description: "Please reload the page and try again." });
       } else {
         throw new Error(`Unexpected status ${res.status}`);
       }
@@ -213,8 +145,6 @@ export function ContactForm() {
     setSubmitted(false);
     setSent(false);
     setReply(null);
-    captchaIdRef.current = undefined;
-    refreshToken();
   };
 
   const field = (name: "name" | "email" | "company", label: string, type: string, autoComplete: string, optional?: boolean) => (
@@ -248,10 +178,6 @@ export function ContactForm() {
 
   return (
     <div className="grid items-start gap-6">
-      {TURNSTILE_SITE_KEY && (
-        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" onReady={renderCaptcha} />
-      )}
-
       {sent ? (
         <div className="space-y-3 rounded-xl border border-live/40 bg-background p-6">
           <h4 className="font-display text-3xl">Thanks, your message is on its way.</h4>
@@ -283,7 +209,7 @@ export function ContactForm() {
                     disabled={sending}
                   />
                   <span className="inline-block rounded-full border-[1.5px] border-border px-4 py-1.5 text-sm font-semibold text-muted-foreground transition-colors peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:ring-2 peer-focus-visible:ring-ring">
-                    {TYPE_LABELS[t]}
+                    {CONTACT_TYPE_LABELS[t]}
                   </span>
                 </label>
               ))}
@@ -320,8 +246,6 @@ export function ContactForm() {
             <label htmlFor="contact-website">Leave this empty</label>
             <input id="contact-website" ref={honeypotRef} tabIndex={-1} autoComplete="off" />
           </div>
-
-          <div ref={captchaRef} />
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Button type="submit" className="h-12 px-8 text-base rounded-full" disabled={sending}>

@@ -147,7 +147,7 @@ export const generalData = {
     ] as Certification[],
   },
   contact: {
-    email: "nhattytw@outlook.com",
+    email: "nathnael.woldekidan@gmail.com",
     phone: "+251922351343",
   },
   socials: {

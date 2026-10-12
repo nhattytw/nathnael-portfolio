@@ -29,4 +29,3 @@ next-env.d.ts
 /private/**/*
 !/private/**/
 !/private/**/*.enc
-!/private/contact.config.example.php
