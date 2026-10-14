@@ -242,7 +242,7 @@ export const experienceData: Company[] = [
           "Built the backend for a real-time HR and attendance platform using WebSockets, Node.js, and Express.js.",
           "Built a Python/Qt5 desktop app integrating third-party biometric scanning hardware to automate the full attendance-to-payroll workflow, eliminating manual timesheet entry.",
           "Architected RESTful APIs with JWT authentication and role-based access control (RBAC).",
-          "Optimized PostgreSQL queries by adding indexes and restructuring the data model, noticeably reducing API response times.",
+          "Optimized PostgreSQL queries by adding indexes and restructuring the data model, significantly reducing p95 API latency.",
           "Co-led a 3-person development team, managing timelines and delivery.",
         ],
         skills: [

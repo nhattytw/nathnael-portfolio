@@ -621,7 +621,7 @@ export const projectData: Project[] = [
         },
         {
           title: "One workflow, check-in to payroll",
-          body: "Pandas turns captured attendance into payroll inside the same app, with no manual steps in between.",
+          body: "Pandas turns captured attendance into payroll inside the same app, eliminating manual timesheet entry.",
         },
       ],
       metrics: [
