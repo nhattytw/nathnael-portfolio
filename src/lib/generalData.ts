@@ -27,6 +27,20 @@ export interface ImpactMetric {
   source: string;
 }
 
+export interface Skill {
+  name: string;
+  /** Short line under the name on the toolkit card. */
+  detail: string;
+  /** Key into the toolkit's icon map. */
+  icon: string;
+}
+
+export interface SkillGroup {
+  group: string;
+  summary: string;
+  items: Skill[];
+}
+
 export const generalData = {
   name: "Nathnael Tesfaye Woldekidan",
   title: "Senior Software Engineer",
@@ -173,59 +187,88 @@ export const generalData = {
     ],
     interests: "Senior software and backend engineering roles, founding-team work, and freelance projects where a product needs to be built properly from scratch.",
   },
-  skills: {
-    Backend: [
-      "Node.js",
-      "Express.js",
-      "Next.js",
-      "RESTful APIs",
-      "WebSockets",
-      "JWT",
-      "Microservices",
-      "Monorepo",
-    ],
-    Frontend: [
-      "React.js",
-      "Next.js",
-      "Tailwind CSS",
-      "Vue.js",
-      "Vite",
-      "Material-UI",
-      "Shadcn/UI",
-    ],
-    Databases: [
-      "PostgreSQL",
-      "MongoDB",
-      "Supabase",
-      "MySQL",
-      "Query Optimization",
-    ],
-    "DevOps & Infrastructure": [
-      "Docker",
-      "Nginx",
-      "Reverse Proxy",
-      "Load Balancing",
-      "Linux",
-      "CI/CD",
-      "Git/GitHub",
-    ],
-    Languages: ["JavaScript (ES6+)", "TypeScript", "Python", "SQL"],
-    Practices: [
-      "Agile",
-      "OOP",
-      "Unit Testing",
-      "Integration Testing",
-      "Technical Documentation",
-      "Postman",
-      "AI Coding Tools",
-    ],
-    Business: [
-      "Requirements Gathering",
-      "Technical Proposals & Bids",
-      "Client Training",
-      "Consulting",
-    ],
-  } as Record<string, string[]>,
+  skills: [
+    {
+      group: "Languages",
+      summary: "Typed application code, scripting and data queries",
+      items: [
+        { name: "TypeScript", detail: "Type-Safe Services & UI", icon: "typescript" },
+        { name: "JavaScript", detail: "Modern ES6+ Ecosystem", icon: "javascript" },
+        { name: "Python", detail: "Scripting & Automation", icon: "python" },
+        { name: "SQL", detail: "Queries & Schema Design", icon: "sql" },
+      ],
+    },
+    {
+      group: "Backend & APIs",
+      summary: "Services, real-time channels and API contracts",
+      items: [
+        { name: "Node.js", detail: "Event-Driven Server Runtime", icon: "nodejs" },
+        { name: "Express.js", detail: "REST APIs & Middleware", icon: "express" },
+        { name: "RESTful APIs", detail: "Resource Design & Versioning", icon: "api" },
+        { name: "WebSockets", detail: "Real-Time Updates", icon: "websockets" },
+        { name: "JWT", detail: "Stateless Auth & Sessions", icon: "jwt" },
+        { name: "Microservices", detail: "Independently Deployed Services", icon: "microservices" },
+        { name: "Monorepos", detail: "Shared Code Across Apps", icon: "monorepo" },
+        { name: "Postman", detail: "API Testing & Collections", icon: "postman" },
+      ],
+    },
+    {
+      group: "Frontend",
+      summary: "Client interfaces, server rendering and design systems",
+      items: [
+        { name: "React.js", detail: "Component Architecture", icon: "react" },
+        { name: "Next.js", detail: "SSR, SSG & App Router", icon: "nextjs" },
+        { name: "Vue.js", detail: "Reactive UI & Vite Builds", icon: "vue" },
+        { name: "Tailwind CSS", detail: "Design Tokens & Responsive UI", icon: "tailwind" },
+        { name: "Material-UI", detail: "Component Library Theming", icon: "mui" },
+        { name: "Shadcn/UI", detail: "Accessible UI Primitives", icon: "shadcn" },
+      ],
+    },
+    {
+      group: "Databases",
+      summary: "Relational modelling, documents and query tuning",
+      items: [
+        { name: "PostgreSQL", detail: "Indexing & Query Optimization", icon: "postgresql" },
+        { name: "MongoDB", detail: "Document Store & Aggregation", icon: "mongodb" },
+        { name: "MySQL", detail: "Relational Schemas & Joins", icon: "mysql" },
+        { name: "Supabase", detail: "Cloud Postgres & Auth", icon: "supabase" },
+      ],
+    },
+    {
+      group: "DevOps & Infrastructure",
+      summary: "Containers, traffic and deployment pipelines",
+      items: [
+        { name: "Docker", detail: "Containerized Services", icon: "docker" },
+        { name: "Nginx", detail: "Reverse Proxy & Web Server", icon: "nginx" },
+        { name: "Load Balancing", detail: "Spreading Traffic Across Instances", icon: "loadbalancing" },
+        { name: "Linux", detail: "Production Server OS", icon: "linux" },
+        { name: "CI/CD", detail: "Automated Build & Deploy", icon: "cicd" },
+        { name: "Git / GitHub", detail: "Version Control & Reviews", icon: "git" },
+      ],
+    },
+    {
+      group: "Practices",
+      summary: "How the work gets planned, built and checked",
+      items: [
+        { name: "Unit Testing", detail: "Fast, Isolated Checks", icon: "test" },
+        { name: "Integration Testing", detail: "End-to-End API Flows", icon: "integration" },
+        { name: "Agile", detail: "Sprints & Iterative Delivery", icon: "agile" },
+        { name: "OOP", detail: "Modular, Maintainable Design", icon: "oop" },
+        { name: "Technical Documentation", detail: "Specs, Guides & Handover", icon: "docs" },
+        { name: "AI Coding Tools", detail: "Assisted Build & Review", icon: "ai" },
+      ],
+    },
+    {
+      group: "Business",
+      summary: "Working with clients from first brief to handover",
+      items: [
+        { name: "Requirements Gathering", detail: "Turning Briefs into Specs", icon: "requirements" },
+        { name: "Proposals & Bids", detail: "85% Bid Win Rate at Baro", icon: "proposal" },
+        { name: "Client Training", detail: "Onboarding End Users", icon: "training" },
+        { name: "Consulting", detail: "Technical Direction & Advice", icon: "consulting" },
+      ],
+    },
+  ] as SkillGroup[],
 };
 
 /** Certificates that have an encrypted image the API route may serve. */
