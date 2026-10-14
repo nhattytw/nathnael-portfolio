@@ -109,7 +109,7 @@ export default function HomePage() {
       {/* Toolkit */}
       <Container className="pt-20">
         <SectionHeading index="03 / Toolkit" title="What I work with" />
-        <div className="grid gap-x-10 gap-y-8 pt-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 sm:gap-x-10 lg:grid-cols-4">
           {Object.entries(generalData.skills).map(([group, skills], i) => (
             <Reveal key={group} delay={(i % 4) * 0.06} y={16}>
               <h3 className="label mb-3">{group}</h3>
@@ -122,19 +122,22 @@ export default function HomePage() {
               </ul>
             </Reveal>
           ))}
-          <Reveal y={16}>
-            <h3 className="label mb-3">Looking for</h3>
-            <ul className="space-y-1 text-[15px]">
-              {availability.roles.map((r) => (
-                <li key={r}>{r}</li>
-              ))}
-              {availability.workplaces.map((w) => (
-                <li key={w.label} className="text-muted-foreground">
-                  {w.label}, {w.detail}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          {/* Its own full-width row, under the skill groups. */}
+          <div className="col-span-full">
+            <Reveal y={16} className="border-t border-border pt-6">
+              <h3 className="label mb-3">Looking for</h3>
+              <ul className="flex flex-wrap gap-x-6 gap-y-1 text-[15px]">
+                {availability.roles.map((r) => (
+                  <li key={r}>{r}</li>
+                ))}
+                {availability.workplaces.map((w) => (
+                  <li key={w.label} className="text-muted-foreground">
+                    {w.label}, {w.detail}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </div>
       </Container>
 
