@@ -35,7 +35,7 @@ export function YeneCartDiagram({ caption }: { caption: { title: string; body: s
   const reduceMotion = useReducedMotion();
 
   return (
-    <figure className="m-0 overflow-hidden rounded-2xl border border-border bg-card">
+    <figure className="m-0 overflow-hidden rounded-2xl border border-primary/40 bg-card">
       <div className="grid place-items-center px-4 py-7">
         <svg viewBox="0 0 360 292" role="img" aria-label="YeneCart architecture: clients, Nginx, two app containers, MongoDB, MinIO and ArifPay" className="block h-auto w-full max-w-[520px]">
           {EDGES.map((d, i) => (

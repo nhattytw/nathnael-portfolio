@@ -53,7 +53,7 @@ export function FeaturedWork({
                   </span>
                 </div>
 
-                <div className="relative grid min-h-52 place-items-center overflow-hidden rounded-xl border border-border bg-card px-4 pb-8 pt-6 transition-colors group-hover:border-foreground/30">
+                <div className="relative grid min-h-52 place-items-center overflow-hidden rounded-xl border border-primary/40 bg-card px-4 pb-8 pt-6 transition-colors group-hover:border-primary">
                   <ProjectRowVisual id={p.id} />
                 </div>
               </Link>

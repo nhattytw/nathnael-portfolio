@@ -33,7 +33,7 @@ export default function HomePage() {
         <HeroGrid />
 
         <Container className="relative flex w-full flex-1 flex-col pt-10 md:pt-16">
-          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-border pb-4 font-mono text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-b border-primary pb-4 font-mono text-xs text-muted-foreground">
             <span>{generalData.title}</span>
             <span className="inline-flex items-center gap-2 text-foreground">
               <span className="live-dot" /> Available for new roles
@@ -72,7 +72,7 @@ export default function HomePage() {
       </section>
 
       {/* Numbers */}
-      <section id="glance" aria-label="At a glance" className="scroll-mt-16 border-y border-border bg-card">
+      <section id="glance" aria-label="At a glance" className="scroll-mt-16 border-b border-border bg-card">
         <Container>
           <dl className="grid grid-cols-2 divide-border md:grid-cols-4 md:divide-x">
             {generalData.impactMetrics.map((m, i) => (

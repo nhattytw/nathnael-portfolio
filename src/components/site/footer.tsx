@@ -19,7 +19,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="mt-16 border-t border-border">
+    <footer className="mt-16 border-t border-primary bg-primary/18 dark:bg-primary/30">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:px-6">
         <div className="col-span-2 space-y-3 md:col-span-1">
           <p className="font-display text-3xl leading-tight">{generalData.name}</p>
@@ -56,7 +56,7 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-5 font-mono text-xs text-muted-foreground md:px-6">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-primary/50 px-4 py-5 font-mono text-xs text-muted-foreground md:px-6">
         <span>
           © {copyrightYears(new Date().getFullYear())} {generalData.name}
         </span>

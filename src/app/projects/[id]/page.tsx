@@ -104,7 +104,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ id: 
       body: (
         <div className="grid gap-3">
           {study.decisions.map((d) => (
-            <div key={d.title} className="space-y-1.5 rounded-xl border border-border bg-card p-5">
+            <div key={d.title} className="space-y-1.5 rounded-xl border border-primary/40 bg-card p-5">
               <h3 className="font-semibold">{d.title}</h3>
               <p className="text-base text-muted-foreground">{d.body}</p>
               {d.detail && <p className="text-base text-muted-foreground">{d.detail}</p>}

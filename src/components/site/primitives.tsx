@@ -26,7 +26,7 @@ export function SectionHeading({
 }) {
   return (
     <Reveal>
-      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 border-b border-border pb-5">
+      <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 border-b border-primary pb-5">
         <div className="space-y-2">
           {index && <p className="label">{index}</p>}
           <h2 className="font-display text-4xl leading-[1.05] tracking-tight md:text-5xl">{title}</h2>
@@ -52,7 +52,7 @@ export function TextLink({ href, children, className }: { href: string; children
   return (
     <Link
       href={href}
-      className={cn("group inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary", className)}
+      className={cn("group inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline", className)}
     >
       {children}
       <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

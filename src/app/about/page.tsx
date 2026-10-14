@@ -42,7 +42,7 @@ export default function AboutPage() {
       {/* Principles */}
       <div className="pt-16">
         <SectionHeading index="How I work" title="Four habits I keep" />
-        <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-primary/40 bg-border sm:grid-cols-2">
           {about.principles.map((p, i) => (
             <Reveal key={p.title} delay={(i % 2) * 0.08} className="h-full">
               <div className="h-full space-y-2 bg-card p-7">

@@ -217,7 +217,7 @@ export function ProjectRowVisual({ id }: { id: string }) {
 export function CaseStudyVisual({ id, caption }: { id: string; caption: { title: string; body: string } }) {
   if (id === "yenecart") return <YeneCartDiagram caption={caption} />;
   return (
-    <figure className="m-0 overflow-hidden rounded-2xl border border-border bg-card">
+    <figure className="m-0 overflow-hidden rounded-2xl border border-primary/40 bg-card">
       <div className="grid min-h-60 place-items-center px-4 py-7">
         {id === "enterprise-erp" && <ErpVisual large />}
         {id === "iimcs" && <IimcsVisual large />}

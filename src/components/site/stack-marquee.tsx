@@ -7,12 +7,12 @@ export function StackMarquee() {
   const track = [...items, ...items];
 
   return (
-    <div className="marquee group overflow-hidden border-t border-border py-4" aria-label={`Stack: ${items.join(", ")}`}>
+    <div className="marquee group overflow-hidden border-y border-primary py-4" aria-label={`Stack: ${items.join(", ")}`}>
       <ul className="animate-marquee flex w-max group-hover:[animation-play-state:paused]" aria-hidden>
         {track.map((item, i) => (
           <li key={i} className="flex items-center gap-8 pr-8 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
             {item}
-            <span className="h-1 w-1 rounded-full bg-line" />
+            <span className="h-1 w-1 rounded-full bg-primary" />
           </li>
         ))}
       </ul>

@@ -30,7 +30,7 @@ export default function ContactPage() {
 
       <div className="grid gap-12 pt-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <Reveal>
-          <section aria-labelledby="form-heading" className="space-y-6 rounded-2xl border border-border bg-card p-6 md:p-8">
+          <section aria-labelledby="form-heading" className="space-y-6 rounded-2xl border border-primary/40 bg-card p-6 md:p-8">
             <div className="space-y-1">
               <h2 id="form-heading" className="font-display text-3xl tracking-tight">
                 Send a message
