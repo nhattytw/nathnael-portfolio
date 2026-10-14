@@ -19,7 +19,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-border">
+    <footer className="mt-16 border-t border-border">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 md:grid-cols-[1.4fr_1fr_1fr] md:gap-10 md:px-6">
         <div className="col-span-2 space-y-3 md:col-span-1">
           <p className="font-display text-3xl leading-tight">{generalData.name}</p>

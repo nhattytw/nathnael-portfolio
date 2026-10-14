@@ -91,13 +91,13 @@ export default function HomePage() {
       </section>
 
       {/* Work */}
-      <Container id="work" className="scroll-mt-20 pt-24">
+      <Container id="work" className="scroll-mt-20 pt-16">
         <SectionHeading index="01 / Selected work" title="Three systems, in depth" aside={<TextLink href="/projects">All projects</TextLink>} />
         <FeaturedWork projects={featured} liveChecks={liveChecks} />
       </Container>
 
       {/* Experience */}
-      <Container className="pt-20">
+      <Container className="pt-14">
         <SectionHeading
           index="02 / Experience"
           title="Five years, five teams"
@@ -107,7 +107,7 @@ export default function HomePage() {
       </Container>
 
       {/* Toolkit */}
-      <Container className="pt-20">
+      <Container className="pt-14">
         <SectionHeading index="03 / Toolkit" title="What I work with" />
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 pt-8 sm:gap-x-10 lg:grid-cols-4">
           {Object.entries(generalData.skills).map(([group, skills], i) => (
@@ -141,7 +141,7 @@ export default function HomePage() {
         </div>
       </Container>
 
-      <Container className="pt-24">
+      <Container className="pt-16">
         <ContactBand title="Building something ambitious?" />
       </Container>
     </>
