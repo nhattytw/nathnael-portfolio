@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import { generalData } from "@/lib/generalData";
 
 const ROLES = generalData.roles;
@@ -13,11 +14,8 @@ export function HeroRole() {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState(ROLES[0]);
   const [deleting, setDeleting] = useState(false);
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    setEnabled(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+  // Null on the server, so the loop only runs in a browser that allows motion.
+  const enabled = useReducedMotion() === false;
 
   useEffect(() => {
     if (!enabled) return;

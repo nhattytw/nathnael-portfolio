@@ -21,12 +21,9 @@ export function NotFoundTrace() {
   const [checked, setChecked] = useState(false);
 
   // The status reads "Checking…" first, the same as a live check on the status board.
+  // With reduced motion it settles straight away.
   useEffect(() => {
-    if (reduceMotion) {
-      setChecked(true);
-      return;
-    }
-    const timer = window.setTimeout(() => setChecked(true), CHECK_MS);
+    const timer = window.setTimeout(() => setChecked(true), reduceMotion ? 0 : CHECK_MS);
     return () => window.clearTimeout(timer);
   }, [reduceMotion]);
 

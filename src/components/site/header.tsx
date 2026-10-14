@@ -18,8 +18,13 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [lastPath, setLastPath] = useState(pathname);
 
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the menu after navigating.
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
