@@ -240,7 +240,7 @@ export const experienceData: Company[] = [
         period: "01/2022 – 12/2022",
         achievements: [
           "Built the backend for a real-time HR and attendance platform using WebSockets, Node.js, and Express.js.",
-          "Extended biometric hardware integration from desktop into web applications, and built a Python/Qt5 desktop app that automated the full workflow from attendance capture through payroll processing.",
+          "Built a Python/Qt5 desktop app integrating third-party biometric scanning hardware to automate the full attendance-to-payroll workflow, eliminating manual timesheet entry.",
           "Architected RESTful APIs with JWT authentication and role-based access control (RBAC).",
           "Optimized PostgreSQL queries by adding indexes and restructuring the data model, noticeably reducing API response times.",
           "Co-led a 3-person development team, managing timelines and delivery.",

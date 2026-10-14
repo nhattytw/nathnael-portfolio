@@ -49,7 +49,7 @@ export const generalData = {
   ],
   /** One-line positioning used in the hero and terminal. */
   tagline: "I build software that people rely on day to day.",
-  bio: "5+ years taking systems from idea to production: from HR platforms wired into biometric hardware, to a live public-sector platform, to a multi-module enterprise ERP where I'm a founding engineer.",
+  bio: "5+ years taking systems from idea to production: from HR systems with biometric and location-based check-in, to a live public-sector platform, to a multi-module enterprise ERP where I'm a founding engineer.",
   languages: ["English", "Amharic"],
   about: {
     /** What drives me: first-person story for the About page. */
@@ -64,7 +64,7 @@ export const generalData = {
       {
         heading: "Under the hood",
         body: [
-          "I'm most drawn to backend systems, and I especially enjoy understanding how things work under the hood. At Ahaz, I integrated biometric attendance scanners into our HR systems. The vendor's documentation was thin, so we tracked down a community reverse-engineered driver on GitHub and adapted it to the device we had.",
+          "I'm most drawn to backend systems, and I especially enjoy understanding how things work under the hood. At Ahaz, I integrated a biometric attendance scanner into a desktop HR system. The vendor's documentation was thin, so we tracked down a community reverse-engineered driver on GitHub and adapted it to the device we had.",
           "The first successful ping was the breakthrough. From there we worked out the records the device produced and built a Python desktop app that carried that data through an automated workflow all the way to payroll. Getting hardware and software to work together reliably is the kind of problem I enjoy most.",
         ],
       },
